@@ -57,7 +57,7 @@ def find_cycles(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Set[str]:
 def get_all_theorems(file_path: str, visualize=True, save_description=True) -> None:
     file = open(file_path)
     name = file_path.split("/")[-1][:-4]
-    ref = re.compile(r'\\ref{(lemma|theorem).*?}')
+    ref = re.compile(r'\\ref{.*(lemma|theorem).*?}')
     lines = iter(file)
     global line
     line = next(lines)
@@ -153,23 +153,22 @@ def get_all_theorems(file_path: str, visualize=True, save_description=True) -> N
 
         for child_node in lemmas:
             for parent_node in lemmas[child_node]["dependencies"]:
-                if parent_node not in lemmas:
-                    all_lemmas[parent_node] = len(all_lemmas) + 1
+                if parent_node not in lemmas and parent_node not in all_lemmas:
+                    all_lemmas[parent_node] = len(all_lemmas)
                     node_style["color"] = "green"
-                    nt.add_node(len(all_lemmas), parent_node, **node_style)
+                    nt.add_node(len(all_lemmas) - 1, parent_node, **node_style)
                 edge = (all_lemmas[parent_node], all_lemmas[child_node])
                 nt.add_edge(*edge)
 
         if visualize:
-            nt.show(f'visualization/{name}.html')
+            nt.save_graph(f'visualization/{name}.html')
 
 
 if __name__ == '__main__':
-    files = glob("../stacks-project/*.tex")
-    # files = glob("*.tex")
-
     save_descr = False
-    get_graphs = False
+    get_graphs = True
+    tex_files_directory = 'sources_tex/'
+    files = glob(tex_files_directory + '**/*.tex', recursive=True)
 
     if save_descr:
         with open("extracted_json_information/files_description.json", "w") as outfile:
@@ -181,8 +180,8 @@ if __name__ == '__main__':
         with open("extracted_json_information/files_description.json", "a") as outfile:
             outfile.write("]\n")
 
-        with open("extracted_json_information/lemmas.json", "w") as outfile:
-            json.dump(lemmas_without_proof, outfile)
+        # with open("extracted_json_information/lemmas.json", "w") as outfile:
+        #     json.dump(lemmas_without_proof, outfile)
     else:
         for i, file_path in enumerate(files):
             get_all_theorems(file_path, get_graphs, False)

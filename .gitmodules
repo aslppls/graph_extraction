@@ -1,0 +1,3 @@
+[submodule "sources_tex/stacks-project"]
+	path = sources_tex/stacks-project
+	url = git@github.com:aslppls/stacks-project.git
