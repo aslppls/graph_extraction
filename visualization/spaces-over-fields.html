@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-quasi-finite-in-codim-1", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-finite-in-codim-1", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-modification-normal-iso-over-codimension-1", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-integral-algebraic-space-rational-functions", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-integral-sections", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-normal-integral-cover-by-affines", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-normal-integral-sections", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-decent-irreducible-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-finite-degree", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-degree-composition", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-components-locally-finite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-order-vanishing", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-order-vanishing-agrees", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-divisor-locally-finite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-div-additive", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-divisor-meromorphic-locally-finite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-divisor-meromorphic-well-defined", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-c1-additive", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-normal-c1-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-modification-iso-over-open", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-alteration-generically-finite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-alteration-contained-in", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-locally-finite-type-dim-zero", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-generic-point-in-schematic-locus", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-codim-1-point-in-schematic-locus", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-scheme-after-purely-inseparable-base-change", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-when-scheme-after-base-change", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-base-change-by-Galois", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-when-quotient-scheme-at-point", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-scheme-after-purely-transcendental-base-change", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-scheme-over-algebraic-closure-enough-affines", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-locally-quasi-finite-over-field", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-mono-towards-locally-quasi-finite-over-field", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-geometrically-reduced-at-point", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-geometrically-reduced", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-perfect-reduced", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-geometrically-reduced-positive-characteristic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-geometrically-reduced-upstairs", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-geometrically-reduced-etale-local", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-geometrically-connected-check-after-extension", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-bijection-connected-components", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-separably-closed-field-connected-components", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-characterize-geometrically-connected", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-Galois-action-quasi-compact-open", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-closed-fixed-by-Galois", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "lemma-characterize-geometrically-disconnected", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-geometrically-integral", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "lemma-proper-geometrically-reduced-global-sections", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-characterize-trivial-pic-integral", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-integral-dimension", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-alteration-dimension", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-smooth-regular", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 52, "label": "lemma-smooth-separable-closed-points-dense", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 53, "label": "lemma-euler-characteristic-additive", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 54, "label": "lemma-euler-characteristic-morphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 55, "label": "lemma-numerical-polynomial-from-euler", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 56, "label": "lemma-numerical-polynomial-leading-term", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 57, "label": "lemma-intersection-number-integer", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 58, "label": "lemma-intersection-number-additive", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 59, "label": "lemma-intersection-number-in-terms-of-components", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 60, "label": "lemma-intersection-number-and-pullback", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 61, "label": "lemma-numerical-intersection-effective-Cartier-divisor", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 0, "to": 1}, {"arrows": "to", "from": 1, "to": 2}, {"arrows": "to", "from": 4, "to": 6}, {"arrows": "to", "from": 5, "to": 6}, {"arrows": "to", "from": 10, "to": 13}, {"arrows": "to", "from": 10, "to": 15}, {"arrows": "to", "from": 15, "to": 16}, {"arrows": "to", "from": 16, "to": 18}, {"arrows": "to", "from": 7, "to": 18}, {"arrows": "to", "from": 8, "to": 19}, {"arrows": "to", "from": 20, "to": 21}, {"arrows": "to", "from": 25, "to": 26}, {"arrows": "to", "from": 27, "to": 29}, {"arrows": "to", "from": 28, "to": 29}, {"arrows": "to", "from": 25, "to": 30}, {"arrows": "to", "from": 26, "to": 30}, {"arrows": "to", "from": 27, "to": 30}, {"arrows": "to", "from": 28, "to": 30}, {"arrows": "to", "from": 22, "to": 31}, {"arrows": "to", "from": 31, "to": 32}, {"arrows": "to", "from": 31, "to": 32}, {"arrows": "to", "from": 33, "to": 34}, {"arrows": "to", "from": 34, "to": 36}, {"arrows": "to", "from": 33, "to": 37}, {"arrows": "to", "from": 40, "to": 41}, {"arrows": "to", "from": 41, "to": 42}, {"arrows": "to", "from": 42, "to": 45}, {"arrows": "to", "from": 43, "to": 45}, {"arrows": "to", "from": 44, "to": 45}, {"arrows": "to", "from": 42, "to": 45}, {"arrows": "to", "from": 43, "to": 45}, {"arrows": "to", "from": 44, "to": 45}, {"arrows": "to", "from": 47, "to": 48}, {"arrows": "to", "from": 21, "to": 50}, {"arrows": "to", "from": 49, "to": 50}, {"arrows": "to", "from": 53, "to": 55}, {"arrows": "to", "from": 21, "to": 55}, {"arrows": "to", "from": 53, "to": 56}, {"arrows": "to", "from": 55, "to": 56}, {"arrows": "to", "from": 55, "to": 58}, {"arrows": "to", "from": 56, "to": 59}, {"arrows": "to", "from": 54, "to": 60}, {"arrows": "to", "from": 55, "to": 60}, {"arrows": "to", "from": 50, "to": 60}, {"arrows": "to", "from": 8, "to": 60}, {"arrows": "to", "from": 8, "to": 60}, {"arrows": "to", "from": 56, "to": 60}, {"arrows": "to", "from": 53, "to": 61}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

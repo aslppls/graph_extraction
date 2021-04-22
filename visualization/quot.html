@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-hom-sheaf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-extend-hom-to-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-hom-sheaf-in-X", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-hom-limits", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-hom-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-cohomology-perfect-complex", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-noetherian-hom", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-isom-sheaf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-extend-isom-to-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-coherent-fibred-in-groupoids", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-coherent-diagonal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-coherent-stack", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-coherent-limits", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-coherent-RS-star", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-coherent-over-first-order-thickening", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-coherent-tangent-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-coherent-existence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-coherent-defo-thy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "theorem-coherent-algebraic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "theorem-coherent-algebraic-general", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-q-sheaf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-extend-q-to-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-q-sheaf-in-X", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-q-limit-preserving", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-q-RS-star", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-quot-sheaf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-extend-quot-to-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-hilb-is-quot", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-extend-hilb-to-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-picard-stack-open-in-coh", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-pic-over-pic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-flat-geometrically-connected-fibres", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-flat-geometrically-connected-fibres-with-section", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-pic-with-section-stack", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-compare-pic-with-section", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-flat-geometrically-connected-fibres-with-section-functor-stack", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-diagonal-pic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-Mor-into-Hilb", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-Mor-into-Hilb-open", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-spaces-fibred-in-groupoids", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-spaces-diagonal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-spaces-stack", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-extend-spaces-to-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-spaces-limits", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-spaces-RS-star", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "lemma-spaces-tangent-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-spaces-defo-thy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "lemma-polarized-fibred-in-groupoids", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-polarized-stack", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-extend-polarized-to-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-polarized-to-spaces-algebraic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-polarized-diagonal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 52, "label": "lemma-polarized-limits", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 53, "label": "lemma-polarized-RS-star", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 54, "label": "lemma-polarized-tangent-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 55, "label": "lemma-polarized-strong-effectiveness", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 56, "label": "lemma-polarized-existence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 57, "label": "lemma-polarized-defo-thy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 58, "label": "theorem-polarized-algebraic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 59, "label": "lemma-curves-fibred-in-groupoids", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 60, "label": "lemma-curves-stack", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 61, "label": "lemma-curves-diagonal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 62, "label": "lemma-curves-limits", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 63, "label": "lemma-curves-RS-star", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 64, "label": "lemma-curves-tangent-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 65, "label": "lemma-curves-existence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 66, "label": "lemma-curves-defo-thy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 67, "label": "theorem-curves-algebraic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 68, "label": "lemma-curves-open-and-closed-in-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 69, "label": "lemma-complexes-open-neg-exts-vanishing", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 70, "label": "lemma-complexes", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 71, "label": "lemma-complexes-fibred-in-groupoids", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 72, "label": "lemma-complexes-diagonal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 73, "label": "lemma-complexes-stack", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 74, "label": "lemma-complexes-limits", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 75, "label": "lemma-complexes-RS-star", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 76, "label": "lemma-complexes-tangent-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 77, "label": "lemma-complexes-strong-effectiveness", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 78, "label": "theorem-complexes-algebraic", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 2, "to": 3}, {"arrows": "to", "from": 5, "to": 6}, {"arrows": "to", "from": 1, "to": 8}, {"arrows": "to", "from": 10, "to": 11}, {"arrows": "to", "from": 13, "to": 15}, {"arrows": "to", "from": 14, "to": 15}, {"arrows": "to", "from": 11, "to": 18}, {"arrows": "to", "from": 10, "to": 18}, {"arrows": "to", "from": 17, "to": 18}, {"arrows": "to", "from": 11, "to": 18}, {"arrows": "to", "from": 12, "to": 18}, {"arrows": "to", "from": 13, "to": 18}, {"arrows": "to", "from": 15, "to": 18}, {"arrows": "to", "from": 16, "to": 18}, {"arrows": "to", "from": 10, "to": 18}, {"arrows": "to", "from": 11, "to": 19}, {"arrows": "to", "from": 10, "to": 19}, {"arrows": "to", "from": 11, "to": 19}, {"arrows": "to", "from": 12, "to": 19}, {"arrows": "to", "from": 13, "to": 19}, {"arrows": "to", "from": 15, "to": 19}, {"arrows": "to", "from": 16, "to": 19}, {"arrows": "to", "from": 10, "to": 19}, {"arrows": "to", "from": 20, "to": 25}, {"arrows": "to", "from": 21, "to": 26}, {"arrows": "to", "from": 27, "to": 28}, {"arrows": "to", "from": 26, "to": 28}, {"arrows": "to", "from": 27, "to": 28}, {"arrows": "to", "from": 31, "to": 32}, {"arrows": "to", "from": 31, "to": 36}, {"arrows": "to", "from": 39, "to": 41}, {"arrows": "to", "from": 40, "to": 41}, {"arrows": "to", "from": 44, "to": 45}, {"arrows": "to", "from": 40, "to": 46}, {"arrows": "to", "from": 44, "to": 46}, {"arrows": "to", "from": 43, "to": 46}, {"arrows": "to", "from": 47, "to": 48}, {"arrows": "to", "from": 41, "to": 48}, {"arrows": "to", "from": 42, "to": 49}, {"arrows": "to", "from": 41, "to": 50}, {"arrows": "to", "from": 48, "to": 50}, {"arrows": "to", "from": 50, "to": 51}, {"arrows": "to", "from": 40, "to": 51}, {"arrows": "to", "from": 53, "to": 54}, {"arrows": "to", "from": 45, "to": 54}, {"arrows": "to", "from": 45, "to": 54}, {"arrows": "to", "from": 55, "to": 56}, {"arrows": "to", "from": 51, "to": 57}, {"arrows": "to", "from": 53, "to": 57}, {"arrows": "to", "from": 52, "to": 57}, {"arrows": "to", "from": 55, "to": 57}, {"arrows": "to", "from": 51, "to": 58}, {"arrows": "to", "from": 53, "to": 58}, {"arrows": "to", "from": 52, "to": 58}, {"arrows": "to", "from": 56, "to": 58}, {"arrows": "to", "from": 57, "to": 58}, {"arrows": "to", "from": 39, "to": 59}, {"arrows": "to", "from": 41, "to": 60}, {"arrows": "to", "from": 40, "to": 61}, {"arrows": "to", "from": 43, "to": 62}, {"arrows": "to", "from": 44, "to": 63}, {"arrows": "to", "from": 45, "to": 64}, {"arrows": "to", "from": 46, "to": 66}, {"arrows": "to", "from": 61, "to": 67}, {"arrows": "to", "from": 63, "to": 67}, {"arrows": "to", "from": 62, "to": 67}, {"arrows": "to", "from": 65, "to": 67}, {"arrows": "to", "from": 66, "to": 67}, {"arrows": "to", "from": 69, "to": 70}, {"arrows": "to", "from": 70, "to": 72}, {"arrows": "to", "from": 69, "to": 72}, {"arrows": "to", "from": 69, "to": 72}, {"arrows": "to", "from": 72, "to": 73}, {"arrows": "to", "from": 70, "to": 73}, {"arrows": "to", "from": 70, "to": 73}, {"arrows": "to", "from": 69, "to": 73}, {"arrows": "to", "from": 70, "to": 74}, {"arrows": "to", "from": 70, "to": 74}, {"arrows": "to", "from": 69, "to": 74}, {"arrows": "to", "from": 70, "to": 75}, {"arrows": "to", "from": 75, "to": 76}, {"arrows": "to", "from": 70, "to": 77}, {"arrows": "to", "from": 70, "to": 77}, {"arrows": "to", "from": 69, "to": 77}, {"arrows": "to", "from": 73, "to": 78}, {"arrows": "to", "from": 72, "to": 78}, {"arrows": "to", "from": 73, "to": 78}, {"arrows": "to", "from": 74, "to": 78}, {"arrows": "to", "from": 75, "to": 78}, {"arrows": "to", "from": 76, "to": 78}, {"arrows": "to", "from": 77, "to": 78}, {"arrows": "to", "from": 72, "to": 78}, {"arrows": "to", "from": 77, "to": 78}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1456 @@
+[
+  {
+    "most_important": [
+      "lemma-divided-power-polynomial-algebra"
+    ],
+    "number_of_child": 4,
+    "most_dependable": [
+      "lemma-divided-powers-on-tor",
+      "lemma-not-finite-pd"
+    ],
+    "number_of_parents": 3,
+    "name": "dpa.tex"
+  },
+  {
+    "most_important": [
+      "lemma-more-base-change",
+      "lemma-properties-relative-dualizing",
+      "lemma-covering-enough",
+      "lemma-existence-relative-dualizing"
+    ],
+    "number_of_child": 3,
+    "most_dependable": [
+      "lemma-unit-and-base-change",
+      "lemma-restriction-compare-with-pullback",
+      "lemma-compare-with-pullback-flat-proper",
+      "lemma-uniqueness-relative-dualizing"
+    ],
+    "number_of_parents": 2,
+    "name": "spaces-duality.tex"
+  },
+  {
+    "most_important": [
+      "lemma-compute-ext"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-base-change-tensor-pseudo-coherent",
+      "lemma-locally-closed-where-H0-locally-free",
+      "lemma-computing-sections-as-colim",
+      "lemma-compute-ext-rel-perfect"
+    ],
+    "number_of_parents": 5,
+    "name": "perfect.tex"
+  },
+  {
+    "most_important": [
+      "theorem-epp"
+    ],
+    "number_of_child": 15,
+    "most_dependable": [
+      "lemma-recover-module-from-glueing-data",
+      "lemma-geometrically-normal-formal-fibres-number-of-branches"
+    ],
+    "number_of_parents": 8,
+    "name": "more-algebra.tex"
+  },
+  {
+    "most_important": [
+      "lemma-representable-by-spaces-limit-preserving",
+      "lemma-separated-closed-in-finite-presentation"
+    ],
+    "number_of_child": 1,
+    "most_dependable": [
+      "lemma-limit-preserving-diagonal",
+      "lemma-locally-finite-presentation-limit-preserving",
+      "lemma-eventually-separated",
+      "lemma-descend-a-stack-down",
+      "lemma-finite-type-closed-in-finite-presentation"
+    ],
+    "number_of_parents": 0,
+    "name": "stacks-limits.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "introduction.tex"
+  },
+  {
+    "most_important": [
+      "lemma-etale",
+      "lemma-geometrically-normal-tensor-normal"
+    ],
+    "number_of_child": 13,
+    "most_dependable": [
+      "lemma-unramified"
+    ],
+    "number_of_parents": 11,
+    "name": "algebra.tex"
+  },
+  {
+    "most_important": [
+      "lemma-stack-fg-quasi-coherent",
+      "lemma-stack-of-finite-type-spaces"
+    ],
+    "number_of_child": 2,
+    "most_dependable": [
+      "lemma-pre-stack-of-spaces",
+      "lemma-stack-ft-spaces",
+      "lemma-variant-torsors-sheaf-stack-in-groupoids",
+      "lemma-group-quotient-stack-in-groupoids",
+      "lemma-classifying-stacks"
+    ],
+    "number_of_parents": 1,
+    "name": "examples-stacks.tex"
+  },
+  {
+    "most_important": [
+      "lemma-composition-finite-type-blowups"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-blowup-fitting-ideal"
+    ],
+    "number_of_parents": 5,
+    "name": "divisors.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "guide.tex"
+  },
+  {
+    "most_important": [
+      "lemma-isolated"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-glueing-smooth",
+      "lemma-smoothing-proper-curve-isolated-lci"
+    ],
+    "number_of_parents": 4,
+    "name": "examples-defos.tex"
+  },
+  {
+    "most_important": [
+      "lemma-snake"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-biregular-ss-converges"
+    ],
+    "number_of_parents": 5,
+    "name": "homology.tex"
+  },
+  {
+    "most_important": [
+      "theorem-bootstrap"
+    ],
+    "number_of_child": 21,
+    "most_dependable": [
+      "lemma-lci-formally-smooth",
+      "theorem-flat-groupoid-gives-algebraic-stack",
+      "lemma-group-quotient-algebraic",
+      "lemma-BG-algebraic"
+    ],
+    "number_of_parents": 2,
+    "name": "criteria.tex"
+  },
+  {
+    "most_important": [
+      "theorem-coherent-algebraic",
+      "theorem-complexes-algebraic"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "theorem-coherent-algebraic-general"
+    ],
+    "number_of_parents": 8,
+    "name": "quot.tex"
+  },
+  {
+    "most_important": [
+      "lemma-relative-dualizing-CM-vanishing"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-depth-dualizing-module",
+      "lemma-flat-under-gorenstein"
+    ],
+    "number_of_parents": 6,
+    "name": "dualizing.tex"
+  },
+  {
+    "most_important": [
+      "lemma-dual-openness"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-SGE-implies-openness-versality"
+    ],
+    "number_of_parents": 5,
+    "name": "artin.tex"
+  },
+  {
+    "most_important": [
+      "lemma-w-local-extremally-disconnected",
+      "lemma-get-w-local-algebraic-residue-field-extensions",
+      "lemma-compare-constructible",
+      "theorem-proper-base-change"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-weakly-contractible-cover",
+      "lemma-affine-vanishing"
+    ],
+    "number_of_parents": 5,
+    "name": "proetale.tex"
+  },
+  {
+    "most_important": [
+      "lemma-pushforward-with-support-in-open"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "lemma-compute-ext"
+    ],
+    "number_of_parents": 8,
+    "name": "spaces-perfect.tex"
+  },
+  {
+    "most_important": [
+      "lemma-2-product-fibred-categories"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-fibred-in-groupoids-over-fibred-in-groupoids",
+      "lemma-amelioration-unique"
+    ],
+    "number_of_parents": 4,
+    "name": "categories.tex"
+  },
+  {
+    "most_important": [
+      "lemma-pi0-profinite"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-inverse-limit-spectral-spaces-quasi-compact",
+      "lemma-directed-inverse-limit-spectral-spaces",
+      "lemma-make-spectral-space",
+      "lemma-profinite-group"
+    ],
+    "number_of_parents": 5,
+    "name": "topology.tex"
+  },
+  {
+    "most_important": [
+      "lemma-countable-equivs"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-functor-quasi-coherent-from-affine-diagonal",
+      "lemma-no-deformations",
+      "lemma-no-deformations-better",
+      "theorem-countable"
+    ],
+    "number_of_parents": 4,
+    "name": "equiv.tex"
+  },
+  {
+    "most_important": [
+      "lemma-deform-property"
+    ],
+    "number_of_child": 18,
+    "most_dependable": [
+      "lemma-deform-property-fp-over-ft"
+    ],
+    "number_of_parents": 10,
+    "name": "more-morphisms.tex"
+  },
+  {
+    "most_important": [
+      "lemma-quotient-stack-restrict",
+      "lemma-quotient-stack-restrict-equivalence"
+    ],
+    "number_of_child": 3,
+    "most_dependable": [
+      "lemma-criterion-fibre-product",
+      "lemma-2-cartesian-inertia",
+      "lemma-when-gerbe",
+      "lemma-diagonal"
+    ],
+    "number_of_parents": 2,
+    "name": "spaces-groupoids.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "desirables.tex"
+  },
+  {
+    "most_important": [
+      "lemma-i-star-equivalence"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-universally-closed-permanence",
+      "lemma-push-down-solution",
+      "lemma-refined-valuative-criterion-universally-closed"
+    ],
+    "number_of_parents": 6,
+    "name": "spaces-morphisms.tex"
+  },
+  {
+    "most_important": [
+      "theorem-stable-smooth-proper"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-geomredcon-in-h0-1",
+      "lemma-one-piece-per-genus",
+      "lemma-big-smooth-part-curves",
+      "lemma-smooth-one-piece-per-genus",
+      "lemma-stable-curves-deligne-mumford",
+      "lemma-unique-stable-model",
+      "lemma-stable-separated"
+    ],
+    "number_of_parents": 3,
+    "name": "moduli-curves.tex"
+  },
+  {
+    "most_important": [
+      "lemma-key-fact",
+      "lemma-Weierstrass-smooth-cover"
+    ],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "stacks-introduction.tex"
+  },
+  {
+    "most_important": [
+      "lemma-separable-trace-pairing"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "theorem-galois-theory"
+    ],
+    "number_of_parents": 6,
+    "name": "fields.tex"
+  },
+  {
+    "most_important": [
+      "theorem-skolem-noether"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "theorem-centralizer",
+      "theorem-splitting"
+    ],
+    "number_of_parents": 3,
+    "name": "brauer.tex"
+  },
+  {
+    "most_important": [
+      "lemma-approximate"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-dilatations-affine",
+      "lemma-Noetherian-local-ring-properties"
+    ],
+    "number_of_parents": 6,
+    "name": "restricted.tex"
+  },
+  {
+    "most_important": [
+      "lemma-composition-etale",
+      "lemma-morphism-big-small-cartesian-diagram-etale",
+      "lemma-zariski-etale-smooth-syntomic-fppf-ph"
+    ],
+    "number_of_child": 2,
+    "most_dependable": [
+      "lemma-zariski-etale-smooth",
+      "lemma-zariski-etale-smooth-syntomic",
+      "lemma-zariski-etale-smooth-syntomic-fppf",
+      "lemma-composition-fppf",
+      "lemma-composition-ph",
+      "lemma-zariski-etale-smooth-syntomic-fppf-fpqc",
+      "lemma-recognize-fpqc-covering"
+    ],
+    "number_of_parents": 1,
+    "name": "spaces-topologies.tex"
+  },
+  {
+    "most_important": [
+      "lemma-ses-field",
+      "lemma-extend-covering"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-purity-power-series-over-depth2"
+    ],
+    "number_of_parents": 5,
+    "name": "pione.tex"
+  },
+  {
+    "most_important": [
+      "lemma-from-weil-to-functor"
+    ],
+    "number_of_child": 14,
+    "most_dependable": [
+      "lemma-enough"
+    ],
+    "number_of_parents": 9,
+    "name": "weil.tex"
+  },
+  {
+    "most_important": [
+      "lemma-quot-qc-over-base",
+      "lemma-polarized-diagonal-separated-fp"
+    ],
+    "number_of_child": 4,
+    "most_dependable": [
+      "lemma-pic-functor-qs-lfp"
+    ],
+    "number_of_parents": 3,
+    "name": "moduli.tex"
+  },
+  {
+    "most_important": [
+      "lemma-extend-sheaf"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-ph-induced",
+      "lemma-verify-site-ph",
+      "lemma-disjoint-union-is-fpqc-covering",
+      "lemma-family-flat-fpqc-local-covering",
+      "lemma-fpqc",
+      "lemma-fpqc-covering-affines-mapping-in",
+      "lemma-V-covering-universally-submersive"
+    ],
+    "number_of_parents": 2,
+    "name": "topologies.tex"
+  },
+  {
+    "most_important": [
+      "lemma-difference-divisors-on-curves"
+    ],
+    "number_of_child": 4,
+    "most_dependable": [
+      "lemma-universal-object",
+      "lemma-hilb-d-smooth",
+      "lemma-flat-geometrically-connected-fibres-with-section",
+      "lemma-open-representable",
+      "lemma-picard-pieces"
+    ],
+    "number_of_parents": 1,
+    "name": "pic.tex"
+  },
+  {
+    "most_important": [
+      "lemma-normalization-normal"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "lemma-projective-is-quasi-projective-proper",
+      "lemma-pth-power-and-multiple"
+    ],
+    "number_of_parents": 6,
+    "name": "morphisms.tex"
+  },
+  {
+    "most_important": [
+      "theorem-grothendieck-existence"
+    ],
+    "number_of_child": 13,
+    "most_dependable": [
+      "lemma-surjective-finite-morphism-ample",
+      "lemma-ample-on-fibre"
+    ],
+    "number_of_parents": 7,
+    "name": "coherent.tex"
+  },
+  {
+    "most_important": [
+      "lemma-descending-property-universal-homeomorphism"
+    ],
+    "number_of_child": 4,
+    "most_dependable": [
+      "lemma-descending-property-finite-presentation",
+      "lemma-descending-property-proper",
+      "lemma-descending-property-finite-locally-free",
+      "lemma-descending-property-ample"
+    ],
+    "number_of_parents": 3,
+    "name": "spaces-descent.tex"
+  },
+  {
+    "most_important": [
+      "lemma-stackification-fibre-product-fibred-categories"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-bigger-site"
+    ],
+    "number_of_parents": 4,
+    "name": "stacks.tex"
+  },
+  {
+    "most_important": [
+      "lemma-representable-affine"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "lemma-iff-adic-star"
+    ],
+    "number_of_parents": 7,
+    "name": "formal-spaces.tex"
+  },
+  {
+    "most_important": [
+      "lemma-induction-step-V-C-general"
+    ],
+    "number_of_child": 10,
+    "most_dependable": [
+      "lemma-compare-qc-zar"
+    ],
+    "number_of_parents": 7,
+    "name": "sites-cohomology.tex"
+  },
+  {
+    "most_important": [
+      "lemma-map-into-reduction"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-improve-unique-point",
+      "lemma-residual-gerbe"
+    ],
+    "number_of_parents": 5,
+    "name": "stacks-properties.tex"
+  },
+  {
+    "most_important": [
+      "theorem-cohomology-hypercoverings"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "lemma-hypercovering-object",
+      "lemma-hypercovering-site"
+    ],
+    "number_of_parents": 3,
+    "name": "hypercovering.tex"
+  },
+  {
+    "most_important": [
+      "lemma-bootstrap-inherited"
+    ],
+    "number_of_child": 13,
+    "most_dependable": [
+      "lemma-blowup"
+    ],
+    "number_of_parents": 12,
+    "name": "algebraization.tex"
+  },
+  {
+    "most_important": [
+      "lemma-godement-two-maps",
+      "lemma-godement-before-after"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-backwards-homotopy",
+      "lemma-standard-simplicial-homotopy"
+    ],
+    "number_of_parents": 5,
+    "name": "simplicial.tex"
+  },
+  {
+    "most_important": [
+      "lemma-presentation-quasi-compact"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "theorem-presentation"
+    ],
+    "number_of_parents": 8,
+    "name": "spaces.tex"
+  },
+  {
+    "most_important": [
+      "theorem-glueing-bbd-general"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "lemma-dual-perfect-complex"
+    ],
+    "number_of_parents": 6,
+    "name": "cohomology.tex"
+  },
+  {
+    "most_important": [
+      "lemma-construct-quasi-coherent"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-invariants-base-change",
+      "lemma-etale"
+    ],
+    "number_of_parents": 4,
+    "name": "groupoids.tex"
+  },
+  {
+    "most_important": [
+      "lemma-existence-implies-existence-by-normalized-blowing-ups"
+    ],
+    "number_of_child": 11,
+    "most_dependable": [
+      "lemma-resolve-complete"
+    ],
+    "number_of_parents": 10,
+    "name": "resolve.tex"
+  },
+  {
+    "most_important": [
+      "lemma-quasi-compact-quasi-separated-spectral"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-morphism-locally-ringed"
+    ],
+    "number_of_parents": 6,
+    "name": "spaces-properties.tex"
+  },
+  {
+    "most_important": [
+      "lemma-when-projective",
+      "theorem-quillen-spectral-sequence"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-find-obstruction-ringed-spaces",
+      "lemma-find-obstruction-ringed-topoi"
+    ],
+    "number_of_parents": 4,
+    "name": "cotangent.tex"
+  },
+  {
+    "most_important": [
+      "theorem-finiteness",
+      "lemma-make-S2-along-Z",
+      "lemma-make-S2-along-T-simple"
+    ],
+    "number_of_child": 4,
+    "most_dependable": [
+      "lemma-cd-top-vanishing",
+      "lemma-cd-bound-dualizing"
+    ],
+    "number_of_parents": 3,
+    "name": "local-cohomology.tex"
+  },
+  {
+    "most_important": [
+      "lemma-noether-pairing-flat-quasi-finite"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-universal-finite-syntomic-etale",
+      "lemma-different-syntomic-quasi-finite",
+      "lemma-agree-dedekind"
+    ],
+    "number_of_parents": 4,
+    "name": "discriminant.tex"
+  },
+  {
+    "most_important": [
+      "lemma-localize-morphism-locally-ringed-topoi"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-completion-flat"
+    ],
+    "number_of_parents": 5,
+    "name": "sites-modules.tex"
+  },
+  {
+    "most_important": [
+      "lemma-affine"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-modifications"
+    ],
+    "number_of_parents": 4,
+    "name": "spaces-limits.tex"
+  },
+  {
+    "most_important": [
+      "lemma-quasi-coherent-weak-serre"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-pushforward-parasitic",
+      "lemma-adjoint-kernel-parasitic",
+      "lemma-shriek-quasi-coherent",
+      "lemma-quasi-coherent"
+    ],
+    "number_of_parents": 4,
+    "name": "stacks-cohomology.tex"
+  },
+  {
+    "most_important": [
+      "lemma-map-pullback-to-shriek-well-defined"
+    ],
+    "number_of_child": 11,
+    "most_dependable": [
+      "lemma-duality-bootstrap"
+    ],
+    "number_of_parents": 8,
+    "name": "duality.tex"
+  },
+  {
+    "most_important": [
+      "lemma-crystals-on-affine"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-computation"
+    ],
+    "number_of_parents": 4,
+    "name": "crystalline.tex"
+  },
+  {
+    "most_important": [
+      "lemma-find-affine-codimension-1"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-open-image-is-closed",
+      "lemma-locally-closed-image-is-closed",
+      "lemma-slice",
+      "lemma-max-slice",
+      "lemma-finite-flat-over-almost-dense-subscheme"
+    ],
+    "number_of_parents": 3,
+    "name": "more-groupoids.tex"
+  },
+  {
+    "most_important": [
+      "lemma-characterize-contraction-to-stable"
+    ],
+    "number_of_child": 11,
+    "most_dependable": [
+      "lemma-tricanonical"
+    ],
+    "number_of_parents": 6,
+    "name": "curves.tex"
+  },
+  {
+    "most_important": [
+      "lemma-derived-products"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-compose-pushforward-hom"
+    ],
+    "number_of_parents": 6,
+    "name": "sdga.tex"
+  },
+  {
+    "most_important": [
+      "theorem-trace-formula-again"
+    ],
+    "number_of_child": 4,
+    "most_dependable": [
+      "lemma-switch-l"
+    ],
+    "number_of_parents": 2,
+    "name": "trace.tex"
+  },
+  {
+    "most_important": [
+      "lemma-blowing-up-intersections"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-commutativity-effective-Cartier-proper-intersection-infinite"
+    ],
+    "number_of_parents": 5,
+    "name": "obsolete.tex"
+  },
+  {
+    "most_important": [
+      "lemma-proper-pushforward-coherent"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-image-affine-finite-morphism-affine-Noetherian"
+    ],
+    "number_of_parents": 5,
+    "name": "spaces-cohomology.tex"
+  },
+  {
+    "most_important": [
+      "lemma-two-compactifications"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-glueing-quasi-affines"
+    ],
+    "number_of_parents": 3,
+    "name": "spaces-pushouts.tex"
+  },
+  {
+    "most_important": [
+      "lemma-sheafify-abelian-presheaf"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-f-map-basis-above-and-below-structures"
+    ],
+    "number_of_parents": 4,
+    "name": "sheaves.tex"
+  },
+  {
+    "most_important": [
+      "lemma-well-defined-special-case"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "theorem-well-defined"
+    ],
+    "number_of_parents": 5,
+    "name": "intersection.tex"
+  },
+  {
+    "most_important": [
+      "lemma-special-equivalence"
+    ],
+    "number_of_child": 10,
+    "most_dependable": [
+      "lemma-localize-morphism",
+      "lemma-point-site-topos",
+      "lemma-open-subtopos"
+    ],
+    "number_of_parents": 5,
+    "name": "sites.tex"
+  },
+  {
+    "most_important": [
+      "lemma-geometric-orbits"
+    ],
+    "number_of_child": 2,
+    "most_dependable": [
+      "lemma-set-theoretic-equivalence-geometric",
+      "lemma-orbit-space",
+      "lemma-orbit-space-locally-finite-type-over-base"
+    ],
+    "number_of_parents": 1,
+    "name": "groupoids-quotients.tex"
+  },
+  {
+    "most_important": [
+      "lemma-bounded-fibres",
+      "lemma-representable-properties"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-generically-finite"
+    ],
+    "number_of_parents": 5,
+    "name": "decent-spaces.tex"
+  },
+  {
+    "most_important": [
+      "lemma-groupoid-on-field-geometrically-irreducible",
+      "lemma-groupoid-on-field-locally-finite-type-dimension",
+      "lemma-finite-surjective-etale-cover",
+      "lemma-strong-splitting-scheme",
+      "lemma-splitting-scheme",
+      "lemma-quasi-splitting-scheme",
+      "lemma-splitting-affine-scheme",
+      "lemma-quasi-splitting-affine-scheme"
+    ],
+    "number_of_child": 3,
+    "most_dependable": [
+      "lemma-groupoid-on-field-dimension-equal-stabilizer",
+      "lemma-no-nonconstant-morphism-from-P1-to-group",
+      "lemma-finite-criterion-etale",
+      "lemma-finite-separated-flat-locally-finite-presentation"
+    ],
+    "number_of_parents": 2,
+    "name": "spaces-more-groupoids.tex"
+  },
+  {
+    "most_important": [
+      "lemma-dims-of-images"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-dimension-formula"
+    ],
+    "number_of_parents": 3,
+    "name": "stacks-geometry.tex"
+  },
+  {
+    "most_important": [
+      "lemma-characterize-closed-immersion",
+      "lemma-characterize-etale-completions",
+      "lemma-finite-etale-one-point",
+      "lemma-etale-etale-local",
+      "lemma-etale-etale-local-technical",
+      "lemma-finite-etale-etale-local",
+      "lemma-fully-faithful",
+      "lemma-characterize-normal-crossings-normalization"
+    ],
+    "number_of_child": 2,
+    "most_dependable": [
+      "lemma-etale-definition",
+      "theorem-structure-etale",
+      "theorem-structure-unramified",
+      "theorem-etale-radicial-open",
+      "lemma-relative-frobenius-etale",
+      "theorem-remarkable-equivalence",
+      "lemma-unramified-etale-local",
+      "lemma-unramified-etale-local-technical",
+      "lemma-finite-unramified-etale-local",
+      "lemma-fully-faithful-cases",
+      "lemma-smooth-pullback-normal-crossings",
+      "lemma-characterize-normal-crossings"
+    ],
+    "number_of_parents": 1,
+    "name": "etale.tex"
+  },
+  {
+    "most_important": [
+      "lemma-ext-group-zero-key",
+      "lemma-abelian-adequate"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-direct-image-adequate"
+    ],
+    "number_of_parents": 7,
+    "name": "adequate.tex"
+  },
+  {
+    "most_important": [
+      "lemma-extensions-of-rings",
+      "lemma-extensions-of-ringed-spaces",
+      "lemma-extensions-of-ringed-topoi",
+      "lemma-deform-spaces"
+    ],
+    "number_of_child": 4,
+    "most_dependable": [
+      "lemma-inf-obs-map-rel",
+      "lemma-inf-ext-rel",
+      "lemma-flat",
+      "lemma-deform",
+      "lemma-inf-obs-map-rel-ringed-topoi",
+      "lemma-inf-ext-rel-ringed-topoi",
+      "lemma-flat-ringed-topoi",
+      "lemma-first-order-defos-complex"
+    ],
+    "number_of_parents": 3,
+    "name": "defos.tex"
+  },
+  {
+    "most_important": [
+      "lemma-characterize-geometrically-disconnected",
+      "lemma-intersection-number-and-pullback"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-mono-towards-locally-quasi-finite-over-field",
+      "lemma-alteration-dimension",
+      "lemma-numerical-polynomial-from-euler",
+      "lemma-numerical-polynomial-leading-term"
+    ],
+    "number_of_parents": 2,
+    "name": "spaces-over-fields.tex"
+  },
+  {
+    "most_important": [
+      "lemma-bound-quotients-free",
+      "lemma-inseparable-deg-p-smooth"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-delta-invariant-and-change-of-fields-better",
+      "lemma-prepare-delta-invariant",
+      "lemma-intersection-number-and-pullback",
+      "lemma-ample-positive"
+    ],
+    "number_of_parents": 5,
+    "name": "varieties.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "bibliography.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "conventions.tex"
+  },
+  {
+    "most_important": [
+      "lemma-prepare-flat-pullback-rational-equivalence"
+    ],
+    "number_of_child": 10,
+    "most_dependable": [
+      "lemma-vectorbundle"
+    ],
+    "number_of_parents": 7,
+    "name": "spaces-chow.tex"
+  },
+  {
+    "most_important": [
+      "lemma-derived-quasi-coherent"
+    ],
+    "number_of_child": 3,
+    "most_dependable": [
+      "lemma-bousfield-colocalization"
+    ],
+    "number_of_parents": 1,
+    "name": "stacks-perfect.tex"
+  },
+  {
+    "most_important": [
+      "lemma-resolve-general"
+    ],
+    "number_of_child": 11,
+    "most_dependable": [
+      "lemma-reduce-to-field",
+      "theorem-popescu"
+    ],
+    "number_of_parents": 4,
+    "name": "smoothing.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "fdl.tex"
+  },
+  {
+    "most_important": [
+      "theorem-final-bootstrap"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-descend-algebraic-space"
+    ],
+    "number_of_parents": 5,
+    "name": "bootstrap.tex"
+  },
+  {
+    "most_important": [
+      "lemma-smooth-surjective-morphism-implies-algebraic",
+      "theorem-smooth-groupoid-gives-algebraic-stack"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-representable-morphism-to-algebraic"
+    ],
+    "number_of_parents": 4,
+    "name": "algebraic.tex"
+  },
+  {
+    "most_important": [
+      "lemma-etale-etale-local-source-target"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-etale-tau-local-source-target"
+    ],
+    "number_of_parents": 6,
+    "name": "descent.tex"
+  },
+  {
+    "most_important": [
+      "lemma-lqf-shriek-composition"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "lemma-shriek-composition"
+    ],
+    "number_of_parents": 7,
+    "name": "more-etale.tex"
+  },
+  {
+    "most_important": [
+      "lemma-construct-multiplicative-system",
+      "lemma-unbounded-right-derived"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-difficulty-K-injectives",
+      "lemma-right-adjoint",
+      "lemma-existence-postnikov-system"
+    ],
+    "number_of_parents": 5,
+    "name": "derived.tex"
+  },
+  {
+    "most_important": [
+      "lemma-morphism-into-affine",
+      "lemma-fibre-products"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-lift-specializations-valuative"
+    ],
+    "number_of_parents": 5,
+    "name": "schemes.tex"
+  },
+  {
+    "most_important": [
+      "theorem-smooth-base-change",
+      "lemma-punctual-base-change-upgrade"
+    ],
+    "number_of_child": 10,
+    "most_dependable": [
+      "lemma-kunneth-localize-on-X",
+      "lemma-compare-higher-direct-image-proper"
+    ],
+    "number_of_parents": 8,
+    "name": "etale-cohomology.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "exercises.tex"
+  },
+  {
+    "most_important": [
+      "lemma-descend-finite-presentation",
+      "lemma-proper-top-cohomology-finite-type"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-descend-finite-presentation-variant",
+      "lemma-affine",
+      "lemma-chow-EGA",
+      "lemma-higher-direct-images-zero-above-dimension-fibre",
+      "lemma-modifications-properties"
+    ],
+    "number_of_parents": 5,
+    "name": "limits.tex"
+  },
+  {
+    "most_important": [
+      "lemma-homotopy-category-pre-triangulated",
+      "lemma-analogue-homotopy-category-pre-triangulated"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-derived-products"
+    ],
+    "number_of_parents": 6,
+    "name": "dga.tex"
+  },
+  {
+    "most_important": [
+      "lemma-gysin-composition",
+      "lemma-symbol-is-steinberg-prepare"
+    ],
+    "number_of_child": 10,
+    "most_dependable": [
+      "lemma-localized-chern-pre-sum-c",
+      "lemma-gysin-commutes"
+    ],
+    "number_of_parents": 8,
+    "name": "chow.tex"
+  },
+  {
+    "most_important": [
+      "lemma-gysin-via-log-complex"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-comparison",
+      "lemma-top-part-degenerates"
+    ],
+    "number_of_parents": 6,
+    "name": "derham.tex"
+  },
+  {
+    "most_important": [
+      "lemma-compare-fppf-etale"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-pullback-injective",
+      "lemma-pullback-injective-modules",
+      "lemma-cech-to-cohomology-relative",
+      "lemma-base-change-higher-direct-images",
+      "lemma-compare-morphism-cohomology",
+      "lemma-compare-representable-morphism-cohomology",
+      "lemma-cohomology-on-subcategory"
+    ],
+    "number_of_parents": 2,
+    "name": "stacks-sheaves.tex"
+  },
+  {
+    "most_important": [
+      "lemma-tensor-algebra-permanence"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-invertible-is-locally-free-rank-1"
+    ],
+    "number_of_parents": 4,
+    "name": "modules.tex"
+  },
+  {
+    "most_important": [
+      "lemma-what-is-in-it"
+    ],
+    "number_of_child": 4,
+    "most_dependable": [
+      "lemma-bound-finite-type",
+      "lemma-bound-monomorphism",
+      "lemma-bound-fppf-covering"
+    ],
+    "number_of_parents": 2,
+    "name": "sets.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "chapters.tex"
+  },
+  {
+    "most_important": [
+      "lemma-composition-finite-type-blowups"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-closed-subscheme-proj-finite-type"
+    ],
+    "number_of_parents": 3,
+    "name": "spaces-divisors.tex"
+  },
+  {
+    "most_important": [
+      "theorem-existence"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "theorem-flat-dimension-n-representable"
+    ],
+    "number_of_parents": 6,
+    "name": "spaces-flat.tex"
+  },
+  {
+    "most_important": [
+      "lemma-formally-smooth"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "lemma-universal-thickening",
+      "lemma-deform-property-fp-over-ft",
+      "lemma-NL-formally-etale"
+    ],
+    "number_of_parents": 5,
+    "name": "spaces-more-morphisms.tex"
+  },
+  {
+    "most_important": [
+      "lemma-thicken-property-morphisms",
+      "lemma-deform-property-fp-over-ft",
+      "lemma-etale-separated-over-keel-mori"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-well-nigh-affine-moduli-space",
+      "lemma-moduli-space-finite-affine",
+      "theorem-keel-mori",
+      "lemma-keel-mori-finite-type"
+    ],
+    "number_of_parents": 4,
+    "name": "stacks-more-morphisms.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "preamble.tex"
+  },
+  {
+    "most_important": [
+      "theorem-DM",
+      "lemma-characterize-quasi-DM",
+      "lemma-gerbe-isom-fppf",
+      "lemma-noetherian-singleton-stack-gerbe",
+      "lemma-quasi-compact-existence-universally-closed"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-composition-locally-quasi-finite",
+      "lemma-gerbe-fppf",
+      "lemma-etale",
+      "lemma-unramified",
+      "lemma-universally-closed-permanence"
+    ],
+    "number_of_parents": 6,
+    "name": "stacks-morphisms.tex"
+  },
+  {
+    "most_important": [
+      "lemma-proper-push-pull-fppf-etale",
+      "lemma-proper-push-pull-ph-etale"
+    ],
+    "number_of_child": 8,
+    "most_dependable": [
+      "lemma-comparison-fppf-etale",
+      "lemma-cohomological-descent-etale-fppf",
+      "lemma-comparison-ph-etale",
+      "lemma-cohomological-descent-etale-ph"
+    ],
+    "number_of_parents": 3,
+    "name": "spaces-more-cohomology.tex"
+  },
+  {
+    "most_important": [],
+    "number_of_child": 0,
+    "most_dependable": [],
+    "number_of_parents": 0,
+    "name": "coding.tex"
+  },
+  {
+    "most_important": [
+      "lemma-hypercovering-descent-bounded-abelian"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-coh-descent-qcoh-unbounded-for-fppf-hypercovering"
+    ],
+    "number_of_parents": 6,
+    "name": "spaces-simplicial.tex"
+  },
+  {
+    "most_important": [
+      "lemma-non-effective-descent-projective"
+    ],
+    "number_of_child": 3,
+    "most_dependable": [
+      "lemma-not-essentially-surjective"
+    ],
+    "number_of_parents": 2,
+    "name": "examples.tex"
+  },
+  {
+    "most_important": [
+      "lemma-tie-up-psi"
+    ],
+    "number_of_child": 6,
+    "most_dependable": [
+      "lemma-ample-on-proj",
+      "lemma-surjective-graded-rings-generated-degree-1-map-proj"
+    ],
+    "number_of_parents": 4,
+    "name": "constructions.tex"
+  },
+  {
+    "most_important": [
+      "theorem-existence"
+    ],
+    "number_of_child": 10,
+    "most_dependable": [
+      "theorem-flat-dimension-n-representable",
+      "theorem-flatten-module",
+      "lemma-two-compactifications"
+    ],
+    "number_of_parents": 6,
+    "name": "flat.tex"
+  },
+  {
+    "most_important": [
+      "lemma-versal-object-existence"
+    ],
+    "number_of_child": 10,
+    "most_dependable": [
+      "lemma-construct-bijective-orbits"
+    ],
+    "number_of_parents": 7,
+    "name": "formal-defos.tex"
+  },
+  {
+    "most_important": [
+      "lemma-extend-finite-presentation"
+    ],
+    "number_of_child": 5,
+    "most_dependable": [
+      "lemma-integral-algebra-directed-colimit-finite",
+      "lemma-quasi-coherent-finite-type-ideals",
+      "lemma-ample-immersion-into-proj",
+      "lemma-quasi-affine-O-ample",
+      "lemma-quasi-affine-invertible-nonvanishing-section"
+    ],
+    "number_of_parents": 4,
+    "name": "properties.tex"
+  },
+  {
+    "most_important": [
+      "lemma-regular-alteration-implies-local",
+      "theorem-resolve"
+    ],
+    "number_of_child": 3,
+    "most_dependable": [
+      "lemma-equivalence",
+      "lemma-equivalence-properties",
+      "lemma-equivalence-fibre",
+      "lemma-Nagata-normalized-blowup",
+      "lemma-iso-completions",
+      "lemma-port-regularity-to-completion",
+      "lemma-formally-unramified",
+      "lemma-regular-alteration-implies"
+    ],
+    "number_of_parents": 0,
+    "name": "spaces-resolve.tex"
+  },
+  {
+    "most_important": [
+      "theorem-K-injective-embedding-grothendieck"
+    ],
+    "number_of_child": 9,
+    "most_dependable": [
+      "lemma-represent-by-filtered-complex-bis"
+    ],
+    "number_of_parents": 3,
+    "name": "injectives.tex"
+  },
+  {
+    "most_important": [
+      "lemma-bound-wm"
+    ],
+    "number_of_child": 7,
+    "most_dependable": [
+      "lemma-numerical-type-of-model"
+    ],
+    "number_of_parents": 6,
+    "name": "models.tex"
+  }
+]

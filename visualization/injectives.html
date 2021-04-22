@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-out-of-finite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-criterion-baer", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-construction", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "theorem-baer-grothendieck", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-G-modules", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-abelian-sheaves-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-sheaves-modules-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-map-into-next-one", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-map-into-smaller", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-characterize-injectives", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "theorem-sheaves-injectives", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-vee-exact-sheaves", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-ev-injective-sheaves", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-JM-injective-sheaves", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "theorem-sheaves-modules-injectives", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-site-abelian-category", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-embedding", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-set-of-subobjects", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-size-goes-down", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-set-iso-classes-bounded-size", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-characterize-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "theorem-injective-embedding-grothendieck", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-surjection-bounded-size", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-acyclic-quotient-complexes-bounded-size", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-characterize-K-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-functorial-homotopies", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-functorial-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "theorem-K-injective-embedding-grothendieck", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-grothendieck-brown", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-grothendieck-products", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-derived-products", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-RF-commutes-with-Rlim", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-K-injective-embedding-filtration", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-represent-by-filtered-complex", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-represent-by-filtered-complex-bis", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-gabriel-popescu-left-adjoint", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-F-G-monos", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "theorem-gabriel-popescu", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-gabriel-popescu", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-brown", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 1, "to": 3}, {"arrows": "to", "from": 2, "to": 3}, {"arrows": "to", "from": 8, "to": 10}, {"arrows": "to", "from": 9, "to": 10}, {"arrows": "to", "from": 8, "to": 10}, {"arrows": "to", "from": 7, "to": 10}, {"arrows": "to", "from": 1, "to": 20}, {"arrows": "to", "from": 3, "to": 21}, {"arrows": "to", "from": 20, "to": 21}, {"arrows": "to", "from": 22, "to": 23}, {"arrows": "to", "from": 22, "to": 23}, {"arrows": "to", "from": 23, "to": 24}, {"arrows": "to", "from": 21, "to": 26}, {"arrows": "to", "from": 3, "to": 27}, {"arrows": "to", "from": 21, "to": 27}, {"arrows": "to", "from": 23, "to": 27}, {"arrows": "to", "from": 24, "to": 27}, {"arrows": "to", "from": 19, "to": 27}, {"arrows": "to", "from": 25, "to": 27}, {"arrows": "to", "from": 26, "to": 27}, {"arrows": "to", "from": 24, "to": 27}, {"arrows": "to", "from": 20, "to": 27}, {"arrows": "to", "from": 28, "to": 29}, {"arrows": "to", "from": 27, "to": 30}, {"arrows": "to", "from": 27, "to": 31}, {"arrows": "to", "from": 30, "to": 31}, {"arrows": "to", "from": 27, "to": 32}, {"arrows": "to", "from": 30, "to": 32}, {"arrows": "to", "from": 27, "to": 33}, {"arrows": "to", "from": 30, "to": 33}, {"arrows": "to", "from": 32, "to": 34}, {"arrows": "to", "from": 27, "to": 34}, {"arrows": "to", "from": 30, "to": 34}, {"arrows": "to", "from": 19, "to": 35}, {"arrows": "to", "from": 35, "to": 36}, {"arrows": "to", "from": 36, "to": 37}, {"arrows": "to", "from": 36, "to": 37}, {"arrows": "to", "from": 37, "to": 38}, {"arrows": "to", "from": 27, "to": 38}, {"arrows": "to", "from": 38, "to": 39}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-total-complex-tensor-product", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-dgm-abelian", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-compose-homotopy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-homotopy-direct-sums", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-functorial-cone", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-admissible-ses", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-make-commute-map", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-make-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-sequence-maps-split", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-nilpotent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-triangle-independent-splittings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-rotate-cone", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-rotate-triangle", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-third-isomorphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-the-same-up-to-isomorphisms", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-homotopy-category-pre-triangulated", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-two-split-injections", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-left-right", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-left-module-structure", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-characterize-hom", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-right-module-structure", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-characterize-hom-other-side", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-target-graded-projective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-hom-from-shift-free", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-source-graded-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-map-into-dual", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-hom-into-shift-dual-free", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-property-P-sequence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-property-P-K-projective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-good-quotient", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-resolve", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-property-I-sequence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-property-I-K-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-good-sub", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-right-resolution", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-acyclic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-hom-derived", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-derived-products", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-derived-canonical-delta-functor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-homotopy-colimit", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-functorial", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-additive-functor-induces-dga-functor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-homomorphism-induces-dga-functor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-construction", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-get-triangle", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "lemma-cone", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-id-cone-null", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "lemma-homo-change", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-factor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-analogue-sequence-maps-split", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-triseq", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-analogue-triangle-independent-splittings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 52, "label": "lemma-restate-axiom-c", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 53, "label": "lemma-cone-rotate-isom", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 54, "label": "lemma-analogue-third-isomorphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 55, "label": "lemma-cone-homotopy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 56, "label": "lemma-analogue-homotopy-category-pre-triangulated", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 57, "label": "lemma-dgc-analogue-tr4", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 58, "label": "lemma-functor-between-ABC", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 59, "label": "lemma-what-makes-a-bimodule-dg", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 60, "label": "lemma-bimodule-over-tensor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 61, "label": "lemma-bimodule-resolve", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 62, "label": "lemma-bimodule-property-P-sequence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 63, "label": "lemma-tensor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 64, "label": "lemma-hom", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 65, "label": "lemma-tensor-hom-adjunction", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 66, "label": "lemma-restriction-homotopy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 67, "label": "lemma-derived-restriction", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 68, "label": "lemma-functoriality-derived-restriction", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 69, "label": "lemma-derived-restriction-exts", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 70, "label": "lemma-compute-derived-restriction", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 71, "label": "lemma-existence-of-derived", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 72, "label": "lemma-bc-homotopy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 73, "label": "lemma-derived-bc", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 74, "label": "lemma-functoriality-bc", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 75, "label": "lemma-tensor-hom-adjoint", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 76, "label": "lemma-tensor-with-compact-fully-faithful", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 77, "label": "lemma-base-change-K-flat", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 78, "label": "lemma-RHom-is-tensor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 79, "label": "lemma-compose-tensor-functors-general", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 80, "label": "lemma-compose-tensor-functors-general-algebra", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 81, "label": "lemma-compose-tensor-functors", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 82, "label": "lemma-tensor-with-complex", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 83, "label": "lemma-tensor-with-complex-homotopy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 84, "label": "lemma-tensor-with-complex-derived", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 85, "label": "lemma-upgrade-tensor-with-complex-derived", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 86, "label": "lemma-tensor-with-complex-hom-adjoint", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 87, "label": "lemma-fully-faithful-in-compact-case", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 88, "label": "lemma-factor-through-nicer", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 89, "label": "lemma-compact-implies-bounded", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 90, "label": "lemma-compact", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 91, "label": "lemma-qis-equivalence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 92, "label": "lemma-tilting-equivalence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 93, "label": "lemma-rickard", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 94, "label": "lemma-rickard-rings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 95, "label": "lemma-K-flat-resolution", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 96, "label": "lemma-compose-tensor-functors-tor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 97, "label": "lemma-countable", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 1, "to": 3}, {"arrows": "to", "from": 7, "to": 8}, {"arrows": "to", "from": 7, "to": 8}, {"arrows": "to", "from": 6, "to": 9}, {"arrows": "to", "from": 5, "to": 10}, {"arrows": "to", "from": 4, "to": 13}, {"arrows": "to", "from": 9, "to": 13}, {"arrows": "to", "from": 7, "to": 14}, {"arrows": "to", "from": 4, "to": 14}, {"arrows": "to", "from": 13, "to": 14}, {"arrows": "to", "from": 14, "to": 15}, {"arrows": "to", "from": 12, "to": 15}, {"arrows": "to", "from": 14, "to": 15}, {"arrows": "to", "from": 14, "to": 15}, {"arrows": "to", "from": 11, "to": 15}, {"arrows": "to", "from": 14, "to": 15}, {"arrows": "to", "from": 4, "to": 15}, {"arrows": "to", "from": 19, "to": 25}, {"arrows": "to", "from": 27, "to": 28}, {"arrows": "to", "from": 23, "to": 28}, {"arrows": "to", "from": 29, "to": 30}, {"arrows": "to", "from": 22, "to": 30}, {"arrows": "to", "from": 27, "to": 31}, {"arrows": "to", "from": 31, "to": 32}, {"arrows": "to", "from": 26, "to": 32}, {"arrows": "to", "from": 29, "to": 33}, {"arrows": "to", "from": 26, "to": 33}, {"arrows": "to", "from": 33, "to": 34}, {"arrows": "to", "from": 24, "to": 34}, {"arrows": "to", "from": 30, "to": 35}, {"arrows": "to", "from": 28, "to": 36}, {"arrows": "to", "from": 32, "to": 36}, {"arrows": "to", "from": 28, "to": 36}, {"arrows": "to", "from": 1, "to": 37}, {"arrows": "to", "from": 3, "to": 37}, {"arrows": "to", "from": 34, "to": 37}, {"arrows": "to", "from": 36, "to": 37}, {"arrows": "to", "from": 30, "to": 37}, {"arrows": "to", "from": 36, "to": 37}, {"arrows": "to", "from": 4, "to": 38}, {"arrows": "to", "from": 37, "to": 39}, {"arrows": "to", "from": 38, "to": 39}, {"arrows": "to", "from": 44, "to": 45}, {"arrows": "to", "from": 44, "to": 46}, {"arrows": "to", "from": 44, "to": 46}, {"arrows": "to", "from": 44, "to": 46}, {"arrows": "to", "from": 46, "to": 48}, {"arrows": "to", "from": 48, "to": 49}, {"arrows": "to", "from": 48, "to": 49}, {"arrows": "to", "from": 47, "to": 50}, {"arrows": "to", "from": 44, "to": 51}, {"arrows": "to", "from": 44, "to": 51}, {"arrows": "to", "from": 44, "to": 53}, {"arrows": "to", "from": 44, "to": 53}, {"arrows": "to", "from": 44, "to": 53}, {"arrows": "to", "from": 45, "to": 54}, {"arrows": "to", "from": 50, "to": 54}, {"arrows": "to", "from": 50, "to": 54}, {"arrows": "to", "from": 44, "to": 55}, {"arrows": "to", "from": 46, "to": 55}, {"arrows": "to", "from": 48, "to": 55}, {"arrows": "to", "from": 45, "to": 55}, {"arrows": "to", "from": 54, "to": 55}, {"arrows": "to", "from": 55, "to": 56}, {"arrows": "to", "from": 53, "to": 56}, {"arrows": "to", "from": 55, "to": 56}, {"arrows": "to", "from": 55, "to": 56}, {"arrows": "to", "from": 52, "to": 56}, {"arrows": "to", "from": 55, "to": 56}, {"arrows": "to", "from": 45, "to": 56}, {"arrows": "to", "from": 44, "to": 57}, {"arrows": "to", "from": 44, "to": 57}, {"arrows": "to", "from": 44, "to": 57}, {"arrows": "to", "from": 44, "to": 58}, {"arrows": "to", "from": 18, "to": 59}, {"arrows": "to", "from": 60, "to": 61}, {"arrows": "to", "from": 30, "to": 61}, {"arrows": "to", "from": 60, "to": 62}, {"arrows": "to", "from": 27, "to": 62}, {"arrows": "to", "from": 19, "to": 65}, {"arrows": "to", "from": 64, "to": 66}, {"arrows": "to", "from": 58, "to": 66}, {"arrows": "to", "from": 34, "to": 67}, {"arrows": "to", "from": 36, "to": 67}, {"arrows": "to", "from": 67, "to": 68}, {"arrows": "to", "from": 26, "to": 68}, {"arrows": "to", "from": 67, "to": 69}, {"arrows": "to", "from": 36, "to": 69}, {"arrows": "to", "from": 67, "to": 70}, {"arrows": "to", "from": 36, "to": 70}, {"arrows": "to", "from": 43, "to": 71}, {"arrows": "to", "from": 63, "to": 72}, {"arrows": "to", "from": 58, "to": 72}, {"arrows": "to", "from": 30, "to": 73}, {"arrows": "to", "from": 36, "to": 73}, {"arrows": "to", "from": 73, "to": 74}, {"arrows": "to", "from": 65, "to": 75}, {"arrows": "to", "from": 75, "to": 76}, {"arrows": "to", "from": 69, "to": 76}, {"arrows": "to", "from": 73, "to": 77}, {"arrows": "to", "from": 27, "to": 78}, {"arrows": "to", "from": 73, "to": 79}, {"arrows": "to", "from": 74, "to": 80}, {"arrows": "to", "from": 61, "to": 80}, {"arrows": "to", "from": 79, "to": 80}, {"arrows": "to", "from": 62, "to": 80}, {"arrows": "to", "from": 73, "to": 80}, {"arrows": "to", "from": 63, "to": 82}, {"arrows": "to", "from": 40, "to": 83}, {"arrows": "to", "from": 30, "to": 84}, {"arrows": "to", "from": 36, "to": 84}, {"arrows": "to", "from": 68, "to": 85}, {"arrows": "to", "from": 70, "to": 85}, {"arrows": "to", "from": 82, "to": 85}, {"arrows": "to", "from": 83, "to": 85}, {"arrows": "to", "from": 84, "to": 85}, {"arrows": "to", "from": 36, "to": 86}, {"arrows": "to", "from": 27, "to": 86}, {"arrows": "to", "from": 86, "to": 87}, {"arrows": "to", "from": 27, "to": 87}, {"arrows": "to", "from": 89, "to": 90}, {"arrows": "to", "from": 36, "to": 90}, {"arrows": "to", "from": 22, "to": 90}, {"arrows": "to", "from": 5, "to": 90}, {"arrows": "to", "from": 76, "to": 91}, {"arrows": "to", "from": 75, "to": 91}, {"arrows": "to", "from": 76, "to": 92}, {"arrows": "to", "from": 75, "to": 92}, {"arrows": "to", "from": 36, "to": 93}, {"arrows": "to", "from": 92, "to": 93}, {"arrows": "to", "from": 91, "to": 93}, {"arrows": "to", "from": 93, "to": 94}, {"arrows": "to", "from": 90, "to": 94}, {"arrows": "to", "from": 95, "to": 96}, {"arrows": "to", "from": 91, "to": 96}, {"arrows": "to", "from": 81, "to": 96}, {"arrows": "to", "from": 79, "to": 96}, {"arrows": "to", "from": 80, "to": 96}, {"arrows": "to", "from": 91, "to": 97}, {"arrows": "to", "from": 30, "to": 97}, {"arrows": "to", "from": 29, "to": 97}, {"arrows": "to", "from": 88, "to": 97}, {"arrows": "to", "from": 39, "to": 97}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

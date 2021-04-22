@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-recurring", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-recurring-real", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-recurring-symmetric-real", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-orthogonal-direct-sum", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-coker", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-recurring-symmetric-integer", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-genus", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-irreducible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-diagonal-negative", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-minus-one", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-contract", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-top-genus", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-non-irreducible-minimal-type-genus-at-least-one", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-genus-nonnegative", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-minus-two", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-picard-rank-1", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-picard-T-and-A", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-contract-picard-group", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-picard-group-genus-nonpositive", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-two-by-two", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-three-by-three", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-four-by-four", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-D4", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-five-by-five", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-fourfold", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-D5", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-long", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-Dn", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-E6", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-double-triple", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-E6-completed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-E7", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-E8", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-E7-completed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-E8-completed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-genus-zero", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-genus-one", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-bound-neighbours", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-bound-heart", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-bound-wm", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-closure-is-model", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-normalization", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-regular", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-pre-exists-minimal-model", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-divisor-special-fiber", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "lemma-gorenstein", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-regular-model-connected", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "lemma-regular-model-pic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-intersection-pairing", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-properties-form", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-multiple-fibre-normal-bundle", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-regular-model-field", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 52, "label": "lemma-regular-model-genus", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 53, "label": "lemma-exceptional-curves-dont-meet", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 54, "label": "lemma-minimal-model-unique", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 55, "label": "lemma-minimal-model-mapping-property", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 56, "label": "lemma-add-component", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 57, "label": "lemma-genus-formula", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 58, "label": "lemma-numerical-type-of-model", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 59, "label": "lemma-numerical-type-minimal-model", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 60, "label": "lemma-numerical-type-rational-point", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 61, "label": "lemma-genus-reduction-smaller", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 62, "label": "lemma-genus-reduction-bigger-than", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 63, "label": "lemma-equality-genus-reduction-bigger-than", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 64, "label": "lemma-blowdown-regular-model", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 65, "label": "lemma-nonuniqueness", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 66, "label": "lemma-characterize-trivial", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 67, "label": "lemma-canonical-map-of-pic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 68, "label": "lemma-sequence-torsion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 69, "label": "lemma-torsion-embeds", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 70, "label": "lemma-etale-local-at-worst-nodal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 71, "label": "lemma-blowup-at-worst-nodal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 72, "label": "lemma-blowdown-at-worst-nodal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 73, "label": "lemma-semistable", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 74, "label": "lemma-good", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 75, "label": "theorem-semistable-reduction", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 2, "to": 5}, {"arrows": "to", "from": 3, "to": 5}, {"arrows": "to", "from": 4, "to": 5}, {"arrows": "to", "from": 2, "to": 8}, {"arrows": "to", "from": 8, "to": 9}, {"arrows": "to", "from": 7, "to": 10}, {"arrows": "to", "from": 8, "to": 10}, {"arrows": "to", "from": 9, "to": 12}, {"arrows": "to", "from": 12, "to": 13}, {"arrows": "to", "from": 12, "to": 13}, {"arrows": "to", "from": 8, "to": 14}, {"arrows": "to", "from": 1, "to": 15}, {"arrows": "to", "from": 2, "to": 15}, {"arrows": "to", "from": 12, "to": 18}, {"arrows": "to", "from": 17, "to": 18}, {"arrows": "to", "from": 10, "to": 18}, {"arrows": "to", "from": 12, "to": 35}, {"arrows": "to", "from": 7, "to": 35}, {"arrows": "to", "from": 9, "to": 38}, {"arrows": "to", "from": 14, "to": 38}, {"arrows": "to", "from": 8, "to": 38}, {"arrows": "to", "from": 37, "to": 38}, {"arrows": "to", "from": 37, "to": 39}, {"arrows": "to", "from": 38, "to": 39}, {"arrows": "to", "from": 37, "to": 39}, {"arrows": "to", "from": 26, "to": 39}, {"arrows": "to", "from": 27, "to": 39}, {"arrows": "to", "from": 26, "to": 39}, {"arrows": "to", "from": 26, "to": 39}, {"arrows": "to", "from": 41, "to": 42}, {"arrows": "to", "from": 48, "to": 49}, {"arrows": "to", "from": 44, "to": 49}, {"arrows": "to", "from": 46, "to": 49}, {"arrows": "to", "from": 2, "to": 49}, {"arrows": "to", "from": 44, "to": 50}, {"arrows": "to", "from": 46, "to": 51}, {"arrows": "to", "from": 49, "to": 51}, {"arrows": "to", "from": 51, "to": 52}, {"arrows": "to", "from": 50, "to": 52}, {"arrows": "to", "from": 48, "to": 53}, {"arrows": "to", "from": 49, "to": 53}, {"arrows": "to", "from": 52, "to": 53}, {"arrows": "to", "from": 53, "to": 54}, {"arrows": "to", "from": 43, "to": 55}, {"arrows": "to", "from": 48, "to": 56}, {"arrows": "to", "from": 56, "to": 57}, {"arrows": "to", "from": 49, "to": 57}, {"arrows": "to", "from": 57, "to": 58}, {"arrows": "to", "from": 48, "to": 58}, {"arrows": "to", "from": 49, "to": 58}, {"arrows": "to", "from": 49, "to": 58}, {"arrows": "to", "from": 49, "to": 58}, {"arrows": "to", "from": 57, "to": 58}, {"arrows": "to", "from": 51, "to": 60}, {"arrows": "to", "from": 52, "to": 60}, {"arrows": "to", "from": 51, "to": 61}, {"arrows": "to", "from": 51, "to": 61}, {"arrows": "to", "from": 59, "to": 61}, {"arrows": "to", "from": 58, "to": 62}, {"arrows": "to", "from": 62, "to": 63}, {"arrows": "to", "from": 62, "to": 63}, {"arrows": "to", "from": 59, "to": 65}, {"arrows": "to", "from": 35, "to": 65}, {"arrows": "to", "from": 47, "to": 66}, {"arrows": "to", "from": 49, "to": 66}, {"arrows": "to", "from": 50, "to": 66}, {"arrows": "to", "from": 47, "to": 67}, {"arrows": "to", "from": 47, "to": 68}, {"arrows": "to", "from": 66, "to": 68}, {"arrows": "to", "from": 66, "to": 68}, {"arrows": "to", "from": 70, "to": 71}, {"arrows": "to", "from": 54, "to": 73}, {"arrows": "to", "from": 71, "to": 73}, {"arrows": "to", "from": 43, "to": 73}, {"arrows": "to", "from": 72, "to": 73}, {"arrows": "to", "from": 65, "to": 73}, {"arrows": "to", "from": 46, "to": 74}, {"arrows": "to", "from": 54, "to": 74}, {"arrows": "to", "from": 65, "to": 74}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

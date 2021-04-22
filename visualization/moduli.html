@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-coherent-diagonal-affine-fp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-coherent-qs-lfp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-coherent-existence-part", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-coherent-functorial", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-coherent-open", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-coherent-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-open-P", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-finite-list-perfect-objects", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-quot-diagonal-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-quot-s-lfp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-quot-existence-part", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-quot-functorial", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-quot-open", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-quot-better-open", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-quot-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-quot-quotient", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-quot-tensor-invertible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-quot-power-invertible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-quot-Pn", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-quot-Pn-over-base", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-quot-proper-over-base", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-quot-qc-over-base", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-hilb-diagonal-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-hilb-s-lfp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-hilb-existence-part", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-hilb-open", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-hilb-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-hilb-proper-over-base", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-hilb-qc-over-base", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-pic-diagonal-affine-fp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-pic-qs-lfp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-pic-existence-part", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-pic-inertia", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-pic-curves-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-pic-gerbe-over-pic-functor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-pic-functor-diagonal-qc-immersion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-pic-functor-qs-lfp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-pic-functor-uniqueness-part", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-pic-functor-curves-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-Mor-diagonal-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-Mor-s-lfp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-Isom-in-Mor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-Mor-qc-over-base", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-polarized-diagonal-separated-fp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-polarized-qs-lfp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "lemma-bounded-polarized", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-complexes-diagonal-affine-fp", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "lemma-complexes-qs-lfp", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 0, "to": 1}, {"arrows": "to", "from": 3, "to": 5}, {"arrows": "to", "from": 1, "to": 6}, {"arrows": "to", "from": 6, "to": 7}, {"arrows": "to", "from": 8, "to": 9}, {"arrows": "to", "from": 3, "to": 11}, {"arrows": "to", "from": 3, "to": 13}, {"arrows": "to", "from": 9, "to": 18}, {"arrows": "to", "from": 10, "to": 18}, {"arrows": "to", "from": 16, "to": 19}, {"arrows": "to", "from": 15, "to": 19}, {"arrows": "to", "from": 18, "to": 19}, {"arrows": "to", "from": 14, "to": 20}, {"arrows": "to", "from": 19, "to": 20}, {"arrows": "to", "from": 9, "to": 21}, {"arrows": "to", "from": 17, "to": 21}, {"arrows": "to", "from": 13, "to": 21}, {"arrows": "to", "from": 20, "to": 21}, {"arrows": "to", "from": 8, "to": 22}, {"arrows": "to", "from": 22, "to": 23}, {"arrows": "to", "from": 10, "to": 24}, {"arrows": "to", "from": 15, "to": 26}, {"arrows": "to", "from": 20, "to": 27}, {"arrows": "to", "from": 21, "to": 28}, {"arrows": "to", "from": 0, "to": 29}, {"arrows": "to", "from": 1, "to": 30}, {"arrows": "to", "from": 30, "to": 33}, {"arrows": "to", "from": 29, "to": 35}, {"arrows": "to", "from": 34, "to": 35}, {"arrows": "to", "from": 35, "to": 36}, {"arrows": "to", "from": 34, "to": 36}, {"arrows": "to", "from": 30, "to": 36}, {"arrows": "to", "from": 34, "to": 37}, {"arrows": "to", "from": 33, "to": 38}, {"arrows": "to", "from": 34, "to": 38}, {"arrows": "to", "from": 22, "to": 39}, {"arrows": "to", "from": 39, "to": 40}, {"arrows": "to", "from": 40, "to": 42}, {"arrows": "to", "from": 28, "to": 42}, {"arrows": "to", "from": 40, "to": 43}, {"arrows": "to", "from": 41, "to": 43}, {"arrows": "to", "from": 41, "to": 43}, {"arrows": "to", "from": 42, "to": 43}, {"arrows": "to", "from": 43, "to": 44}, {"arrows": "to", "from": 44, "to": 45}, {"arrows": "to", "from": 27, "to": 45}, {"arrows": "to", "from": 46, "to": 47}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

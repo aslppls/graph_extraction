@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-finite-presentation-module-independent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-p-ring-map", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-lift-elements-ideal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-spec-localization-first", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-finite-type-flat-over-integral-algebra", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-helper-finite-type-flat-finite-presentation", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-relative-effective-cartier-algebra", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-faithfully-flat-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-not-domain", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-bound-primes", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-flat-over-gorenstein-gorenstein-fibre", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-kill-local", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-algebraize-local-cohomology-bis-bis", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-combine-one", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-change-equation-multiply", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-make-integral-less-trivial", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-make-integral-not-in-ideal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-P1", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-rel-prime-pols", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-P1-localize", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-finite-after-localization", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-formally-smooth-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-pullback-K-flat", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-Rlim-of-system", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-trivialities-cohomological-descent-abelian", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-glue-f-upper-shriek", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-lqf-f-upper-shriek-stalk", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-lqf-f-shriek-composition", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-P-not-preserved-base-change", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-equiv", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-cosk-hom-deltak", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-cosk0-hom-deltak", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-stein-projective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-property-irreducible-higher-rank", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-property-higher-rank", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-section-maps-back-into", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-bound-degree-in-nbhd-generic-point", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-factors-through-quotient", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-separated-fpqc", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-sheaf-fpqc-open-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-sheaf-fpqc-quasi-separated", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-reasonable-kolmogorov", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-scheme-very-reasonable", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-very-reasonable-Zariski-local", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-quasi-separated-very-reasonable", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "lemma-representable-very-reasonable", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-very-reasonable-quasi-compact-pieces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "lemma-vanishing-surjective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-vanishing-universally-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-infinite-sequence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-category-fibred", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-equivalence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 52, "label": "lemma-second-equivalence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 53, "label": "lemma-second-equivalence-obs", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 54, "label": "lemma-pseudo-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 55, "label": "lemma-ob-is-obstruction", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 56, "label": "lemma-coherent-defo-thy-general", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 57, "label": "theorem-coherent-algebraic-general", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 58, "label": "lemma-henselian", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 59, "label": "lemma-double-dual-rational", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 60, "label": "lemma-good-blowing-up", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 61, "label": "lemma-gysin-factors-principal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 62, "label": "lemma-push-pull-effective-Cartier", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 63, "label": "lemma-blowing-up-denominators", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 64, "label": "lemma-two-divisors", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 65, "label": "lemma-sum-divisors-associated-Weil", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 66, "label": "lemma-blowing-up-intersections", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 67, "label": "lemma-improved-additivity", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 68, "label": "lemma-commutativity-effective-Cartier-proper-intersection", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 69, "label": "lemma-commutativity-effective-Cartier-proper-intersection-infinite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 70, "label": "lemma-commutativity-effective-Cartier", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 71, "label": "lemma-dualizing-components", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 72, "label": "lemma-directed-colimit-finite-type", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 73, "label": "lemma-points-monomorphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 74, "label": "theorem-equivalence-sheaves-point", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 75, "label": "lemma-locally-ringed-space-direct-summand-free", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 76, "label": "lemma-characterize-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 77, "label": "lemma-periodic-length", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 78, "label": "lemma-examples-have-RS", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 79, "label": "lemma-tangent-and-inf", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 15, "to": 16}, {"arrows": "to", "from": 17, "to": 19}, {"arrows": "to", "from": 18, "to": 19}, {"arrows": "to", "from": 33, "to": 34}, {"arrows": "to", "from": 55, "to": 56}, {"arrows": "to", "from": 56, "to": 57}, {"arrows": "to", "from": 64, "to": 66}, {"arrows": "to", "from": 64, "to": 66}, {"arrows": "to", "from": 64, "to": 66}, {"arrows": "to", "from": 64, "to": 66}, {"arrows": "to", "from": 64, "to": 66}, {"arrows": "to", "from": 64, "to": 66}, {"arrows": "to", "from": 65, "to": 67}, {"arrows": "to", "from": 65, "to": 69}, {"arrows": "to", "from": 68, "to": 69}, {"arrows": "to", "from": 65, "to": 69}, {"arrows": "to", "from": 67, "to": 69}, {"arrows": "to", "from": 68, "to": 69}, {"arrows": "to", "from": 66, "to": 70}, {"arrows": "to", "from": 62, "to": 70}, {"arrows": "to", "from": 69, "to": 70}, {"arrows": "to", "from": 66, "to": 70}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
