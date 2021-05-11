@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-etale-permanence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-stack-in-setoids-descent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-flat-finite-presentation-surjective-diagonal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-second-diagonal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-base-change-limit-preserving", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-composition-limit-preserving", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-representable-by-spaces-limit-preserving", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-open-immersion-limit-preserving", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-check-representable-limit-preserving", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-check-property-limit-preserving", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-base-change-formally-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-composition-formally-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-representable-by-spaces-formally-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-base-change-surjective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-composition-surjective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-representable-by-spaces-surjective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-algebraic-morphism-to-algebraic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-map-from-algebraic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-diagonals-and-algebraic-morphisms", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-surjection-space-of-sections", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-space-of-sections", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-hom-functor-sheaf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-base-change-hom-functor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-etale-covering-hom-functor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "proposition-hom-functor-algebraic-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-restriction-of-scalars-sheaf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-etale-base-change-restriction-of-scalars", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-etale-covering-restriction-of-scalars", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-fibre-diagram", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "proposition-restriction-of-scalars-algebraic-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-map-hilbert", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-cartesian-map-hilbert", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-etale-covering-hilbert", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-etale-map-hilbert", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-relative-hilbert", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-representable-on-top", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-limit-preserving", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-represent-FAd", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "proposition-finite-hilbert-point", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-hilbert-stack-of-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-hilbert-stack-relative-space", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-lci-locus-stack-in-groupoids", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-lci-unobstructed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-lci-formally-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-lci-surjective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "theorem-bootstrap", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-flat-quotient-flat-presentation", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "theorem-flat-groupoid-gives-algebraic-stack", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-quotient-algebraic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-group-quotient-algebraic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-BG-algebraic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-stacks-etale", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 6, "to": 7}, {"arrows": "to", "from": 19, "to": 20}, {"arrows": "to", "from": 21, "to": 22}, {"arrows": "to", "from": 20, "to": 23}, {"arrows": "to", "from": 19, "to": 23}, {"arrows": "to", "from": 22, "to": 24}, {"arrows": "to", "from": 23, "to": 24}, {"arrows": "to", "from": 25, "to": 26}, {"arrows": "to", "from": 20, "to": 27}, {"arrows": "to", "from": 19, "to": 27}, {"arrows": "to", "from": 24, "to": 29}, {"arrows": "to", "from": 28, "to": 29}, {"arrows": "to", "from": 30, "to": 31}, {"arrows": "to", "from": 20, "to": 32}, {"arrows": "to", "from": 19, "to": 32}, {"arrows": "to", "from": 0, "to": 33}, {"arrows": "to", "from": 31, "to": 33}, {"arrows": "to", "from": 32, "to": 33}, {"arrows": "to", "from": 29, "to": 34}, {"arrows": "to", "from": 29, "to": 35}, {"arrows": "to", "from": 37, "to": 38}, {"arrows": "to", "from": 35, "to": 39}, {"arrows": "to", "from": 38, "to": 39}, {"arrows": "to", "from": 39, "to": 40}, {"arrows": "to", "from": 2, "to": 40}, {"arrows": "to", "from": 34, "to": 40}, {"arrows": "to", "from": 42, "to": 43}, {"arrows": "to", "from": 41, "to": 43}, {"arrows": "to", "from": 2, "to": 45}, {"arrows": "to", "from": 40, "to": 45}, {"arrows": "to", "from": 41, "to": 45}, {"arrows": "to", "from": 36, "to": 45}, {"arrows": "to", "from": 43, "to": 45}, {"arrows": "to", "from": 44, "to": 45}, {"arrows": "to", "from": 6, "to": 45}, {"arrows": "to", "from": 12, "to": 45}, {"arrows": "to", "from": 15, "to": 45}, {"arrows": "to", "from": 36, "to": 45}, {"arrows": "to", "from": 41, "to": 45}, {"arrows": "to", "from": 7, "to": 45}, {"arrows": "to", "from": 5, "to": 45}, {"arrows": "to", "from": 43, "to": 45}, {"arrows": "to", "from": 44, "to": 45}, {"arrows": "to", "from": 5, "to": 45}, {"arrows": "to", "from": 11, "to": 45}, {"arrows": "to", "from": 14, "to": 45}, {"arrows": "to", "from": 6, "to": 45}, {"arrows": "to", "from": 12, "to": 45}, {"arrows": "to", "from": 15, "to": 45}, {"arrows": "to", "from": 45, "to": 47}, {"arrows": "to", "from": 46, "to": 47}, {"arrows": "to", "from": 47, "to": 48}, {"arrows": "to", "from": 48, "to": 49}, {"arrows": "to", "from": 48, "to": 49}, {"arrows": "to", "from": 47, "to": 50}, {"arrows": "to", "from": 49, "to": 50}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

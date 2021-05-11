@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-divided-power-envelope", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-divided-power-envelop-quotient", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-describe-divided-power-envelope", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-divided-power-envelope-add-variables", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-flat-base-change-divided-power-envelope", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-flat-extension-divided-power-envelope", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-divided-power-first-order-thickening", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-divided-power-second-order-thickening", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-affine-thickenings-colimits", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-list-properties", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-set-generators", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-generator-completion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-omega", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-diagonal-and-differentials", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-diagonal-and-differentials-affine-site", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-module-differentials-divided-power-envelope", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-differentials-completion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-fibre-product", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-divided-power-thickening-fibre-products", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-divided-power-thickening-base-change-flat", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-compare-big-small", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-localize", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-crystal-quasi-coherent-modules", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-module-differentials-divided-power-scheme", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-module-of-differentials", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-module-of-differentials-on-affine", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-describe-omega-small", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-omega-locally-quasi-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-automatic-connection", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-homotopy-tensor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-structure-Dn", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-property-Dn", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-crystals-on-affine", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "proposition-crystals-on-affine", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-crystals-on-affine-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-vanishing-lqc", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-compare", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-complete", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-category-with-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-vanishing-omega-1", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-vanishing", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-poincare", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-relative-poincare", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "proposition-compute-cohomology", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-cohomology-is-zero", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "proposition-compute-cohomology-crystal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-compute-cohomology-crystal-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "proposition-compare-with-de-Rham", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-find-homotopy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-computation", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-pullback-along-p-power-cover", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-pullback-along-p-power-cover-cohomology", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 52, "label": "lemma-pullback-relative-frobenius", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 53, "label": "theorem-cohomology-F-crystal", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 2, "to": 3}, {"arrows": "to", "from": 2, "to": 5}, {"arrows": "to", "from": 2, "to": 5}, {"arrows": "to", "from": 6, "to": 13}, {"arrows": "to", "from": 13, "to": 14}, {"arrows": "to", "from": 6, "to": 15}, {"arrows": "to", "from": 12, "to": 16}, {"arrows": "to", "from": 8, "to": 17}, {"arrows": "to", "from": 8, "to": 18}, {"arrows": "to", "from": 18, "to": 20}, {"arrows": "to", "from": 10, "to": 20}, {"arrows": "to", "from": 23, "to": 25}, {"arrows": "to", "from": 24, "to": 25}, {"arrows": "to", "from": 25, "to": 26}, {"arrows": "to", "from": 14, "to": 26}, {"arrows": "to", "from": 23, "to": 27}, {"arrows": "to", "from": 24, "to": 27}, {"arrows": "to", "from": 3, "to": 30}, {"arrows": "to", "from": 28, "to": 32}, {"arrows": "to", "from": 28, "to": 32}, {"arrows": "to", "from": 28, "to": 32}, {"arrows": "to", "from": 28, "to": 32}, {"arrows": "to", "from": 30, "to": 32}, {"arrows": "to", "from": 10, "to": 33}, {"arrows": "to", "from": 32, "to": 33}, {"arrows": "to", "from": 32, "to": 33}, {"arrows": "to", "from": 32, "to": 33}, {"arrows": "to", "from": 33, "to": 34}, {"arrows": "to", "from": 18, "to": 36}, {"arrows": "to", "from": 10, "to": 36}, {"arrows": "to", "from": 35, "to": 36}, {"arrows": "to", "from": 29, "to": 39}, {"arrows": "to", "from": 15, "to": 39}, {"arrows": "to", "from": 39, "to": 40}, {"arrows": "to", "from": 29, "to": 40}, {"arrows": "to", "from": 29, "to": 40}, {"arrows": "to", "from": 41, "to": 42}, {"arrows": "to", "from": 36, "to": 43}, {"arrows": "to", "from": 36, "to": 43}, {"arrows": "to", "from": 37, "to": 43}, {"arrows": "to", "from": 37, "to": 43}, {"arrows": "to", "from": 37, "to": 43}, {"arrows": "to", "from": 38, "to": 43}, {"arrows": "to", "from": 11, "to": 43}, {"arrows": "to", "from": 31, "to": 43}, {"arrows": "to", "from": 27, "to": 44}, {"arrows": "to", "from": 43, "to": 44}, {"arrows": "to", "from": 40, "to": 44}, {"arrows": "to", "from": 43, "to": 44}, {"arrows": "to", "from": 40, "to": 45}, {"arrows": "to", "from": 43, "to": 45}, {"arrows": "to", "from": 30, "to": 45}, {"arrows": "to", "from": 42, "to": 45}, {"arrows": "to", "from": 34, "to": 46}, {"arrows": "to", "from": 45, "to": 46}, {"arrows": "to", "from": 42, "to": 46}, {"arrows": "to", "from": 42, "to": 46}, {"arrows": "to", "from": 28, "to": 47}, {"arrows": "to", "from": 21, "to": 47}, {"arrows": "to", "from": 44, "to": 47}, {"arrows": "to", "from": 48, "to": 49}, {"arrows": "to", "from": 2, "to": 49}, {"arrows": "to", "from": 15, "to": 49}, {"arrows": "to", "from": 48, "to": 49}, {"arrows": "to", "from": 49, "to": 50}, {"arrows": "to", "from": 45, "to": 50}, {"arrows": "to", "from": 52, "to": 53}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

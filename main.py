@@ -1,6 +1,7 @@
 import re
 import json
 from glob import glob
+from pathlib import Path
 import typing as tp
 from pyvis.network import Network
 
@@ -56,8 +57,8 @@ def find_cycles(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Set[str]:
 
 def get_all_theorems(file_path: str, visualize=True, save_description=True) -> None:
     file = open(file_path)
-    name = file_path.split("/")[-1][:-4]
-    ref = re.compile(r'\\ref{.*(lemma|theorem).*?}')
+    name = "/".join(file_path.split("/")[1:])[:-4]
+    ref = re.compile(r'\\ref{\b(lemma|theorem|lem|thm|pro)(?:(?!\bref\b).)*?\b}')
     lines = iter(file)
     global line
     line = next(lines)
@@ -83,7 +84,7 @@ def get_all_theorems(file_path: str, visualize=True, save_description=True) -> N
         global line
         global index
 
-        if re.match(r'\\begin{(lemma|theorem)}', line):
+        if re.match(r'\\begin{(lemma|theorem|proposition|pro)}', line):
             lemma_name = ""
             lemma_json = {
                 "start_position": 0,
@@ -91,25 +92,36 @@ def get_all_theorems(file_path: str, visualize=True, save_description=True) -> N
                 "dependencies": []
             }
 
-            line, index = get_next_line()
-            if re.match(r'\\label', line):
-                lemma_name = line[line.find("{") + 1:line.find("}")]
+            if re.search(r'\\label', line):
+                pos = line.find("\label{")
+                lemma_name = line[pos + 7:line[pos:].find("}") + pos]
                 lemma_json["start_position"] = index
-                while not re.match(r'\\begin{proof}', line):
-                    line, index = get_next_line()
-                    if re.match(r'\\begin{(lemma|theorem)}', line):
-                        lemmas_without_proof[lemma_name] = lemma_json
-                        lemmas[lemma_name] = lemma_json
-                        return
+            else:
+                line, index = get_next_line()
+                if re.match(r'\\label', line):
+                    lemma_name = line[line.find("{") + 1:line.find("}")]
+                    lemma_json["start_position"] = index
+                else:
+                    lemma_name = 'unlabeled_' + str(index)
+                    lemma_json["start_position"] = index
 
-                lemma_json["has_proof"] = True
+            while not re.match(r'\\begin{proof}', line):
+                line, index = get_next_line()
+                if re.match(r'\\begin{(lemma|theorem|proposition|pro)}', line):
+                    lemmas_without_proof[lemma_name] = lemma_json
+                    lemmas[lemma_name] = lemma_json
+                    return
 
-                while not re.match(r'\\end{proof}', line):
-                    line, index = get_next_line()
-                    for element in ref.finditer(line):
-                        dep_name = line[element.start() + 5:element.end() - 1]
+            lemma_json["has_proof"] = True
+
+            while not re.match(r'\\end{proof}', line):
+                line, index = get_next_line()
+                for element in ref.finditer(line):
+                    dep_name = line[element.start() + 5:element.end() - 1]
+                    if dep_name != lemma_name:
                         lemma_json["dependencies"].append(dep_name)
             lemmas[lemma_name] = lemma_json
+
         line, index = get_next_line()
 
     while True:
@@ -161,6 +173,9 @@ def get_all_theorems(file_path: str, visualize=True, save_description=True) -> N
                 nt.add_edge(*edge)
 
         if visualize:
+            name_dir = 'visualization/' + "/".join(file_path.split("/")[1:-1])
+            if name_dir != "":
+                Path(name_dir).mkdir(parents=True, exist_ok=True)
             nt.save_graph(f'visualization/{name}.html')
 
 
@@ -181,7 +196,7 @@ if __name__ == '__main__':
             outfile.write("]\n")
 
         # with open("extracted_json_information/lemmas.json", "w") as outfile:
-        #     json.dump(lemmas_without_proof, outfile)
+        #     json.dump(lemmas, outfile)
     else:
         for i, file_path in enumerate(files):
             get_all_theorems(file_path, get_graphs, False)

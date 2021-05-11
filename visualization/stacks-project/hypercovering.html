@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-coprod-prod-SR", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-covering-permanence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-hypercoverings-set", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-hypercovering-F", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-compare-cosk0", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-acyclicity", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-acyclic-hypercover-sheaves", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-hypercovering-acyclic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-h0-cech", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-injective-trivial-cech", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-cech-spectral-sequence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-h0-cech-variant", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-injective-trivial-cech-variant", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-cech-spectral-sequence-variant", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-cech-spectral-sequence-verdier", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-funny-gamma", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-product-hypercoverings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-covering-sheaf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-one-more-simplex", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-add-simplices", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-degeneracy-maps-coverings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-hom-hypercovering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-homotopy", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "theorem-cohomology-hypercoverings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "proposition-cohomology-hypercoverings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-basis-hypercovering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-quasi-separated-quasi-compact-hypercovering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-split", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-hypercovering-object", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-hypercovering-site", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-hypercovering-morphism-sites", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-hypercovering-continuous-functor", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-w-contractible", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 0, "to": 1}, {"arrows": "to", "from": 0, "to": 3}, {"arrows": "to", "from": 4, "to": 5}, {"arrows": "to", "from": 4, "to": 6}, {"arrows": "to", "from": 5, "to": 6}, {"arrows": "to", "from": 6, "to": 7}, {"arrows": "to", "from": 3, "to": 7}, {"arrows": "to", "from": 7, "to": 9}, {"arrows": "to", "from": 8, "to": 9}, {"arrows": "to", "from": 9, "to": 10}, {"arrows": "to", "from": 6, "to": 12}, {"arrows": "to", "from": 11, "to": 12}, {"arrows": "to", "from": 12, "to": 13}, {"arrows": "to", "from": 13, "to": 14}, {"arrows": "to", "from": 1, "to": 15}, {"arrows": "to", "from": 1, "to": 15}, {"arrows": "to", "from": 15, "to": 16}, {"arrows": "to", "from": 15, "to": 17}, {"arrows": "to", "from": 1, "to": 17}, {"arrows": "to", "from": 1, "to": 17}, {"arrows": "to", "from": 17, "to": 18}, {"arrows": "to", "from": 1, "to": 19}, {"arrows": "to", "from": 19, "to": 20}, {"arrows": "to", "from": 1, "to": 21}, {"arrows": "to", "from": 20, "to": 21}, {"arrows": "to", "from": 15, "to": 23}, {"arrows": "to", "from": 15, "to": 23}, {"arrows": "to", "from": 15, "to": 23}, {"arrows": "to", "from": 15, "to": 23}, {"arrows": "to", "from": 22, "to": 23}, {"arrows": "to", "from": 15, "to": 23}, {"arrows": "to", "from": 20, "to": 23}, {"arrows": "to", "from": 10, "to": 24}, {"arrows": "to", "from": 8, "to": 24}, {"arrows": "to", "from": 10, "to": 24}, {"arrows": "to", "from": 10, "to": 24}, {"arrows": "to", "from": 17, "to": 24}, {"arrows": "to", "from": 10, "to": 24}, {"arrows": "to", "from": 10, "to": 24}, {"arrows": "to", "from": 10, "to": 24}, {"arrows": "to", "from": 10, "to": 24}, {"arrows": "to", "from": 24, "to": 25}, {"arrows": "to", "from": 24, "to": 25}, {"arrows": "to", "from": 24, "to": 25}, {"arrows": "to", "from": 26, "to": 27}, {"arrows": "to", "from": 26, "to": 29}, {"arrows": "to", "from": 28, "to": 29}, {"arrows": "to", "from": 28, "to": 29}, {"arrows": "to", "from": 29, "to": 30}, {"arrows": "to", "from": 29, "to": 30}, {"arrows": "to", "from": 0, "to": 30}, {"arrows": "to", "from": 31, "to": 32}, {"arrows": "to", "from": 27, "to": 33}, {"arrows": "to", "from": 29, "to": 33}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

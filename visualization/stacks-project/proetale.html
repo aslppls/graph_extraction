@@ -1,0 +1,204 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+        #loadingBar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width: 100%;
+            height: 900px;
+            background-color:rgba(200,200,200,0.8);
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -ms-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+            opacity:1;
+        }
+
+        #bar {
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:20px;
+            height:20px;
+            margin:auto auto auto auto;
+            border-radius:11px;
+            border:2px solid rgba(30,30,30,0.05);
+            background: rgb(0, 173, 246); /* Old browsers */
+            box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+        }
+
+        #border {
+            position:absolute;
+            top:10px;
+            left:10px;
+            width:500px;
+            height:23px;
+            margin:auto auto auto auto;
+            box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+            border-radius:10px;
+        }
+
+        #text {
+            position:absolute;
+            top:8px;
+            left:530px;
+            width:30px;
+            height:50px;
+            margin:auto auto auto auto;
+            font-size:22px;
+            color: #000000;
+        }
+
+        div.outerBorder {
+            position:relative;
+            top:400px;
+            width:600px;
+            height:44px;
+            margin:auto auto auto auto;
+            border:8px solid rgba(0,0,0,0.1);
+            background: rgb(252,252,252); /* Old browsers */
+            background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+            border-radius:72px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+<div id="loadingBar">
+    <div class="outerBorder">
+        <div id="text">0%</div>
+        <div id="border">
+            <div id="bar"></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-spectral-split", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-closed-subspace-w-local", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-silly", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-base-change-local-isomorphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-composition-local-isomorphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-local-isomorphism-permanence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-local-isomorphism-implies", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-structure-local-isomorphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-fully-faithful-spaces-over-X", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-local-isomorphism-fully-faithful", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-base-change-ind-zariski", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-composition-ind-zariski", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-ind-zariski-permanence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-ind-ind-zariski", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-ind-zariski-implies", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-localization", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-refine", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-make-w-local", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-universal", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-profinite-goes-up", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-localize-along-closed-profinite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-w-local-algebraic-residue-field-extensions", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-construct", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-construct-profinite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-w-local-morphism-equal-points-stalks-is-iso", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-w-local-morphism-equal-stalks-is-ind-zariski", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "proposition-maps-wich-identify-local-rings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-w-local-extremally-disconnected", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-find-Zariski-w-contractible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-base-change-ind-etale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-composition-ind-etale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-ind-ind-etale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-ind-etale-permanence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-ind-etale-implies", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-lift-ind-etale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-first-construction", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-have-sections-quotient", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-have-sections-strictly-henselian", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-have-sections-localize", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-get-w-local-algebraic-residue-field-extensions", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "proposition-weakly-etale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-pro-V-V", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-pro-h-V", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-h-limit-preserving", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-w-local-strictly-henselian-extremally-disconnected", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "proposition-find-w-contractible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-finite-finitely-presented-over-extremally-disconnected", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "lemma-finite-finitely-presented-over-w-contractible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-localization-w-contractible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-recognize-proetale-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-etale-proetale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-proetale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 52, "label": "lemma-proetale-affine", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 53, "label": "lemma-verify-site-proetale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 54, "label": "lemma-fibre-products-proetale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 55, "label": "lemma-affine-big-site-proetale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 56, "label": "lemma-put-in-T", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 57, "label": "lemma-at-the-bottom", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 58, "label": "lemma-morphism-big", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 59, "label": "lemma-morphism-big-small", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 60, "label": "lemma-composition-proetale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 61, "label": "lemma-morphism-big-small-cartesian-diagram", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 62, "label": "lemma-characterize-sheaf-big", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 63, "label": "lemma-alternative", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 64, "label": "lemma-affine-alternative", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 65, "label": "lemma-proetale-subcanonical", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 66, "label": "lemma-w-contractible-proetale-cover", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 67, "label": "lemma-w-contractible-is-weakly-contractible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 68, "label": "lemma-get-many-weakly-contractible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 69, "label": "lemma-proetale-enough-w-contractible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 70, "label": "lemma-weakly-contractible-cover", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 71, "label": "lemma-w-contractible-hypercovering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 72, "label": "lemma-compute-cohomology", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 73, "label": "lemma-quasi-compact-quasi-separated-commutes-direct-sums", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 74, "label": "lemma-enough-compact-proetale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 75, "label": "lemma-presheaf-value-weakly-contractible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 76, "label": "lemma-small-pullback-weakly-contractible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 77, "label": "lemma-describe-pullback", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 78, "label": "lemma-compare-injectives", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 79, "label": "lemma-compare-higher-direct-image", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 80, "label": "lemma-compare-cohomology-big-small", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 81, "label": "lemma-cohomological-descent-proetale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 82, "label": "lemma-points-proetale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 83, "label": "lemma-cofinal-etale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 84, "label": "lemma-geometric-lift-to-cover", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 85, "label": "lemma-classical-point", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 86, "label": "lemma-limit-pullback", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 87, "label": "lemma-fully-faithful", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 88, "label": "lemma-affine-vanishing", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 89, "label": "lemma-relative-comparison", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 90, "label": "lemma-compare-cohomology", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 91, "label": "lemma-compare-cohomology-nonabelian", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 92, "label": "lemma-compare-derived", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 93, "label": "lemma-compare-locally-constant", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 94, "label": "lemma-compare-locally-constant-derived", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 95, "label": "lemma-compare-truncations", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 96, "label": "lemma-naive-completion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 97, "label": "lemma-pushforward-Noetherian-case", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 98, "label": "proposition-enough-weakly-contractibles", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 99, "label": "lemma-more-general-point", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 100, "label": "lemma-morphism-comparison", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 101, "label": "lemma-finite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 102, "label": "lemma-closed-immersion-affines", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 103, "label": "lemma-closed-immersion-affines-apply", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 104, "label": "lemma-closed-immersion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 105, "label": "lemma-thickening", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 106, "label": "lemma-compute-i-star", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 107, "label": "lemma-closed-immersion-complement-retrocompact-exact", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 108, "label": "lemma-jshriek-comparison", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 109, "label": "lemma-jshriek-zero", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 110, "label": "lemma-open-immersion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 111, "label": "lemma-ses-associated-to-open", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 112, "label": "lemma-j-shriek-limits", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 113, "label": "lemma-compare-constructible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 114, "label": "lemma-constructible-serre", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 115, "label": "lemma-compare-constructible-derived", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 116, "label": "lemma-tensor-c", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 117, "label": "lemma-compare-truncations-constructible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 118, "label": "lemma-Noetherian-constructible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 119, "label": "lemma-weird", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 120, "label": "lemma-connected-lisse", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 121, "label": "lemma-Noetherian-adic-constructible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 122, "label": "lemma-derived-complete-zero", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 123, "label": "lemma-derived-complete-limit", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 124, "label": "lemma-describe-constructible-complexes", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 125, "label": "lemma-local-structure-constructible-complex", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 126, "label": "lemma-weakly-contractible-locally-constant-ML", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 127, "label": "lemma-connected-adic-lisse", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 128, "label": "proposition-Noetherian-adic-constructible", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 129, "label": "theorem-proper-base-change", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 130, "label": "lemma-proetale-induced", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 131, "label": "lemma-proetale-cohomology-independent-partial-universe", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 132, "label": "lemma-change-alpha", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 133, "label": "lemma-cohomology-enlarge-partial-universe", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 0, "to": 2}, {"arrows": "to", "from": 8, "to": 9}, {"arrows": "to", "from": 8, "to": 18}, {"arrows": "to", "from": 17, "to": 20}, {"arrows": "to", "from": 15, "to": 20}, {"arrows": "to", "from": 9, "to": 20}, {"arrows": "to", "from": 19, "to": 21}, {"arrows": "to", "from": 20, "to": 21}, {"arrows": "to", "from": 22, "to": 23}, {"arrows": "to", "from": 9, "to": 23}, {"arrows": "to", "from": 14, "to": 23}, {"arrows": "to", "from": 2, "to": 23}, {"arrows": "to", "from": 23, "to": 25}, {"arrows": "to", "from": 2, "to": 25}, {"arrows": "to", "from": 9, "to": 25}, {"arrows": "to", "from": 14, "to": 25}, {"arrows": "to", "from": 24, "to": 25}, {"arrows": "to", "from": 17, "to": 26}, {"arrows": "to", "from": 18, "to": 26}, {"arrows": "to", "from": 5, "to": 26}, {"arrows": "to", "from": 25, "to": 26}, {"arrows": "to", "from": 17, "to": 26}, {"arrows": "to", "from": 11, "to": 26}, {"arrows": "to", "from": 26, "to": 27}, {"arrows": "to", "from": 21, "to": 27}, {"arrows": "to", "from": 22, "to": 27}, {"arrows": "to", "from": 24, "to": 27}, {"arrows": "to", "from": 17, "to": 27}, {"arrows": "to", "from": 1, "to": 27}, {"arrows": "to", "from": 23, "to": 27}, {"arrows": "to", "from": 17, "to": 28}, {"arrows": "to", "from": 23, "to": 28}, {"arrows": "to", "from": 2, "to": 28}, {"arrows": "to", "from": 27, "to": 28}, {"arrows": "to", "from": 32, "to": 34}, {"arrows": "to", "from": 31, "to": 35}, {"arrows": "to", "from": 17, "to": 39}, {"arrows": "to", "from": 35, "to": 39}, {"arrows": "to", "from": 37, "to": 39}, {"arrows": "to", "from": 21, "to": 39}, {"arrows": "to", "from": 21, "to": 39}, {"arrows": "to", "from": 21, "to": 39}, {"arrows": "to", "from": 39, "to": 40}, {"arrows": "to", "from": 26, "to": 40}, {"arrows": "to", "from": 41, "to": 42}, {"arrows": "to", "from": 42, "to": 43}, {"arrows": "to", "from": 40, "to": 44}, {"arrows": "to", "from": 21, "to": 44}, {"arrows": "to", "from": 27, "to": 44}, {"arrows": "to", "from": 37, "to": 44}, {"arrows": "to", "from": 27, "to": 44}, {"arrows": "to", "from": 39, "to": 45}, {"arrows": "to", "from": 23, "to": 45}, {"arrows": "to", "from": 2, "to": 45}, {"arrows": "to", "from": 44, "to": 45}, {"arrows": "to", "from": 19, "to": 46}, {"arrows": "to", "from": 44, "to": 47}, {"arrows": "to", "from": 46, "to": 47}, {"arrows": "to", "from": 49, "to": 50}, {"arrows": "to", "from": 49, "to": 51}, {"arrows": "to", "from": 49, "to": 53}, {"arrows": "to", "from": 52, "to": 55}, {"arrows": "to", "from": 54, "to": 56}, {"arrows": "to", "from": 54, "to": 56}, {"arrows": "to", "from": 56, "to": 57}, {"arrows": "to", "from": 56, "to": 58}, {"arrows": "to", "from": 51, "to": 59}, {"arrows": "to", "from": 54, "to": 59}, {"arrows": "to", "from": 58, "to": 60}, {"arrows": "to", "from": 59, "to": 60}, {"arrows": "to", "from": 56, "to": 61}, {"arrows": "to", "from": 58, "to": 61}, {"arrows": "to", "from": 63, "to": 64}, {"arrows": "to", "from": 40, "to": 64}, {"arrows": "to", "from": 49, "to": 65}, {"arrows": "to", "from": 52, "to": 66}, {"arrows": "to", "from": 66, "to": 67}, {"arrows": "to", "from": 50, "to": 67}, {"arrows": "to", "from": 45, "to": 67}, {"arrows": "to", "from": 65, "to": 67}, {"arrows": "to", "from": 67, "to": 68}, {"arrows": "to", "from": 45, "to": 68}, {"arrows": "to", "from": 45, "to": 68}, {"arrows": "to", "from": 68, "to": 69}, {"arrows": "to", "from": 68, "to": 70}, {"arrows": "to", "from": 49, "to": 70}, {"arrows": "to", "from": 49, "to": 70}, {"arrows": "to", "from": 68, "to": 70}, {"arrows": "to", "from": 68, "to": 70}, {"arrows": "to", "from": 70, "to": 71}, {"arrows": "to", "from": 68, "to": 71}, {"arrows": "to", "from": 71, "to": 73}, {"arrows": "to", "from": 72, "to": 73}, {"arrows": "to", "from": 68, "to": 74}, {"arrows": "to", "from": 67, "to": 75}, {"arrows": "to", "from": 75, "to": 76}, {"arrows": "to", "from": 56, "to": 77}, {"arrows": "to", "from": 70, "to": 77}, {"arrows": "to", "from": 76, "to": 77}, {"arrows": "to", "from": 56, "to": 78}, {"arrows": "to", "from": 78, "to": 79}, {"arrows": "to", "from": 78, "to": 79}, {"arrows": "to", "from": 61, "to": 79}, {"arrows": "to", "from": 61, "to": 79}, {"arrows": "to", "from": 78, "to": 80}, {"arrows": "to", "from": 55, "to": 82}, {"arrows": "to", "from": 63, "to": 82}, {"arrows": "to", "from": 86, "to": 87}, {"arrows": "to", "from": 30, "to": 88}, {"arrows": "to", "from": 29, "to": 88}, {"arrows": "to", "from": 52, "to": 88}, {"arrows": "to", "from": 40, "to": 88}, {"arrows": "to", "from": 86, "to": 88}, {"arrows": "to", "from": 87, "to": 88}, {"arrows": "to", "from": 88, "to": 89}, {"arrows": "to", "from": 87, "to": 89}, {"arrows": "to", "from": 89, "to": 90}, {"arrows": "to", "from": 87, "to": 91}, {"arrows": "to", "from": 40, "to": 91}, {"arrows": "to", "from": 52, "to": 91}, {"arrows": "to", "from": 86, "to": 91}, {"arrows": "to", "from": 87, "to": 92}, {"arrows": "to", "from": 89, "to": 92}, {"arrows": "to", "from": 91, "to": 93}, {"arrows": "to", "from": 92, "to": 94}, {"arrows": "to", "from": 93, "to": 94}, {"arrows": "to", "from": 92, "to": 95}, {"arrows": "to", "from": 96, "to": 97}, {"arrows": "to", "from": 96, "to": 97}, {"arrows": "to", "from": 96, "to": 98}, {"arrows": "to", "from": 40, "to": 100}, {"arrows": "to", "from": 86, "to": 100}, {"arrows": "to", "from": 86, "to": 100}, {"arrows": "to", "from": 45, "to": 101}, {"arrows": "to", "from": 47, "to": 101}, {"arrows": "to", "from": 34, "to": 102}, {"arrows": "to", "from": 34, "to": 102}, {"arrows": "to", "from": 64, "to": 103}, {"arrows": "to", "from": 102, "to": 103}, {"arrows": "to", "from": 69, "to": 103}, {"arrows": "to", "from": 103, "to": 104}, {"arrows": "to", "from": 64, "to": 105}, {"arrows": "to", "from": 64, "to": 105}, {"arrows": "to", "from": 103, "to": 106}, {"arrows": "to", "from": 105, "to": 107}, {"arrows": "to", "from": 101, "to": 107}, {"arrows": "to", "from": 100, "to": 108}, {"arrows": "to", "from": 15, "to": 109}, {"arrows": "to", "from": 15, "to": 111}, {"arrows": "to", "from": 109, "to": 111}, {"arrows": "to", "from": 106, "to": 111}, {"arrows": "to", "from": 48, "to": 111}, {"arrows": "to", "from": 111, "to": 112}, {"arrows": "to", "from": 104, "to": 112}, {"arrows": "to", "from": 87, "to": 113}, {"arrows": "to", "from": 111, "to": 113}, {"arrows": "to", "from": 108, "to": 113}, {"arrows": "to", "from": 87, "to": 113}, {"arrows": "to", "from": 108, "to": 113}, {"arrows": "to", "from": 100, "to": 113}, {"arrows": "to", "from": 113, "to": 114}, {"arrows": "to", "from": 92, "to": 114}, {"arrows": "to", "from": 114, "to": 115}, {"arrows": "to", "from": 92, "to": 115}, {"arrows": "to", "from": 113, "to": 115}, {"arrows": "to", "from": 115, "to": 116}, {"arrows": "to", "from": 116, "to": 117}, {"arrows": "to", "from": 114, "to": 117}, {"arrows": "to", "from": 113, "to": 118}, {"arrows": "to", "from": 93, "to": 120}, {"arrows": "to", "from": 119, "to": 120}, {"arrows": "to", "from": 118, "to": 121}, {"arrows": "to", "from": 120, "to": 121}, {"arrows": "to", "from": 98, "to": 122}, {"arrows": "to", "from": 96, "to": 123}, {"arrows": "to", "from": 98, "to": 123}, {"arrows": "to", "from": 122, "to": 123}, {"arrows": "to", "from": 117, "to": 124}, {"arrows": "to", "from": 115, "to": 124}, {"arrows": "to", "from": 124, "to": 125}, {"arrows": "to", "from": 98, "to": 125}, {"arrows": "to", "from": 123, "to": 125}, {"arrows": "to", "from": 122, "to": 125}, {"arrows": "to", "from": 124, "to": 127}, {"arrows": "to", "from": 126, "to": 127}, {"arrows": "to", "from": 127, "to": 128}, {"arrows": "to", "from": 96, "to": 129}, {"arrows": "to", "from": 97, "to": 129}, {"arrows": "to", "from": 96, "to": 129}, {"arrows": "to", "from": 97, "to": 129}, {"arrows": "to", "from": 92, "to": 129}, {"arrows": "to", "from": 100, "to": 129}, {"arrows": "to", "from": 68, "to": 130}, {"arrows": "to", "from": 66, "to": 130}, {"arrows": "to", "from": 54, "to": 131}, {"arrows": "to", "from": 130, "to": 131}, {"arrows": "to", "from": 130, "to": 132}, {"arrows": "to", "from": 132, "to": 133}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+        network.on("stabilizationProgress", function(params) {
+      		document.getElementById('loadingBar').removeAttribute("style");
+	        var maxWidth = 496;
+	        var minWidth = 20;
+	        var widthFactor = params.iterations/params.total;
+	        var width = Math.max(minWidth,maxWidth * widthFactor);
+
+	        document.getElementById('bar').style.width = width + 'px';
+	        document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+	    });
+	    network.once("stabilizationIterationsDone", function() {
+	        document.getElementById('text').innerHTML = '100%';
+	        document.getElementById('bar').style.width = '496px';
+	        document.getElementById('loadingBar').style.opacity = 0;
+	        // really clean the dom element
+	        setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+	    });
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

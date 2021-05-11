@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-huge-diagram", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-existence-lci", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-choices", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-extensions-of-rings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-strict-morphism-thickenings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-inf-map", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-inf-obs-map", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-inf-ext", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-inf-obs-ext", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-inf-map-special", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-deform-module", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-inf-map-rel", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-inf-obs-map-special", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-inf-obs-map-rel", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-inf-ext-rel", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-inf-obs-ext-rel", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-flat", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-verify-iv", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-huge-diagram-ringed-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-NL-represent-ext-class", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-choices-ringed-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-extensions-of-ringed-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-deform", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-inf-map-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-inf-obs-map-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-inf-ext-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-inf-obs-ext-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-inf-map-special-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-deform-module-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-deform-fp-module-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-inf-map-rel-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-inf-obs-map-special-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-inf-obs-map-rel-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-inf-ext-rel-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-inf-obs-ext-rel-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-flat-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-functorial-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-verify-iv-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-huge-diagram-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-NL-represent-ext-class-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-choices-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-extensions-of-ringed-topoi", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-match-thickenings", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-deform-spaces", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-thickening-space-quasi-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "lemma-thickening-over-thickening-space-quasi-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-canonical-class-algebra", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "lemma-lift-complex", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-canonical-class", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-induced-map", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-canonical-class-obstruction", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-lift-map-complexes", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 52, "label": "lemma-inf-obs-map-defo-complex", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 53, "label": "lemma-first-order-defos-complex", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 0, "to": 2}, {"arrows": "to", "from": 2, "to": 3}, {"arrows": "to", "from": 0, "to": 3}, {"arrows": "to", "from": 2, "to": 3}, {"arrows": "to", "from": 0, "to": 3}, {"arrows": "to", "from": 7, "to": 8}, {"arrows": "to", "from": 5, "to": 9}, {"arrows": "to", "from": 9, "to": 11}, {"arrows": "to", "from": 10, "to": 11}, {"arrows": "to", "from": 9, "to": 12}, {"arrows": "to", "from": 12, "to": 13}, {"arrows": "to", "from": 10, "to": 13}, {"arrows": "to", "from": 10, "to": 13}, {"arrows": "to", "from": 10, "to": 14}, {"arrows": "to", "from": 7, "to": 14}, {"arrows": "to", "from": 10, "to": 14}, {"arrows": "to", "from": 10, "to": 15}, {"arrows": "to", "from": 8, "to": 15}, {"arrows": "to", "from": 15, "to": 16}, {"arrows": "to", "from": 14, "to": 16}, {"arrows": "to", "from": 11, "to": 16}, {"arrows": "to", "from": 10, "to": 17}, {"arrows": "to", "from": 0, "to": 18}, {"arrows": "to", "from": 18, "to": 20}, {"arrows": "to", "from": 19, "to": 20}, {"arrows": "to", "from": 20, "to": 21}, {"arrows": "to", "from": 18, "to": 21}, {"arrows": "to", "from": 20, "to": 21}, {"arrows": "to", "from": 18, "to": 21}, {"arrows": "to", "from": 10, "to": 22}, {"arrows": "to", "from": 20, "to": 22}, {"arrows": "to", "from": 18, "to": 22}, {"arrows": "to", "from": 25, "to": 26}, {"arrows": "to", "from": 23, "to": 27}, {"arrows": "to", "from": 28, "to": 29}, {"arrows": "to", "from": 27, "to": 30}, {"arrows": "to", "from": 28, "to": 30}, {"arrows": "to", "from": 27, "to": 31}, {"arrows": "to", "from": 31, "to": 32}, {"arrows": "to", "from": 28, "to": 32}, {"arrows": "to", "from": 28, "to": 32}, {"arrows": "to", "from": 28, "to": 33}, {"arrows": "to", "from": 25, "to": 33}, {"arrows": "to", "from": 28, "to": 33}, {"arrows": "to", "from": 28, "to": 34}, {"arrows": "to", "from": 26, "to": 34}, {"arrows": "to", "from": 34, "to": 35}, {"arrows": "to", "from": 33, "to": 35}, {"arrows": "to", "from": 30, "to": 35}, {"arrows": "to", "from": 28, "to": 37}, {"arrows": "to", "from": 18, "to": 38}, {"arrows": "to", "from": 0, "to": 38}, {"arrows": "to", "from": 38, "to": 40}, {"arrows": "to", "from": 39, "to": 40}, {"arrows": "to", "from": 40, "to": 41}, {"arrows": "to", "from": 38, "to": 41}, {"arrows": "to", "from": 40, "to": 41}, {"arrows": "to", "from": 38, "to": 41}, {"arrows": "to", "from": 42, "to": 43}, {"arrows": "to", "from": 28, "to": 43}, {"arrows": "to", "from": 40, "to": 43}, {"arrows": "to", "from": 38, "to": 43}, {"arrows": "to", "from": 38, "to": 44}, {"arrows": "to", "from": 40, "to": 44}, {"arrows": "to", "from": 44, "to": 45}, {"arrows": "to", "from": 47, "to": 48}, {"arrows": "to", "from": 47, "to": 48}, {"arrows": "to", "from": 49, "to": 50}, {"arrows": "to", "from": 49, "to": 50}, {"arrows": "to", "from": 52, "to": 53}, {"arrows": "to", "from": 51, "to": 53}, {"arrows": "to", "from": 50, "to": 53}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

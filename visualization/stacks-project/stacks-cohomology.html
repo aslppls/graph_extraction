@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-flat-pullback-quasi-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-general-pushforward", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "lemma-general-pushforward-fppf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-check-lqc-on-etale-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-pushforward-locally-quasi-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-check-lqc-on-flat-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-check-flat-comparison-on-etale-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-flat-comparison", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "proposition-lcq-flat-base-change", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-check-lqc-fbc-on-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-parasitic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-pushforward-parasitic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-exact-sequence-quasi-coherent-parasitic-cohomology", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-adjoint", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-adjoint-kernel-parasitic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "proposition-direct-image-quasi-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-leray", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-relative-leray", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "proposition-smooth-covering-compute-cohomology", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "proposition-smooth-covering-compute-direct-image", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-lisse-etale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-lisse-etale-modules", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-lisse-etale-structure-sheaf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-parasitic-in-terms-flat-fppf", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-lisse-etale-functorial", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-check-qc-on-etale-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-shriek-quasi-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-quasi-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-quasi-coherent-weak-serre", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 1, "to": 2}, {"arrows": "to", "from": 1, "to": 4}, {"arrows": "to", "from": 3, "to": 4}, {"arrows": "to", "from": 4, "to": 5}, {"arrows": "to", "from": 1, "to": 7}, {"arrows": "to", "from": 1, "to": 7}, {"arrows": "to", "from": 3, "to": 7}, {"arrows": "to", "from": 6, "to": 7}, {"arrows": "to", "from": 4, "to": 7}, {"arrows": "to", "from": 7, "to": 8}, {"arrows": "to", "from": 6, "to": 8}, {"arrows": "to", "from": 7, "to": 8}, {"arrows": "to", "from": 6, "to": 8}, {"arrows": "to", "from": 3, "to": 9}, {"arrows": "to", "from": 6, "to": 9}, {"arrows": "to", "from": 5, "to": 9}, {"arrows": "to", "from": 8, "to": 9}, {"arrows": "to", "from": 8, "to": 9}, {"arrows": "to", "from": 8, "to": 9}, {"arrows": "to", "from": 10, "to": 11}, {"arrows": "to", "from": 10, "to": 11}, {"arrows": "to", "from": 10, "to": 11}, {"arrows": "to", "from": 1, "to": 11}, {"arrows": "to", "from": 0, "to": 12}, {"arrows": "to", "from": 13, "to": 14}, {"arrows": "to", "from": 13, "to": 14}, {"arrows": "to", "from": 12, "to": 14}, {"arrows": "to", "from": 10, "to": 14}, {"arrows": "to", "from": 8, "to": 15}, {"arrows": "to", "from": 13, "to": 15}, {"arrows": "to", "from": 12, "to": 15}, {"arrows": "to", "from": 8, "to": 15}, {"arrows": "to", "from": 8, "to": 15}, {"arrows": "to", "from": 11, "to": 15}, {"arrows": "to", "from": 14, "to": 15}, {"arrows": "to", "from": 14, "to": 16}, {"arrows": "to", "from": 11, "to": 16}, {"arrows": "to", "from": 8, "to": 17}, {"arrows": "to", "from": 14, "to": 17}, {"arrows": "to", "from": 11, "to": 17}, {"arrows": "to", "from": 20, "to": 21}, {"arrows": "to", "from": 20, "to": 24}, {"arrows": "to", "from": 24, "to": 26}, {"arrows": "to", "from": 25, "to": 26}, {"arrows": "to", "from": 21, "to": 26}, {"arrows": "to", "from": 22, "to": 26}, {"arrows": "to", "from": 26, "to": 27}, {"arrows": "to", "from": 20, "to": 27}, {"arrows": "to", "from": 14, "to": 27}, {"arrows": "to", "from": 23, "to": 27}, {"arrows": "to", "from": 21, "to": 28}, {"arrows": "to", "from": 26, "to": 28}, {"arrows": "to", "from": 20, "to": 28}, {"arrows": "to", "from": 27, "to": 28}, {"arrows": "to", "from": 27, "to": 28}, {"arrows": "to", "from": 25, "to": 28}, {"arrows": "to", "from": 24, "to": 28}, {"arrows": "to", "from": 8, "to": 28}, {"arrows": "to", "from": 27, "to": 28}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

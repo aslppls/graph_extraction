@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "blue", "id": 0, "label": "lemma-map-families", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "lemma-zariski-descent-effective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "proposition-fpqc-descent-quasi-coherent", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "lemma-finite-type-descends", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "lemma-finite-presentation-descends", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "lemma-flat-descends", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "lemma-finite-locally-free-descends", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "lemma-locally-projective-descends", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "lemma-finite-over-finite-module", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "lemma-finite-finitely-presented-module", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "lemma-open-fpqc-covering", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "lemma-fpqc-universal-effective-epimorphisms", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "lemma-curiosity", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "lemma-flat-finitely-presented-permanence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "lemma-syntomic-smooth-etale-permanence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "lemma-smooth-permanence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "lemma-syntomic-permanence", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "lemma-descend-unibranch", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "lemma-descend-reduced", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "lemma-descend-locally-Noetherian", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "lemma-descend-regular", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "lemma-pullback-property-local-target", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "lemma-largest-open-of-the-base", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "lemma-descending-properties-morphisms", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "lemma-descending-property-quasi-compact", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "lemma-descending-property-quasi-separated", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "lemma-descending-property-universally-closed", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "lemma-descending-property-universally-open", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "lemma-descending-property-universally-submersive", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 29, "label": "lemma-descending-property-surjective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 30, "label": "lemma-descending-property-universally-injective", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 31, "label": "lemma-descending-property-universal-homeomorphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 32, "label": "lemma-descending-property-locally-finite-type", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 33, "label": "lemma-descending-property-locally-finite-presentation", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 34, "label": "lemma-descending-property-finite-type", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 35, "label": "lemma-descending-property-finite-presentation", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 36, "label": "lemma-descending-property-flat", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 37, "label": "lemma-descending-property-open-immersion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 38, "label": "lemma-descending-property-isomorphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 39, "label": "lemma-descending-property-affine", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 40, "label": "lemma-descending-property-closed-immersion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 41, "label": "lemma-descending-property-separated", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 42, "label": "lemma-descending-property-proper", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 43, "label": "lemma-descending-property-quasi-affine", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 44, "label": "lemma-descending-property-quasi-compact-immersion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 45, "label": "lemma-descending-property-integral", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 46, "label": "lemma-descending-property-finite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 47, "label": "lemma-descending-property-quasi-finite", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 48, "label": "lemma-descending-property-syntomic", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 49, "label": "lemma-descending-property-smooth", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 50, "label": "lemma-descending-property-unramified", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 51, "label": "lemma-descending-property-etale", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 52, "label": "lemma-descending-property-finite-locally-free", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 53, "label": "lemma-descending-property-monomorphism", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 54, "label": "lemma-descending-fppf-property-immersion", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 55, "label": "lemma-descending-fppf-property-locally-separated", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 56, "label": "lemma-descending-property-ample", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 57, "label": "lemma-ample-in-neighbourhood", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 58, "label": "lemma-precompose-property-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 59, "label": "lemma-transfer-from-schemes", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 60, "label": "lemma-flat-fpqc-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 61, "label": "lemma-locally-finite-presentation-fppf-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 62, "label": "lemma-locally-finite-type-fppf-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 63, "label": "lemma-open-fppf-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 64, "label": "lemma-universally-open-fppf-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 65, "label": "lemma-syntomic-syntomic-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 66, "label": "lemma-smooth-smooth-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 67, "label": "lemma-etale-etale-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 68, "label": "lemma-locally-quasi-finite-etale-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 69, "label": "lemma-unramified-etale-local-source", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 70, "label": "lemma-local-source-target-implies", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 71, "label": "lemma-local-source-target-characterize", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 72, "label": "lemma-smooth-local-source-target", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 73, "label": "lemma-etale-smooth-local-source-target-implies", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 74, "label": "lemma-etale-smooth-local-source-target-characterize", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 75, "label": "lemma-etale-smooth-local-source-target", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 76, "label": "lemma-family-is-one", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 77, "label": "lemma-pullback", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 78, "label": "lemma-pullback-family", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 79, "label": "lemma-descent-data-sheaves", "shape": "dot"}, {"borderWidth": 4, "color": "green", "id": 80, "label": "properties-lemma-characterize-regular", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 0, "to": 2}, {"arrows": "to", "from": 0, "to": 2}, {"arrows": "to", "from": 0, "to": 2}, {"arrows": "to", "from": 12, "to": 13}, {"arrows": "to", "from": 19, "to": 20}, {"arrows": "to", "from": 80, "to": 20}, {"arrows": "to", "from": 21, "to": 22}, {"arrows": "to", "from": 23, "to": 24}, {"arrows": "to", "from": 24, "to": 25}, {"arrows": "to", "from": 23, "to": 26}, {"arrows": "to", "from": 26, "to": 27}, {"arrows": "to", "from": 26, "to": 28}, {"arrows": "to", "from": 23, "to": 30}, {"arrows": "to", "from": 26, "to": 31}, {"arrows": "to", "from": 29, "to": 31}, {"arrows": "to", "from": 30, "to": 31}, {"arrows": "to", "from": 27, "to": 31}, {"arrows": "to", "from": 23, "to": 32}, {"arrows": "to", "from": 23, "to": 33}, {"arrows": "to", "from": 24, "to": 34}, {"arrows": "to", "from": 32, "to": 34}, {"arrows": "to", "from": 24, "to": 35}, {"arrows": "to", "from": 25, "to": 35}, {"arrows": "to", "from": 33, "to": 35}, {"arrows": "to", "from": 23, "to": 36}, {"arrows": "to", "from": 23, "to": 37}, {"arrows": "to", "from": 29, "to": 38}, {"arrows": "to", "from": 37, "to": 38}, {"arrows": "to", "from": 23, "to": 39}, {"arrows": "to", "from": 38, "to": 39}, {"arrows": "to", "from": 23, "to": 40}, {"arrows": "to", "from": 39, "to": 40}, {"arrows": "to", "from": 40, "to": 41}, {"arrows": "to", "from": 26, "to": 42}, {"arrows": "to", "from": 41, "to": 42}, {"arrows": "to", "from": 34, "to": 42}, {"arrows": "to", "from": 23, "to": 43}, {"arrows": "to", "from": 38, "to": 43}, {"arrows": "to", "from": 23, "to": 44}, {"arrows": "to", "from": 43, "to": 44}, {"arrows": "to", "from": 26, "to": 45}, {"arrows": "to", "from": 39, "to": 45}, {"arrows": "to", "from": 32, "to": 46}, {"arrows": "to", "from": 45, "to": 46}, {"arrows": "to", "from": 24, "to": 47}, {"arrows": "to", "from": 23, "to": 47}, {"arrows": "to", "from": 23, "to": 48}, {"arrows": "to", "from": 23, "to": 49}, {"arrows": "to", "from": 23, "to": 50}, {"arrows": "to", "from": 23, "to": 51}, {"arrows": "to", "from": 46, "to": 52}, {"arrows": "to", "from": 36, "to": 52}, {"arrows": "to", "from": 33, "to": 52}, {"arrows": "to", "from": 38, "to": 53}, {"arrows": "to", "from": 41, "to": 54}, {"arrows": "to", "from": 47, "to": 54}, {"arrows": "to", "from": 54, "to": 55}, {"arrows": "to", "from": 24, "to": 56}, {"arrows": "to", "from": 41, "to": 56}, {"arrows": "to", "from": 37, "to": 56}, {"arrows": "to", "from": 56, "to": 57}, {"arrows": "to", "from": 59, "to": 60}, {"arrows": "to", "from": 59, "to": 61}, {"arrows": "to", "from": 59, "to": 62}, {"arrows": "to", "from": 59, "to": 63}, {"arrows": "to", "from": 59, "to": 64}, {"arrows": "to", "from": 59, "to": 65}, {"arrows": "to", "from": 59, "to": 66}, {"arrows": "to", "from": 59, "to": 67}, {"arrows": "to", "from": 59, "to": 68}, {"arrows": "to", "from": 59, "to": 69}, {"arrows": "to", "from": 70, "to": 71}, {"arrows": "to", "from": 70, "to": 71}, {"arrows": "to", "from": 58, "to": 72}, {"arrows": "to", "from": 21, "to": 72}, {"arrows": "to", "from": 73, "to": 74}, {"arrows": "to", "from": 73, "to": 74}, {"arrows": "to", "from": 58, "to": 75}, {"arrows": "to", "from": 21, "to": 75}, {"arrows": "to", "from": 77, "to": 78}, {"arrows": "to", "from": 76, "to": 78}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
