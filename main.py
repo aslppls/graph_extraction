@@ -4,61 +4,41 @@ from glob import glob
 from pathlib import Path
 import typing as tp
 from pyvis.network import Network
+from algorithms import *
 
-lemmas_without_proof = {}
+# Getting all possible 'theorem' and 'lemma' reductions that can be used as markers
+theorem_words = get_substrings('theorem')
+lemma_words = get_substrings('lemma')
+theorem_words.extend(lemma_words)
+
+# Getting all needed regex
+statement_begin_regex = re.compile(r"\\begin{(" + '|'.join(theorem_words) + ")}")
+statement_end_regex = re.compile(r"\\end{(" + '|'.join(theorem_words) + ")}")
+proof_begin_regex = re.compile(r"\\begin{proof}")
+proof_end_regex = re.compile(r"\\end{proof}")
+reference_regex = re.compile(r"\\ref{[^}]*}")
+
 line = ""
 index = 0
 
 
-def get_graph(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Dict[str, tp.List[str]]:
-    new_graph: tp.Dict[str, tp.List[str]] = {}
-
-    for node in graph:
-        for parent_node in graph[node]["dependencies"]:
-            if parent_node in new_graph:
-                new_graph[parent_node].append(node)
-            else:
-                new_graph[parent_node] = [node]
-        if node not in new_graph:
-            new_graph[node] = []
-
-    return new_graph
-
-
-def find_cycles(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Set[str]:
-    new_graph = get_graph(graph)
-    visited: tp.Dict[str, bool] = {key: False for key in new_graph}
-    stack: tp.Dict[str, bool] = {key: False for key in new_graph}
-    nodes_in_cycles: tp.Set[str] = set()
-
-    def in_cycle(node: str) -> bool:
-        visited[node] = True
-        stack[node] = True
-        flag = False
-
-        for child_node in new_graph[node]:
-            if not visited[child_node] and in_cycle(child_node):
-                nodes_in_cycles.add(child_node)
-                nodes_in_cycles.add(node)
-                flag = True
-            elif stack[child_node]:
-                nodes_in_cycles.add(node)
-                flag = True
-
-        stack[node] = False
-        return flag
-
-    for node in new_graph:
-        if not visited[node]:
-            in_cycle(node)
-
-    return nodes_in_cycles
-
-
+#TODO: make code more readable
+#TODO: fix indexes
+#TODO: match->search
+#TODO: add cite processing
+#TODO: make more options: get graph of current theorem parents
 def get_all_theorems(file_path: str, visualize=True, save_description=True) -> None:
+    """
+
+    :param file_path: path to the file being processed
+    :param visualize: True if save visualized graphs
+    :param save_description: Get basic information about graph
+    :return:
+    """
+
     file = open(file_path)
     name = "/".join(file_path.split("/")[1:])[:-4]
-    ref = re.compile(r'\\ref{\b(lemma|theorem|lem|thm|pro)(?:(?!\bref\b).)*?\b}')
+
     lines = iter(file)
     global line
     line = next(lines)
@@ -84,7 +64,7 @@ def get_all_theorems(file_path: str, visualize=True, save_description=True) -> N
         global line
         global index
 
-        if re.match(r'\\begin{(lemma|theorem|proposition|pro)}', line):
+        if statement_begin_regex.search(line):
             lemma_name = ""
             lemma_json = {
                 "start_position": 0,
@@ -92,31 +72,30 @@ def get_all_theorems(file_path: str, visualize=True, save_description=True) -> N
                 "dependencies": []
             }
 
-            if re.search(r'\\label', line):
-                pos = line.find("\label{")
-                lemma_name = line[pos + 7:line[pos:].find("}") + pos]
+            if re.search('label{', line):
+                pos = line.find("label{")
+                lemma_name = line[pos + 6:line[pos:].find("}") + pos]
                 lemma_json["start_position"] = index
             else:
                 line, index = get_next_line()
-                if re.match(r'\\label', line):
+                if re.match(r'label{', line):
                     lemma_name = line[line.find("{") + 1:line.find("}")]
                     lemma_json["start_position"] = index
                 else:
                     lemma_name = 'unlabeled_' + str(index)
                     lemma_json["start_position"] = index
 
-            while not re.match(r'\\begin{proof}', line):
+            while not proof_begin_regex.search(line):
                 line, index = get_next_line()
-                if re.match(r'\\begin{(lemma|theorem|proposition|pro)}', line):
-                    lemmas_without_proof[lemma_name] = lemma_json
+                if statement_begin_regex.search(line):
                     lemmas[lemma_name] = lemma_json
                     return
 
             lemma_json["has_proof"] = True
 
-            while not re.match(r'\\end{proof}', line):
+            while not proof_end_regex.search(line):
                 line, index = get_next_line()
-                for element in ref.finditer(line):
+                for element in reference_regex.finditer(line):
                     dep_name = line[element.start() + 5:element.end() - 1]
                     if dep_name != lemma_name:
                         lemma_json["dependencies"].append(dep_name)
