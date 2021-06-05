@@ -80,7 +80,6 @@ class LatexToGraph:
             except StopIteration:
                 break
 
-    # TODO: add cite processing
     # TODO: make more options: get graph of current theorem parents
     def get_all_theorems(self, file_path: str) -> None:
         """
@@ -234,6 +233,9 @@ class LatexToGraph:
             nt.save_graph(f'visualization/{self.file_name}.html')
 
 
+# TODO: add parameters
+# TODO: add graph analysis
+# TODO: add elements statistics
 if __name__ == '__main__':
     tex_files_directory = 'sources_tex'
 
