@@ -6,7 +6,7 @@ def get_graph(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Dict[str, tp.List
     new_graph: tp.Dict[str, tp.List[str]] = {}
 
     for node in graph:
-        for parent_node in graph[node]["dependencies"]:
+        for parent_node in graph[node]["dependent_on"]:
             if parent_node in new_graph:
                 new_graph[parent_node].append(node)
             else:
@@ -57,15 +57,15 @@ def powerset(iterable):
     return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
 
 
-def get_substrings(word: str) -> list:
+def get_substrings(word: str) -> tp.Set[str]:
     """
     Get all possible word reductions
     :param word:
     :return:
     """
     first_letter, word = word[0], word[1:]
-    result = []
+    result = set()
     for element in powerset(word):
-        result.append(first_letter + ''.join(element))
-        result.append(first_letter.upper() + ''.join(element))
-    return result
+        result.add(first_letter + ''.join(element))
+        result.add(first_letter.upper() + ''.join(element))
+    return {word for word in result if len(word) >= 3}

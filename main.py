@@ -2,180 +2,240 @@ import re
 import json
 from glob import glob
 from pathlib import Path
-import typing as tp
 from pyvis.network import Network
 from algorithms import *
 
-# Getting all possible 'theorem' and 'lemma' reductions that can be used as markers
-theorem_words = get_substrings('theorem')
-lemma_words = get_substrings('lemma')
-theorem_words.extend(lemma_words)
 
-# Getting all needed regex
-statement_begin_regex = re.compile(r"\\begin{(" + '|'.join(theorem_words) + ")}")
-statement_end_regex = re.compile(r"\\end{(" + '|'.join(theorem_words) + ")}")
-proof_begin_regex = re.compile(r"\\begin{proof}")
-proof_end_regex = re.compile(r"\\end{proof}")
-reference_regex = re.compile(r"\\ref{[^}]*}")
+class LatexToGraph:
+    def __init__(self, tex_files_directory: str, additional_words: tp.Optional[tp.List[str]] = None):
+        self.structures_words = ['theorem', 'lemma', 'claim', 'corollary', 'proposition']
 
-line = ""
-index = 0
+        if additional_words:
+            self.structures_words.extend(additional_words)
 
+        self.extended_words: tp.Set[str] = set()
+        for word in self.structures_words:
+            self.extended_words.update(get_substrings(word))
 
-#TODO: make code more readable
-#TODO: fix indexes
-#TODO: match->search
-#TODO: add cite processing
-#TODO: make more options: get graph of current theorem parents
-def get_all_theorems(file_path: str, visualize=True, save_description=True) -> None:
-    """
+        self.extended_words.add('Th')
+        if 'proof' in self.extended_words:
+            self.extended_words.remove('proof')
+        if 'example' in self.extended_words:
+            self.extended_words.remove('example')
 
-    :param file_path: path to the file being processed
-    :param visualize: True if save visualized graphs
-    :param save_description: Get basic information about graph
-    :return:
-    """
+        self.newtheorem = "\\newtheorem{"
+        self.statement_begin_regex = re.compile(r"\\begin{(" + '|'.join(self.extended_words) + ")}")
+        self.statement_end_regex = re.compile(r"\\end{(" + '|'.join(self.extended_words) + ")}")
+        self.proof_begin_regex = re.compile(r"\\begin{(proof|pf)}")
+        self.proof_end_regex = re.compile(r"\\end{(proof|pf)}")
+        self.reference_regex = re.compile(r"\\ref{(" + '|'.join(self.extended_words) + ")[^}]*}")
+        self.equation_regex = re.compile(r"\\begin{(equation|eq)}")
+        self.equation_reference_regex = re.compile(r"\\eqref{[^}]*}")
 
-    file = open(file_path)
-    name = "/".join(file_path.split("/")[1:])[:-4]
+        self.file_path = tex_files_directory
+        self.files = glob(self.file_path + '**/*.tex', recursive=True)
+        self.lines: tp.Iterable
+        self.line = ""
+        self.current_index = 0
 
-    lines = iter(file)
-    global line
-    line = next(lines)
-    global index
+        self.elements: tp.Dict[str, tp.Dict[str, tp.Any]] = {}
+        self.file_name = ""
 
-    global lemmas_without_proof
-    lemmas: tp.Dict[str, tp.Dict[str, tp.Any]] = {}
+    def create_graph(self):
+        for file in self.files:
+            self.get_labels_from_newtheorem(file)
+            self.line = ""
+            self.current_index = 0
 
-    description: tp.Dict[str, tp.Any] = {
-        "most_important": [],
-        "number_of_child": 0,
-        "most_dependable": [],
-        "number_of_parents": 0,
-        "name": file_path.split("/")[-1]
-    }
+            self.get_all_theorems(file)
+            self.get_graph()
 
-    def get_next_line() -> tp.Tuple[tp.Any, int]:
-        global index
-        index += 1
-        return next(lines), index
+    def __get_next_line(self) -> None:
+        self.line = next(self.lines)
+        self.current_index += 1
 
-    def get_one_theorem() -> None:
-        global line
-        global index
+        while self.line.isspace():
+            self.line = next(self.lines)
+            self.current_index += 1
 
-        if statement_begin_regex.search(line):
-            lemma_name = ""
-            lemma_json = {
-                "start_position": 0,
-                "has_proof": False,
-                "dependencies": []
-            }
+    def get_labels_from_newtheorem(self, file_path: str):
+        """
+        Get all naming of elements from \newtheorem{}
+        :param file_path:
+        :return:
+        """
 
-            if re.search('label{', line):
-                pos = line.find("label{")
-                lemma_name = line[pos + 6:line[pos:].find("}") + pos]
-                lemma_json["start_position"] = index
-            else:
-                line, index = get_next_line()
-                if re.match(r'label{', line):
-                    lemma_name = line[line.find("{") + 1:line.find("}")]
-                    lemma_json["start_position"] = index
+        file = open(file_path)
+        self.lines = iter(file)
+
+        while True:
+            try:
+                self.__get_next_line()
+
+                if self.line.find(self.newtheorem) != -1 and self.line.find('}'):
+                    position = self.line.find(self.newtheorem)
+                    naming = self.line[position + len(self.newtheorem):self.line.find('}') + position]
+
+                    self.extended_words.add(naming)
+            except StopIteration:
+                break
+
+    # TODO: add cite processing
+    # TODO: make more options: get graph of current theorem parents
+    def get_all_theorems(self, file_path: str) -> None:
+        """
+
+        :param file_path: path to the file being processed
+        :return:
+        """
+
+        file = open(file_path)
+        self.lines = iter(file)
+
+        self.file_name = "/".join(file_path.split("/")[1:])[:-4]
+        equations: tp.Dict[str, str] = {}
+
+        graph_description: tp.Dict[str, tp.Any] = {
+            "most_important": [],
+            "number_of_child": 0,
+            "most_dependable": [],
+            "number_of_parents": 0,
+            "name": file_path.split("/")[-1]
+        }
+
+        default_element_description = {
+            "start_position": 0,
+            "dependent_on": []
+        }
+
+        self.__get_next_line()
+
+        def get_one_theorem() -> None:
+            # если нашли начало доказательства, которое идёт не строго за формулировкой
+            if self.proof_begin_regex.search(self.line) and self.reference_regex.search(self.line):
+                element_name = ""
+                for element in self.reference_regex.finditer(self.line):
+                    element_name = self.line[element.start() + 5:element.end() - 1]
+                    break
+                while not self.proof_end_regex.search(self.line):
+                    self.__get_next_line()
+
+                    for element in self.reference_regex.finditer(self.line):
+                        dependency_name = self.line[element.start() + 5:element.end() - 1]
+                        if dependency_name != element_name:
+                            self.elements[element_name]["dependent_on"].append(dependency_name)
+            # если нашли начало формулировки
+            elif self.statement_begin_regex.search(self.line):
+                element_name = ""
+
+                element_description = {
+                    "start_position": 0,
+                    "dependent_on": [],
+                    "is_cite": False
+                }
+
+                # trying to find label in current line
+                if re.search('label{', self.line):
+                    pos = self.line.find("label{")
+                    element_name = self.line[pos + 6:self.line[pos:].find("}") + pos]
+                    element_description["start_position"] = self.current_index
+
+                    if self.line.find("\cite") != -1:
+                        element_description["is_cite"] = True
+
+                # trying to find label in next line
                 else:
-                    lemma_name = 'unlabeled_' + str(index)
-                    lemma_json["start_position"] = index
+                    self.__get_next_line()
 
-            while not proof_begin_regex.search(line):
-                line, index = get_next_line()
-                if statement_begin_regex.search(line):
-                    lemmas[lemma_name] = lemma_json
-                    return
+                    if re.search('label{', self.line):
+                        pos = self.line.find("label{")
+                        element_name = self.line[pos + 6:self.line[pos:].find("}") + pos]
+                        element_description["start_position"] = self.current_index
 
-            lemma_json["has_proof"] = True
+                        if self.line.find("\cite") != -1:
+                            element_description["is_cite"] = True
 
-            while not proof_end_regex.search(line):
-                line, index = get_next_line()
-                for element in reference_regex.finditer(line):
-                    dep_name = line[element.start() + 5:element.end() - 1]
-                    if dep_name != lemma_name:
-                        lemma_json["dependencies"].append(dep_name)
-            lemmas[lemma_name] = lemma_json
+                    # if no label found, create default name
+                    else:
+                        element_name = 'unlabeled_' + str(self.current_index - 1)
+                        element_description["start_position"] = self.current_index - 1
 
-        line, index = get_next_line()
+                # trying to find proof
+                while not self.proof_begin_regex.search(self.line):
+                    self.__get_next_line()
 
-    while True:
-        try:
-            get_one_theorem()
-        except StopIteration:
-            break
+                    # if got not proof but new statement
+                    if self.statement_begin_regex.search(self.line):
+                        self.elements[element_name] = element_description
+                        return
 
-    if save_description:
-        for lemma in lemmas:
-            if description["number_of_child"] < len(lemmas[lemma]["dependencies"]):
-                description["number_of_child"] = len(lemmas[lemma]["dependencies"])
-                description["most_important"] = [lemma]
-            elif description["number_of_child"] == len(lemmas[lemma]["dependencies"]):
-                description["most_important"].append(lemma)
-            elif description["number_of_parents"] < len(lemmas[lemma]["dependencies"]):
-                description["number_of_parents"] = len(lemmas[lemma]["dependencies"])
-                description["most_dependable"] = [lemma]
-            elif description["number_of_parents"] == len(lemmas[lemma]["dependencies"]):
-                description["most_dependable"].append(lemma)
+                while not self.proof_end_regex.search(self.line):
+                    self.__get_next_line()
 
-        with open("extracted_json_information/files_description.json", "a") as outfile:
-            json.dump(description, outfile)
-        with open("extracted_json_information/files_description.json", "a") as outfile:
-            outfile.write(",\n")
+                    if self.equation_regex.search(self.line):
+                        if self.line.find("label{") != -1:
+                            pos = self.line.find("label{")
+                            eq_name = self.line[pos + 6:self.line[pos:].find("}") + pos]
+                            equations[eq_name] = element_name
 
-    in_cycle = find_cycles(lemmas)
+                    for element in self.reference_regex.finditer(self.line):
+                        dependency_name = self.line[element.start() + 5:element.end() - 1]
+                        if dependency_name != element_name:
+                            element_description["dependent_on"].append(dependency_name)
 
-    if lemmas:
-        node_style = {"borderWidth": 4, "color": "blue"}
+                    for element in self.equation_reference_regex.finditer(self.line):
+                        x, y = element.start(), element.end()
+                        dependency_name = self.line[element.start() + 7:element.end() - 1]
+                        if dependency_name in equations and equations[dependency_name] != element_name:
+                            element_description["dependent_on"].append(equations[dependency_name])
 
-        nt = Network(height='900px', width='100%', directed=True)
-        all_lemmas: tp.Dict[str, int] = {}
+                self.elements[element_name] = element_description
 
-        for i, node in enumerate(lemmas):
-            node_style["color"] = "blue"
-            if node in in_cycle:
-                node_style["color"] = "red"
-            nt.add_node(i, node, **node_style)
-            all_lemmas[node] = i
+            self.__get_next_line()
 
-        for child_node in lemmas:
-            for parent_node in lemmas[child_node]["dependencies"]:
-                if parent_node not in lemmas and parent_node not in all_lemmas:
-                    all_lemmas[parent_node] = len(all_lemmas)
-                    node_style["color"] = "green"
-                    nt.add_node(len(all_lemmas) - 1, parent_node, **node_style)
-                edge = (all_lemmas[parent_node], all_lemmas[child_node])
-                nt.add_edge(*edge)
+        while True:
+            try:
+                get_one_theorem()
+            except StopIteration:
+                break
 
-        if visualize:
-            name_dir = 'visualization/' + "/".join(file_path.split("/")[1:-1])
+    def get_graph(self):
+        in_cycle = find_cycles(self.elements)
+
+        if self.elements:
+            node_style = {"borderWidth": 4, "color": "blue"}
+
+            nt = Network(height='900px', width='100%', directed=True)
+            all_lemmas: tp.Dict[str, int] = {}
+
+            for i, node in enumerate(self.elements):
+                node_style["color"] = "blue"
+                if node in in_cycle:
+                    node_style["color"] = "red"
+
+                if self.elements[node]["is_cite"]:
+                    node_style["color"] = "orange"
+
+                nt.add_node(i, node, **node_style)
+                all_lemmas[node] = i
+
+            for child_node in self.elements:
+                for parent_node in self.elements[child_node]["dependent_on"]:
+                    if parent_node not in self.elements and parent_node not in all_lemmas:
+                        all_lemmas[parent_node] = len(all_lemmas)
+                        node_style["color"] = "green"
+                        nt.add_node(len(all_lemmas) - 1, parent_node, **node_style)
+                    edge = (all_lemmas[parent_node], all_lemmas[child_node])
+                    nt.add_edge(*edge)
+
+            name_dir = 'visualization/' + "/".join(self.file_path.split("/")[1:-1])
             if name_dir != "":
                 Path(name_dir).mkdir(parents=True, exist_ok=True)
-            nt.save_graph(f'visualization/{name}.html')
+            nt.save_graph(f'visualization/{self.file_name}.html')
 
 
 if __name__ == '__main__':
-    save_descr = False
-    get_graphs = True
-    tex_files_directory = 'sources_tex/'
-    files = glob(tex_files_directory + '**/*.tex', recursive=True)
+    tex_files_directory = 'sources_tex/small_folder'
 
-    if save_descr:
-        with open("extracted_json_information/files_description.json", "w") as outfile:
-            outfile.write("[\n")
-
-        for i, file_path in enumerate(files):
-            get_all_theorems(file_path, get_graphs, True)
-
-        with open("extracted_json_information/files_description.json", "a") as outfile:
-            outfile.write("]\n")
-
-        # with open("extracted_json_information/lemmas.json", "w") as outfile:
-        #     json.dump(lemmas, outfile)
-    else:
-        for i, file_path in enumerate(files):
-            get_all_theorems(file_path, get_graphs, False)
+    ltg = LatexToGraph(tex_files_directory)
+    ltg.create_graph()
