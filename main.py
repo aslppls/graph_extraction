@@ -235,7 +235,7 @@ class LatexToGraph:
 
 
 if __name__ == '__main__':
-    tex_files_directory = 'sources_tex/small_folder'
+    tex_files_directory = 'sources_tex'
 
     ltg = LatexToGraph(tex_files_directory)
     ltg.create_graph()
