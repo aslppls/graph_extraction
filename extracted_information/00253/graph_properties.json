@@ -1,0 +1,1 @@
+{"vertex_with_most_in_degree": ["mainthm"], "max_in_degree": 5, "vertex_with_most_out_degree": ["Holm"], "max_out_degree": 2, "mean_vertex_degree": 0.8888888888888888, "median_vertex_degree": 1, "mean_vertex_degree_without_isolated": 1.1428571428571428, "median_vertex_degree_without_isolated": 1}

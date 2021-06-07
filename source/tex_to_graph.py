@@ -35,6 +35,8 @@ class FileInfo:
         """
         file = open(self.file_path)
         self.lines = iter(file)
+        self.line = ""
+        self.current_index = 0
 
     def get_next_line(self) -> None:
         """
@@ -138,8 +140,9 @@ class FileInfo:
 
         degrees_non_zero = [degree for degree in degrees if degree != 0]
 
-        graph_properties["mean_vertex_degree_without_isolated"] = sum(degrees_non_zero) / len(degrees_non_zero)
-        graph_properties["median_vertex_degree_without_isolated"] = median(degrees_non_zero)
+        if len(degrees_non_zero) != 0:
+            graph_properties["mean_vertex_degree_without_isolated"] = sum(degrees_non_zero) / len(degrees_non_zero)
+            graph_properties["median_vertex_degree_without_isolated"] = median(degrees_non_zero)
 
         with open(self.name_dir + 'graph_properties.json', "w") as output_file:
             json.dump(graph_properties, output_file)
@@ -148,12 +151,12 @@ class FileInfo:
 class TexToGraph:
     def __init__(self, tex_files_directory: str = "source_files/",
                  extracted_info_directory: str = "extracted_information/",
-                 additional_statement_words: tp.Optional[tp.List[str]] = None,
-                 unwanted_statement_words: tp.Optional[tp.List[str]] = None,
-                 additional_begin_statement_commands: tp.Optional[tp.List[str]] = None,
-                 additional_end_statement_commands: tp.Optional[tp.List[str]] = None,
-                 additional_begin_proof_commands: tp.Optional[tp.List[str]] = None,
-                 additional_end_proof_commands: tp.Optional[tp.List[str]] = None):
+                 additional_statement_words: tp.Optional[tp.Set[str]] = None,
+                 unwanted_statement_words: tp.Optional[tp.Set[str]] = None,
+                 additional_begin_statement_commands: tp.Optional[tp.Set[str]] = None,
+                 additional_end_statement_commands: tp.Optional[tp.Set[str]] = None,
+                 additional_begin_proof_commands: tp.Optional[tp.Set[str]] = None,
+                 additional_end_proof_commands: tp.Optional[tp.Set[str]] = None):
 
         """
 
@@ -181,7 +184,7 @@ class TexToGraph:
             self.extended_words.update(get_substrings(word))
 
         if additional_statement_words:
-            self.structures_words.extend(additional_statement_words)
+            self.extended_words.update(additional_statement_words)
 
         if unwanted_statement_words:
             for word in unwanted_statement_words:
@@ -194,10 +197,11 @@ class TexToGraph:
 
         if additional_begin_statement_commands:
             self.statement_begin_regex = re.compile(
-                r"\\(begin{(" + '|'.join(self.extended_words) + ")})|" + '|'.join(additional_begin_statement_commands))
+                r"\\(begin{(" + '|'.join(self.extended_words) + "[^}]*)})|" + '|'.join(
+                    additional_begin_statement_commands))
         else:
             self.statement_begin_regex = re.compile(
-                r"\\(begin{(" + '|'.join(self.extended_words) + ")})")
+                r"\\(begin{(" + '|'.join(self.extended_words) + "[^}]*)})")
 
         if additional_end_statement_commands:
             self.statement_end_regex = re.compile(
@@ -217,6 +221,7 @@ class TexToGraph:
             self.proof_end_regex = re.compile(r"\\end{(proof|pf)}")
 
         self.reference_regex = re.compile(r"\\ref{(" + '|'.join(self.extended_words) + ")[^}]*}")
+        self.short_reference_regex = re.compile(r"\\ref{[^}]*}")
         self.equation_regex = re.compile(r"\\begin{(equation|eq)}")
         self.equation_reference_regex = re.compile(r"\\eqref{[^}]*}")
 
@@ -275,18 +280,30 @@ class TexToGraph:
 
         def get_one_theorem() -> None:
             # if proof was found that doesn't strictly follow the statement
-            if self.proof_begin_regex.search(file.line) and self.reference_regex.search(file.line):
+            if self.proof_begin_regex.search(file.line) and self.short_reference_regex.search(file.line):
                 element_name = ""
-                for element in self.reference_regex.finditer(file.line):
+                for element in self.short_reference_regex.finditer(file.line):
                     element_name = file.line[element.start() + 5:element.end() - 1]
                     break
                 while not self.proof_end_regex.search(file.line):
                     file.get_next_line()
 
-                    for element in self.reference_regex.finditer(file.line):
+                    for element in self.short_reference_regex.finditer(file.line):
                         dependency_name = file.line[element.start() + 5:element.end() - 1]
-                        if dependency_name != element_name:
+
+                        if dependency_name != element_name and dependency_name in file.elements:
                             file.elements[element_name]["dependent_on"].append(dependency_name)
+
+                    if self.equation_regex.search(file.line):
+                        if file.line.find("label{") != -1:
+                            pos = file.line.find("label{")
+                            eq_name = file.line[pos + 6:file.line[pos:].find("}") + pos]
+                            equations[eq_name] = element_name
+
+                    for element in self.equation_reference_regex.finditer(file.line):
+                        dependency_name = file.line[element.start() + 7:element.end() - 1]
+                        if dependency_name in equations and equations[dependency_name] != element_name:
+                            file.elements[element_name]["dependent_on"].append(equations[dependency_name])
             # if statement found
             elif self.statement_begin_regex.search(file.line):
                 element_name = ""
@@ -298,13 +315,13 @@ class TexToGraph:
                 }
 
                 # trying to find label in current line
+                if file.line.find("\cite") != -1:
+                    element_description["is_cite"] = True
+
                 if re.search('label{', file.line):
                     pos = file.line.find("label{")
                     element_name = file.line[pos + 6:file.line[pos:].find("}") + pos]
                     element_description["start_position"] = file.current_index
-
-                    if file.line.find("\cite") != -1:
-                        element_description["is_cite"] = True
 
                 # trying to find label in next line
                 else:
@@ -332,8 +349,19 @@ class TexToGraph:
                         file.elements[element_name] = element_description
                         return
 
+                # if proof was found that doesn't strictly follow the statement
+                if self.proof_begin_regex.search(file.line) and self.short_reference_regex.search(file.line):
+                    file.elements[element_name] = element_description
+                    return
+
                 while not self.proof_end_regex.search(file.line):
                     file.get_next_line()
+
+                    for element in self.short_reference_regex.finditer(file.line):
+                        dependency_name = file.line[element.start() + 5:element.end() - 1]
+
+                        if dependency_name != element_name and dependency_name in file.elements:
+                            element_description["dependent_on"].append(dependency_name)
 
                     if self.equation_regex.search(file.line):
                         if file.line.find("label{") != -1:
@@ -341,13 +369,7 @@ class TexToGraph:
                             eq_name = file.line[pos + 6:file.line[pos:].find("}") + pos]
                             equations[eq_name] = element_name
 
-                    for element in self.reference_regex.finditer(file.line):
-                        dependency_name = file.line[element.start() + 5:element.end() - 1]
-                        if dependency_name != element_name:
-                            element_description["dependent_on"].append(dependency_name)
-
                     for element in self.equation_reference_regex.finditer(file.line):
-                        x, y = element.start(), element.end()
                         dependency_name = file.line[element.start() + 7:element.end() - 1]
                         if dependency_name in equations and equations[dependency_name] != element_name:
                             element_description["dependent_on"].append(equations[dependency_name])
