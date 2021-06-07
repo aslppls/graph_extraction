@@ -1,0 +1,15 @@
+{
+  "vertex_with_most_in_degree": [
+    "lemma-separable-trace-pairing"
+  ],
+  "max_in_degree": 8,
+  "vertex_with_most_out_degree": [
+    "lemma-multiplicativity-degrees",
+    "lemma-characterize-normal"
+  ],
+  "max_out_degree": 7,
+  "mean_vertex_degree": 1.4216867469879517,
+  "median_vertex_degree": 1,
+  "mean_vertex_degree_without_isolated": 2.0701754385964914,
+  "median_vertex_degree_without_isolated": 1
+}

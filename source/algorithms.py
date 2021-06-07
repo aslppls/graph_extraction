@@ -17,10 +17,24 @@ def get_graph(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Dict[str, tp.List
     return new_graph
 
 
-def find_cycles(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Set[str]:
-    new_graph = get_graph(graph)
-    visited: tp.Dict[str, bool] = {key: False for key in new_graph}
-    stack: tp.Dict[str, bool] = {key: False for key in new_graph}
+def get_matrix_graph(graph: tp.Dict[str, tp.List[str]]) -> tp.Dict[str, tp.Dict[str, tp.List[str]]]:
+    new_graph: tp.Dict[str, tp.Dict[str, tp.List[str]]] = {}
+
+    for element, values in graph.items():
+        new_graph[element] = {}
+        new_graph[element]["children"] = values
+        new_graph[element]["parents"] = []
+
+    for element, values in graph.items():
+        for child in values:
+            new_graph[child]["parents"].append(element)
+
+    return new_graph
+
+
+def find_cycles(graph: tp.Dict[str, tp.List[str]]) -> tp.Set[str]:
+    visited: tp.Dict[str, bool] = {key: False for key in graph}
+    stack: tp.Dict[str, bool] = {key: False for key in graph}
     nodes_in_cycles: tp.Set[str] = set()
 
     def in_cycle(node: str) -> bool:
@@ -28,7 +42,7 @@ def find_cycles(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Set[str]:
         stack[node] = True
         flag = False
 
-        for child_node in new_graph[node]:
+        for child_node in graph[node]:
             if not visited[child_node] and in_cycle(child_node):
                 nodes_in_cycles.add(child_node)
                 nodes_in_cycles.add(node)
@@ -40,7 +54,7 @@ def find_cycles(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Set[str]:
         stack[node] = False
         return flag
 
-    for node in new_graph:
+    for node in graph:
         if not visited[node]:
             in_cycle(node)
 

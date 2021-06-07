@@ -1,0 +1,14 @@
+{
+  "vertex_with_most_in_degree": [
+    "lemma-existence-projective-cover"
+  ],
+  "max_in_degree": 7,
+  "vertex_with_most_out_degree": [
+    "lemma-closed-in-quasi-compact"
+  ],
+  "max_out_degree": 22,
+  "mean_vertex_degree": 1.2911392405063291,
+  "median_vertex_degree": 1.0,
+  "mean_vertex_degree_without_isolated": 2.4578313253012047,
+  "median_vertex_degree_without_isolated": 2
+}
