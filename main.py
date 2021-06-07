@@ -7,27 +7,54 @@ from algorithms import *
 
 
 class LatexToGraph:
-    def __init__(self, tex_files_directory: str, additional_words: tp.Optional[tp.List[str]] = None):
-        self.structures_words = ['theorem', 'lemma', 'claim', 'corollary', 'proposition']
+    def __init__(self, tex_files_directory: str = "/sources_files",
+                 additional_statement_words: tp.Optional[tp.List[str]] = None,
+                 unwanted_statement_words: tp.Optional[tp.List[str]] = None,
+                 additional_begin_statement_commands: tp.Optional[tp.List[str]] = None,
+                 additional_end_statement_commands: tp.Optional[tp.List[str]] = None,
+                 additional_begin_proof_commands: tp.Optional[tp.List[str]] = None,
+                 additional_end_proof_commands: tp.Optional[tp.List[str]] = None):
 
-        if additional_words:
-            self.structures_words.extend(additional_words)
+        """
+
+        :param tex_files_directory: directory of latex files
+        :param additional_statement_words: words to add to search inside brackets of commands \\begin{}, \\end{},
+               while searching for statement blocks
+        :param unwanted_statement_words: words to exclude from search inside brackets of commands \\begin{}, \\end{},
+               while searching for statement blocks
+        :param additional_begin_statement_commands: full commands like "\\begin{$word$}" to search for the beginning of
+               statement block,
+        :param additional_end_statement_commands: full commands like "\\end{$word$}" to search for the ending of
+               statement block,
+        :param additional_begin_proof_commands: full commands like "\\begin{$word$}" to search for the beginning of
+               proof block
+        :param additional_end_proof_commands: full commands like "\\end{$word$}" to search for the ending of
+               proof block
+        """
+
+        self.structures_words = ['theorem', 'lemma', 'claim', 'corollary', 'proposition']
 
         self.extended_words: tp.Set[str] = set()
         for word in self.structures_words:
             self.extended_words.update(get_substrings(word))
 
+        if additional_statement_words:
+            self.structures_words.extend(additional_statement_words)
+
+        if unwanted_statement_words:
+            for word in unwanted_statement_words:
+                if word in self.extended_words:
+                    self.extended_words.remove(word)
+
         self.extended_words.add('Th')
-        if 'proof' in self.extended_words:
-            self.extended_words.remove('proof')
-        if 'example' in self.extended_words:
-            self.extended_words.remove('example')
 
         self.newtheorem = "\\newtheorem{"
-        self.statement_begin_regex = re.compile(r"\\begin{(" + '|'.join(self.extended_words) + ")}")
-        self.statement_end_regex = re.compile(r"\\end{(" + '|'.join(self.extended_words) + ")}")
-        self.proof_begin_regex = re.compile(r"\\begin{(proof|pf)}")
-        self.proof_end_regex = re.compile(r"\\end{(proof|pf)}")
+        self.statement_begin_regex = re.compile(
+            r"\\(begin{(" + '|'.join(self.extended_words) + ")})|" + '|'.join(additional_begin_statement_commands))
+        self.statement_end_regex = re.compile(
+            r"\\end{(" + '|'.join(self.extended_words) + ")}|" + '|'.join(additional_end_statement_commands))
+        self.proof_begin_regex = re.compile(r"\\begin{(proof|pf)}|" + '|'.join(additional_begin_proof_commands))
+        self.proof_end_regex = re.compile(r"\\end{(proof|pf)}|" + '|'.join(additional_end_proof_commands))
         self.reference_regex = re.compile(r"\\ref{(" + '|'.join(self.extended_words) + ")[^}]*}")
         self.equation_regex = re.compile(r"\\begin{(equation|eq)}")
         self.equation_reference_regex = re.compile(r"\\eqref{[^}]*}")
@@ -231,13 +258,3 @@ class LatexToGraph:
             if name_dir != "":
                 Path(name_dir).mkdir(parents=True, exist_ok=True)
             nt.save_graph(f'visualization/{self.file_name}.html')
-
-
-# TODO: add parameters
-# TODO: add graph analysis
-# TODO: add elements statistics
-if __name__ == '__main__':
-    tex_files_directory = 'sources_tex'
-
-    ltg = LatexToGraph(tex_files_directory)
-    ltg.create_graph()
