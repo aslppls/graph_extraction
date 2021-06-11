@@ -2,3 +2,4 @@ venv/
 .idea/
 sources_tex/
 __pycache__/
+additional/

@@ -30,7 +30,7 @@ class FileInfo:
 
     def open_file(self):
         """
-        opens file for read
+        Opens file for read
         :return:
         """
         file = open(self.file_path)
@@ -40,7 +40,7 @@ class FileInfo:
 
     def get_next_line(self) -> None:
         """
-        gets next line
+        Gets next line
         :return:
         """
         self.line = next(self.lines)
@@ -52,10 +52,10 @@ class FileInfo:
 
     def save_graph(self) -> None:
         """
-
+        Creates graph as Network and saves its visualization
         :return:
         """
-        graph = get_graph(self.elements)
+        graph = get_adjacency_list_graph(self.elements)
         in_cycle = find_cycles(graph)
 
         try:
@@ -119,7 +119,7 @@ class FileInfo:
         graph_properties["vertex_with_most_in_degree"] = max_in_degree_elements
         graph_properties["max_in_degree"] = max_in_degree
 
-        graph = get_graph(self.elements)
+        graph = get_adjacency_list_graph(self.elements)
 
         max_out_degree = 0
         max_out_degree_elements = []
@@ -161,8 +161,6 @@ class TexToGraph:
         """
 
         :param tex_files_directory: directory of latex files
-        :param visualization_directory: directory of graph visualization files
-        :param extracted_graph_info_directory: directory of graph parameters files
         :param additional_statement_words: words to add to search inside brackets of commands \\begin{}, \\end{},
                while searching for statement blocks
         :param unwanted_statement_words: words to exclude from search inside brackets of commands \\begin{}, \\end{},
@@ -177,50 +175,68 @@ class TexToGraph:
                proof block
         """
 
-        self.structures_words = ['theorem', 'lemma', 'claim', 'corollary', 'proposition']
+        self.structure_words = {'theorem', 'thm', 'theo', 'mainthm', 'myTheo', 'teorema', 'theo', 'mytheorem',
+                                'lemma', 'lem', 'Lemma', 'lemm', 'sublemma', 'lm', 'lmm', 'lmma', 'mylemma',
+                                'claim', 'clm', 'myclaim',
+                                'corollary', 'cor',
+                                'proposition', 'prop', 'pro', 'propo', 'propris', 'myproposition',
+                                'criterion',
+                                }
+        self.unwanted_statement_words = {'definition', 'defn', 'defin', 'dfn'
+                                                                        'example', 'exam',
+                                         'question', 'ques',
+                                         'algorithm',
+                                         'figure'}
 
-        self.extended_words: tp.Set[str] = set()
-        for word in self.structures_words:
-            self.extended_words.update(get_substrings(word))
+        capital_letter_words = set()
+        for word in self.structure_words:
+            capital_letter_words.add(word.capitalize())
+        self.structure_words.update(capital_letter_words)
 
-        if additional_statement_words:
-            self.extended_words.update(additional_statement_words)
+        capital_letter_words = set()
+        for word in self.unwanted_statement_words:
+            capital_letter_words.add(word.capitalize())
+        self.unwanted_statement_words.update(capital_letter_words)
 
         if unwanted_statement_words:
-            for word in unwanted_statement_words:
-                if word in self.extended_words:
-                    self.extended_words.remove(word)
+            self.unwanted_statement_words.update(unwanted_statement_words)
 
-        self.extended_words.add('Th')
+        for word in self.unwanted_statement_words:
+            if word in self.structure_words:
+                self.structure_words.remove(word)
+
+        if additional_statement_words:
+            self.structure_words.update(additional_statement_words)
 
         self.newtheorem = "\\newtheorem{"
 
         if additional_begin_statement_commands:
             self.statement_begin_regex = re.compile(
-                r"\\(begin{(" + '|'.join(self.extended_words) + "[^}]*)})|" + '|'.join(
+                r"\\(begin{(" + '|'.join(self.structure_words) + "[^}]*)})|" + '|'.join(
                     additional_begin_statement_commands))
         else:
             self.statement_begin_regex = re.compile(
-                r"\\(begin{(" + '|'.join(self.extended_words) + "[^}]*)})")
+                r"\\(begin{(" + '|'.join(self.structure_words) + "[^}]*)})")
 
         if additional_end_statement_commands:
             self.statement_end_regex = re.compile(
-                r"\\end{(" + '|'.join(self.extended_words) + ")}|" + '|'.join(additional_end_statement_commands))
+                r"\\end{(" + '|'.join(self.structure_words) + ")}|" + '|'.join(additional_end_statement_commands))
         else:
             self.statement_end_regex = re.compile(
-                r"\\end{(" + '|'.join(self.extended_words) + ")}")
+                r"\\end{(" + '|'.join(self.structure_words) + ")}")
 
         if additional_begin_proof_commands:
-            self.proof_begin_regex = re.compile(r"\\begin{(proof|pf)}|" + '|'.join(additional_begin_proof_commands))
+            self.proof_begin_regex = re.compile(
+                r"\\begin{(proof|pf|IEEEproof|Proof)}|" + '|'.join(additional_begin_proof_commands))
         else:
-            self.proof_begin_regex = re.compile(r"\\begin{(proof|pf)}")
+            self.proof_begin_regex = re.compile(r"\\begin{(proof|pf|IEEEproof|Proof)}")
 
         if additional_end_proof_commands:
             self.proof_end_regex = re.compile(r"\\end{(proof|pf)}|" + '|'.join(additional_end_proof_commands))
         else:
             self.proof_end_regex = re.compile(r"\\end{(proof|pf)}")
 
-        self.reference_regex = re.compile(r"\\ref{(" + '|'.join(self.extended_words) + ")[^}]*}")
+        self.reference_regex = re.compile(r"\\ref{(" + '|'.join(self.structure_words) + ")[^}]*}")
         self.short_reference_regex = re.compile(r"\\ref{[^}]*}")
         self.equation_regex = re.compile(r"\\begin{(equation|eq)}")
         self.equation_reference_regex = re.compile(r"\\eqref{[^}]*}")
@@ -232,13 +248,14 @@ class TexToGraph:
     def create_graph(self):
         for file_path in self.files:
             file = FileInfo(file_path, self.extracted_info_directory)
-            self.__get_labels_from_newtheorem(file)
+            self.__get_labels_from_newtheorem_commands(file)
 
             self.__get_all_theorems(file)
+            self.__delete_unlabeled_without_dependencies(file)
             file.save_graph()
             file.get_basic_graph_properties()
 
-    def __get_labels_from_newtheorem(self, file: FileInfo) -> None:
+    def __get_labels_from_newtheorem_commands(self, file: FileInfo) -> None:
         """
         Get all naming of elements from \newtheorem{}
         :param file_path:
@@ -255,15 +272,15 @@ class TexToGraph:
                     position = file.line.find(self.newtheorem)
                     naming = file.line[position + len(self.newtheorem):file.line.find('}') + position]
 
-                    self.extended_words.add(naming)
+                    if naming not in self.unwanted_statement_words:
+                        self.structure_words.add(naming)
             except StopIteration:
                 break
 
-    # TODO: make more options: get graph of current theorem parents
     def __get_all_theorems(self, file: FileInfo) -> None:
         """
         Extract all information about elements and dependencies
-        :param file: object that controls file
+        :param file: object that keeps information about file
         :return:
         """
 
@@ -278,34 +295,34 @@ class TexToGraph:
 
         file.get_next_line()
 
-        def get_one_theorem() -> None:
-            # if proof was found that doesn't strictly follow the statement
-            if self.proof_begin_regex.search(file.line) and self.short_reference_regex.search(file.line):
-                element_name = ""
+        def process_proof(element_name: str) -> None:
+            # iterating through lines of proof
+            while not self.proof_end_regex.search(file.line):
+                file.get_next_line()
+
+                # trying to find \ref{}
                 for element in self.short_reference_regex.finditer(file.line):
-                    element_name = file.line[element.start() + 5:element.end() - 1]
-                    break
-                while not self.proof_end_regex.search(file.line):
-                    file.get_next_line()
+                    dependency_name = file.line[element.start() + len('\\ref{'):element.end() - 1]
 
-                    for element in self.short_reference_regex.finditer(file.line):
-                        dependency_name = file.line[element.start() + 5:element.end() - 1]
+                    if dependency_name != element_name and dependency_name in file.elements:
+                        file.elements[element_name]["dependent_on"].append(dependency_name)
 
-                        if dependency_name != element_name and dependency_name in file.elements:
-                            file.elements[element_name]["dependent_on"].append(dependency_name)
+                # if new equation is proposed in proof
+                if self.equation_regex.search(file.line):
+                    if file.line.find("label{") != -1:
+                        pos = file.line.find("label{")
+                        eq_name = file.line[pos + 6:file.line[pos:].find("}") + pos]
+                        equations[eq_name] = element_name
 
-                    if self.equation_regex.search(file.line):
-                        if file.line.find("label{") != -1:
-                            pos = file.line.find("label{")
-                            eq_name = file.line[pos + 6:file.line[pos:].find("}") + pos]
-                            equations[eq_name] = element_name
+                # trying to find equations that were proposed earlier in other proofs
+                for element in self.equation_reference_regex.finditer(file.line):
+                    dependency_name = file.line[element.start() + 7:element.end() - 1]
+                    if dependency_name in equations and equations[dependency_name] != element_name:
+                        file.elements[element_name]["dependent_on"].append(equations[dependency_name])
 
-                    for element in self.equation_reference_regex.finditer(file.line):
-                        dependency_name = file.line[element.start() + 7:element.end() - 1]
-                        if dependency_name in equations and equations[dependency_name] != element_name:
-                            file.elements[element_name]["dependent_on"].append(equations[dependency_name])
+        def get_one_theorem() -> None:
             # if statement found
-            elif self.statement_begin_regex.search(file.line):
+            if self.statement_begin_regex.search(file.line):
                 element_name = ""
 
                 element_description = {
@@ -327,18 +344,19 @@ class TexToGraph:
                 else:
                     file.get_next_line()
 
+                    if file.line.find("\cite") != -1:
+                        element_description["is_cite"] = True
+
                     if re.search('label{', file.line):
                         pos = file.line.find("label{")
                         element_name = file.line[pos + 6:file.line[pos:].find("}") + pos]
                         element_description["start_position"] = file.current_index
 
-                        if file.line.find("\cite") != -1:
-                            element_description["is_cite"] = True
-
                     # if no label found, create default name
                     else:
                         element_name = 'unlabeled_' + str(file.current_index - 1)
                         element_description["start_position"] = file.current_index - 1
+                file.elements[element_name] = element_description
 
                 # trying to find proof
                 while not self.proof_begin_regex.search(file.line):
@@ -346,36 +364,22 @@ class TexToGraph:
 
                     # if got not proof but new statement
                     if self.statement_begin_regex.search(file.line):
-                        file.elements[element_name] = element_description
                         return
 
                 # if proof was found that doesn't strictly follow the statement
                 if self.proof_begin_regex.search(file.line) and self.short_reference_regex.search(file.line):
-                    file.elements[element_name] = element_description
                     return
 
-                while not self.proof_end_regex.search(file.line):
-                    file.get_next_line()
+                process_proof(element_name)
 
-                    for element in self.short_reference_regex.finditer(file.line):
-                        dependency_name = file.line[element.start() + 5:element.end() - 1]
+            # if proof was found that doesn't strictly follow the statement
+            elif self.proof_begin_regex.search(file.line) and self.short_reference_regex.search(file.line):
+                element_name = ""
+                for element in self.short_reference_regex.finditer(file.line):
+                    element_name = file.line[element.start() + 5:element.end() - 1]
+                    break
 
-                        if dependency_name != element_name and dependency_name in file.elements:
-                            element_description["dependent_on"].append(dependency_name)
-
-                    if self.equation_regex.search(file.line):
-                        if file.line.find("label{") != -1:
-                            pos = file.line.find("label{")
-                            eq_name = file.line[pos + 6:file.line[pos:].find("}") + pos]
-                            equations[eq_name] = element_name
-
-                    for element in self.equation_reference_regex.finditer(file.line):
-                        dependency_name = file.line[element.start() + 7:element.end() - 1]
-                        if dependency_name in equations and equations[dependency_name] != element_name:
-                            element_description["dependent_on"].append(equations[dependency_name])
-
-                file.elements[element_name] = element_description
-
+                process_proof(element_name)
             file.get_next_line()
 
         while True:
@@ -383,6 +387,15 @@ class TexToGraph:
                 get_one_theorem()
             except StopIteration:
                 break
+
+    def __delete_unlabeled_without_dependencies(self, file: FileInfo) -> None:
+        elements_to_delete = []
+        for element in file.elements:
+            if element.startswith("unlabeled") and len(file.elements[element]["dependent_on"]) == 0:
+                elements_to_delete.append(element)
+
+        for element in elements_to_delete:
+            file.elements.pop(element)
 
 
 class Graph:

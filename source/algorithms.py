@@ -1,8 +1,13 @@
 import typing as tp
-from itertools import chain, combinations
 
 
-def get_graph(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Dict[str, tp.List[str]]:
+def get_adjacency_list_graph(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Dict[str, tp.List[str]]:
+    """
+    From adjacency list where each node is given a list of its parents makes
+    adjacency list where each node is given a list of its children
+    :param graph: inverse adjacency list
+    :return: adjacency list
+    """
     new_graph: tp.Dict[str, tp.List[str]] = {}
 
     for node in graph:
@@ -18,6 +23,16 @@ def get_graph(graph: tp.Dict[str, tp.Dict[str, tp.Any]]) -> tp.Dict[str, tp.List
 
 
 def get_matrix_graph(graph: tp.Dict[str, tp.List[str]]) -> tp.Dict[str, tp.Dict[str, tp.List[str]]]:
+    """
+    From adjacency list makes matrix representation of graph.
+    :param graph: adjacency list
+    :return: Output graph structure:
+    {node_name: {
+            children: [],
+            parents: []
+    }}
+    """
+
     new_graph: tp.Dict[str, tp.Dict[str, tp.List[str]]] = {}
 
     for element, values in graph.items():
@@ -33,6 +48,11 @@ def get_matrix_graph(graph: tp.Dict[str, tp.List[str]]) -> tp.Dict[str, tp.Dict[
 
 
 def find_cycles(graph: tp.Dict[str, tp.List[str]]) -> tp.Set[str]:
+    """
+
+    :param graph: adjacency list
+    :return: set of nodes that are part of cycles
+    """
     visited: tp.Dict[str, bool] = {key: False for key in graph}
     stack: tp.Dict[str, bool] = {key: False for key in graph}
     nodes_in_cycles: tp.Set[str] = set()
@@ -59,27 +79,3 @@ def find_cycles(graph: tp.Dict[str, tp.List[str]]) -> tp.Set[str]:
             in_cycle(node)
 
     return nodes_in_cycles
-
-
-def powerset(iterable):
-    """
-    Get all subsets
-    :param iterable:
-    :return:
-    """
-    s = list(iterable)
-    return chain.from_iterable(combinations(s, r) for r in range(len(s) + 1))
-
-
-def get_substrings(word: str) -> tp.Set[str]:
-    """
-    Get all possible word reductions
-    :param word:
-    :return:
-    """
-    first_letter, word = word[0], word[1:]
-    result = set()
-    for element in powerset(word):
-        result.add(first_letter + ''.join(element))
-        result.add(first_letter.upper() + ''.join(element))
-    return {word for word in result if len(word) >= 3}
