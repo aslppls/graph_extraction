@@ -199,6 +199,7 @@ class FileInfo:
 
         graph = get_adjacency_list_graph(self.elements)
         in_cycle = find_cycles(graph)
+        nodes_description: tp.Dict[str, tp.Dict[str, str]] = {}
 
         try:
 
@@ -210,12 +211,15 @@ class FileInfo:
 
                 for i, node in enumerate(self.elements):
                     node_style["color"] = "blue"
+
                     if node in in_cycle:
                         node_style["color"] = "red"
 
                     if self.elements[node]["is_cite"]:
                         node_style["color"] = "orange"
-
+                    nodes_description[node] = {"color": "", "full_name": ""}
+                    nodes_description[node]["color"] = node_style["color"]
+                    nodes_description[node]["full_name"] = self.elements[node]["full_name"]
                     nt.add_node(i, self.elements[node]["full_name"], **node_style)
                     all_lemmas[node] = i
 
@@ -224,6 +228,8 @@ class FileInfo:
                         if parent_node not in self.elements and parent_node not in all_lemmas:
                             all_lemmas[parent_node] = len(all_lemmas)
                             node_style["color"] = "green"
+                            nodes_description[parent_node] = {"color": "", "full_name": ""}
+                            nodes_description[parent_node]["color"] = "green"
                             nt.add_node(len(all_lemmas) - 1, parent_node, **node_style)
                         edge = (all_lemmas[parent_node], all_lemmas[child_node])
                         nt.add_edge(*edge)
@@ -236,6 +242,9 @@ class FileInfo:
         # save raw graph
         with open(self.name_dir + 'graph.json', "w") as output_file:
             json.dump(graph, output_file)
+
+        with open(self.name_dir + 'nodes_description.json', "w") as output_file:
+            json.dump(nodes_description, output_file)
 
     def get_basic_graph_properties(self):
         graph_properties = {
@@ -451,7 +460,7 @@ class TexToGraph:
                     dependency_name = file.line[element.start() + len('\\ref{'):element.end() - 1]
 
                     if dependency_name != element_name and dependency_name in file.elements:
-                        file.elements[element_name]["dependent_on"].append(dependency_name)
+                        file.elements[element_name]["dependent_on"].add(dependency_name)
 
                 # if new equation is proposed in proof
                 if self.equation_regex.search(file.line):
@@ -464,7 +473,7 @@ class TexToGraph:
                 for element in self.equation_reference_regex.finditer(file.line):
                     dependency_name = file.line[element.start() + 7:element.end() - 1]
                     if dependency_name in equations and equations[dependency_name] != element_name:
-                        file.elements[element_name]["dependent_on"].append(equations[dependency_name])
+                        file.elements[element_name]["dependent_on"].add(equations[dependency_name])
                 file.get_next_line()
 
         def get_one_theorem() -> None:
@@ -475,7 +484,7 @@ class TexToGraph:
 
                 element_description = {
                     "start_position": 0,
-                    "dependent_on": [],
+                    "dependent_on": set(),
                     "is_cite": False,
                     "full_name": ""
                 }
@@ -572,10 +581,13 @@ class Graph:
         """
 
         self.graph = {}
+        self.nodes = {}
 
         try:
-            with open(file_path, "r") as file:
+            with open(file_path + 'graph.json', "r") as file:
                 self.graph = json.load(file)
+            with open(file_path + 'nodes_description.json', "r") as file:
+                self.nodes = json.load(file)
         except:
             print("Something wrong with file path or file itself")
 
@@ -597,8 +609,11 @@ class Graph:
         nt = Network(height='900px', width='100%', directed=True)
         all_lemmas: tp.Dict[str, int] = {}
 
+        node_style = {"borderWidth": 4, "color": "blue"}
+
         for i, node in enumerate(subgraph_elements):
-            nt.add_node(i, node)
+            node_style["color"] = self.nodes[node]["color"]
+            nt.add_node(i, self.nodes[node]["full_name"], **node_style)
             all_lemmas[node] = i
 
         for node in subgraph_elements:

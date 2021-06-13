@@ -1,1 +1,249 @@
-{"lemma-vector-space-is-free": ["lemma-field-semi-simple"], "lemma-field-semi-simple": [], "lemma-field-maps-injective": ["lemma-algebraic-extension-self-map"], "lemma-field-extension-generated-by-one-element": ["lemma-degree-minimal-polynomial"], "lemma-finite-goes-up": ["theorem-galois-theory"], "lemma-finite-finitely-generated": ["lemma-infinite-galois-limit"], "lemma-multiplicativity-degrees": ["lemma-algebraic-finitely-generated", "lemma-algebraic-permanence", "lemma-separably-generated-separable", "lemma-multiplicativity-all-degrees", "lemma-characteristic-vs-minimal-polynomial", "lemma-ses-galois", "lemma-purely-transcendental-degree"], "lemma-algebraic-goes-up": ["lemma-map-into-algebraic-closure", "lemma-algebraic-closures-isomorphic"], "lemma-finite-is-algebraic": ["lemma-algebraic-elements", "lemma-subalgebra-algebraic-extension-field", "theorem-existence-algebraic-closure"], "lemma-algebraic-finitely-generated": ["lemma-algebraic-elements", "lemma-algebraic-permanence", "lemma-algebraic-extension-self-map"], "lemma-algebraic-elements": [], "lemma-algebraic-permanence": ["theorem-existence-algebraic-closure"], "lemma-size-algebraic-extension": ["theorem-existence-algebraic-closure"], "lemma-subalgebra-algebraic-extension-field": [], "lemma-algebraic-extension-self-map": ["lemma-galois-profinite"], "lemma-degree-minimal-polynomial": ["lemma-separably-generated-separable", "lemma-characteristic-vs-minimal-polynomial"], "lemma-algebraically-closed": ["theorem-existence-algebraic-closure", "lemma-characterize-normal", "lemma-splitting-field"], "theorem-existence-algebraic-closure": ["lemma-lift-maps"], "lemma-map-into-algebraic-closure": ["lemma-algebraic-closures-isomorphic", "lemma-characterize-normal", "lemma-lift-maps", "lemma-splitting-field", "lemma-normal-closure"], "lemma-algebraic-closures-isomorphic": [], "lemma-relatively-prime-polynomials": ["lemma-recognize-separable"], "lemma-irreducible-polynomials": ["lemma-separable-goes-up", "lemma-separable-first"], "lemma-separable-goes-up": ["lemma-separable-equality", "lemma-separable-permanence", "lemma-separable-elements", "lemma-galois-goes-up"], "lemma-recognize-separable": ["lemma-separable-trace-pairing", "lemma-galois-over-fixed-field"], "lemma-nr-roots-unchanged": ["lemma-finite-purely-inseparable"], "lemma-count-embeddings": ["lemma-count-embeddings-explicitly"], "lemma-count-embeddings-explicitly": ["lemma-separably-generated-separable", "lemma-separable-degree"], "lemma-separably-generated-separable": ["lemma-separable-equality", "lemma-separable-equality", "lemma-separable-equality", "lemma-separable-permanence"], "lemma-separable-equality": ["lemma-finite-separable-tensor-alg-closed", "lemma-separable-degree", "lemma-primitive-element", "lemma-primitive-element"], "lemma-separable-permanence": ["lemma-separable-elements"], "lemma-separable-elements": ["lemma-separable-first"], "lemma-independence-characters": ["lemma-sums-of-powers", "lemma-independence-embeddings", "lemma-Kummer", "lemma-Artin-Schreier"], "lemma-sums-of-powers": ["lemma-separable-trace-pairing"], "lemma-independence-embeddings": ["lemma-finite-separable-tensor-alg-closed"], "lemma-finite-separable-tensor-alg-closed": [], "lemma-take-pth-root": ["lemma-finite-purely-inseparable", "lemma-pth-root"], "lemma-purely-inseparable-permanence": [], "lemma-purely-inseparable-elements": [], "lemma-finite-purely-inseparable": ["lemma-separable-degree", "lemma-separable-trace-pairing"], "lemma-separable-first": ["lemma-separable-degree", "lemma-separable-trace-pairing", "lemma-normal-closure-galois", "lemma-normal-case"], "lemma-separable-degree": ["lemma-multiplicativity-all-degrees", "lemma-normal-closure-tensor-product"], "lemma-multiplicativity-all-degrees": [], "lemma-normal-goes-up": ["lemma-galois-goes-up"], "lemma-intersect-normal": ["lemma-normal-closure"], "lemma-separable-first-normal": ["lemma-normal-closure-galois"], "lemma-characterize-normal": ["lemma-normally-generated", "lemma-lift-maps", "lemma-lift-maps", "lemma-normal-and-automorphisms", "lemma-normal-and-automorphisms", "lemma-splitting-field", "lemma-normal-closure-tensor-product"], "lemma-normally-generated": ["lemma-normal-closure-inside-normal"], "lemma-lift-maps": ["lemma-normal-embeddings-differ-by-aut", "theorem-galois-theory", "lemma-ses-galois", "lemma-ses-galois", "lemma-galois-infinite", "lemma-galois-infinite"], "lemma-normal-and-automorphisms": ["lemma-finite-Galois", "lemma-finite-Galois", "lemma-galois-over-fixed-field"], "lemma-normal-embeddings-differ-by-aut": [], "lemma-splitting-field": [], "lemma-normal-closure": ["lemma-normal-closure-inside-normal"], "lemma-normal-closure-inside-normal": ["lemma-infinite-galois-limit", "theorem-inifinite-galois-theory"], "lemma-normal-closure-tensor-product": [], "lemma-cyclic": [], "lemma-primitive-element": ["lemma-galois-over-fixed-field"], "lemma-characteristic-vs-minimal-polynomial": ["lemma-trace-and-norm-from-minimal-polynomial", "lemma-separable-trace-pairing"], "lemma-trace-and-norm-from-minimal-polynomial": ["lemma-separable-trace-pairing"], "lemma-trace-and-norm-linear": ["lemma-trace-and-norm-tower"], "lemma-trace-and-norm-tower": ["lemma-separable-trace-pairing", "lemma-separable-trace-pairing"], "lemma-separable-trace-pairing": [], "lemma-finite-Galois": ["lemma-galois-over-fixed-field", "theorem-galois-theory", "theorem-galois-theory"], "lemma-galois-goes-up": ["theorem-galois-theory", "theorem-inifinite-galois-theory"], "lemma-normal-closure-galois": [], "lemma-galois-over-fixed-field": ["theorem-galois-theory"], "theorem-galois-theory": ["theorem-inifinite-galois-theory"], "lemma-ses-galois": ["lemma-infinite-galois-limit"], "lemma-galois-profinite": ["lemma-galois-infinite"], "lemma-galois-infinite": ["lemma-infinite-galois-limit", "theorem-inifinite-galois-theory", "theorem-inifinite-galois-theory", "lemma-ses-infinite-galois"], "lemma-infinite-galois-limit": [], "theorem-inifinite-galois-theory": [], "lemma-ses-infinite-galois": [], "lemma-C-algebraically-closed": [], "lemma-Kummer": [], "lemma-adjoint-pth-root-unity": ["lemma-subfields-kummer"], "lemma-subfields-kummer": [], "lemma-Artin-Schreier": [], "lemma-transcendence-degree": [], "lemma-transcendence-degree-tower": [], "lemma-purely-transcendental-degree": ["lemma-algebraic-closure-in-finitely-generated"], "lemma-algebraic-closure-in-finitely-generated": [], "lemma-normal-case": [], "lemma-pth-root": []}
+{
+  "lemma-vector-space-is-free": [
+    "lemma-field-semi-simple"
+  ],
+  "lemma-field-semi-simple": [],
+  "lemma-field-maps-injective": [
+    "lemma-algebraic-extension-self-map"
+  ],
+  "lemma-field-extension-generated-by-one-element": [
+    "lemma-degree-minimal-polynomial"
+  ],
+  "lemma-finite-goes-up": [
+    "theorem-galois-theory"
+  ],
+  "lemma-finite-finitely-generated": [
+    "lemma-infinite-galois-limit"
+  ],
+  "lemma-multiplicativity-degrees": [
+    "lemma-algebraic-finitely-generated",
+    "lemma-algebraic-permanence",
+    "lemma-separably-generated-separable",
+    "lemma-multiplicativity-all-degrees",
+    "lemma-characteristic-vs-minimal-polynomial",
+    "lemma-ses-galois",
+    "lemma-purely-transcendental-degree"
+  ],
+  "lemma-algebraic-goes-up": [
+    "lemma-map-into-algebraic-closure",
+    "lemma-algebraic-closures-isomorphic"
+  ],
+  "lemma-finite-is-algebraic": [
+    "lemma-algebraic-elements",
+    "lemma-subalgebra-algebraic-extension-field",
+    "theorem-existence-algebraic-closure"
+  ],
+  "lemma-algebraic-finitely-generated": [
+    "lemma-algebraic-elements",
+    "lemma-algebraic-permanence",
+    "lemma-algebraic-extension-self-map"
+  ],
+  "lemma-algebraic-elements": [],
+  "lemma-algebraic-permanence": [
+    "theorem-existence-algebraic-closure"
+  ],
+  "lemma-size-algebraic-extension": [
+    "theorem-existence-algebraic-closure"
+  ],
+  "lemma-subalgebra-algebraic-extension-field": [],
+  "lemma-algebraic-extension-self-map": [
+    "lemma-galois-profinite"
+  ],
+  "lemma-degree-minimal-polynomial": [
+    "lemma-separably-generated-separable",
+    "lemma-characteristic-vs-minimal-polynomial"
+  ],
+  "lemma-algebraically-closed": [
+    "theorem-existence-algebraic-closure",
+    "lemma-characterize-normal",
+    "lemma-splitting-field"
+  ],
+  "theorem-existence-algebraic-closure": [
+    "lemma-lift-maps"
+  ],
+  "lemma-map-into-algebraic-closure": [
+    "lemma-algebraic-closures-isomorphic",
+    "lemma-characterize-normal",
+    "lemma-lift-maps",
+    "lemma-splitting-field",
+    "lemma-normal-closure"
+  ],
+  "lemma-algebraic-closures-isomorphic": [],
+  "lemma-relatively-prime-polynomials": [
+    "lemma-recognize-separable"
+  ],
+  "lemma-irreducible-polynomials": [
+    "lemma-separable-goes-up",
+    "lemma-separable-first"
+  ],
+  "lemma-separable-goes-up": [
+    "lemma-separable-equality",
+    "lemma-separable-permanence",
+    "lemma-separable-elements",
+    "lemma-galois-goes-up"
+  ],
+  "lemma-recognize-separable": [
+    "lemma-separable-trace-pairing",
+    "lemma-galois-over-fixed-field"
+  ],
+  "lemma-nr-roots-unchanged": [
+    "lemma-finite-purely-inseparable"
+  ],
+  "lemma-count-embeddings": [
+    "lemma-count-embeddings-explicitly"
+  ],
+  "lemma-count-embeddings-explicitly": [
+    "lemma-separably-generated-separable",
+    "lemma-separable-degree"
+  ],
+  "lemma-separably-generated-separable": [
+    "lemma-separable-equality",
+    "lemma-separable-permanence"
+  ],
+  "lemma-separable-equality": [
+    "lemma-finite-separable-tensor-alg-closed",
+    "lemma-separable-degree",
+    "lemma-primitive-element"
+  ],
+  "lemma-separable-permanence": [
+    "lemma-separable-elements"
+  ],
+  "lemma-separable-elements": [
+    "lemma-separable-first"
+  ],
+  "lemma-independence-characters": [
+    "lemma-sums-of-powers",
+    "lemma-independence-embeddings",
+    "lemma-Kummer",
+    "lemma-Artin-Schreier"
+  ],
+  "lemma-sums-of-powers": [
+    "lemma-separable-trace-pairing"
+  ],
+  "lemma-independence-embeddings": [
+    "lemma-finite-separable-tensor-alg-closed"
+  ],
+  "lemma-finite-separable-tensor-alg-closed": [],
+  "lemma-take-pth-root": [
+    "lemma-finite-purely-inseparable",
+    "lemma-pth-root"
+  ],
+  "lemma-purely-inseparable-permanence": [],
+  "lemma-purely-inseparable-elements": [],
+  "lemma-finite-purely-inseparable": [
+    "lemma-separable-degree",
+    "lemma-separable-trace-pairing"
+  ],
+  "lemma-separable-first": [
+    "lemma-separable-degree",
+    "lemma-separable-trace-pairing",
+    "lemma-normal-closure-galois",
+    "lemma-normal-case"
+  ],
+  "lemma-separable-degree": [
+    "lemma-multiplicativity-all-degrees",
+    "lemma-normal-closure-tensor-product"
+  ],
+  "lemma-multiplicativity-all-degrees": [],
+  "lemma-normal-goes-up": [
+    "lemma-galois-goes-up"
+  ],
+  "lemma-intersect-normal": [
+    "lemma-normal-closure"
+  ],
+  "lemma-separable-first-normal": [
+    "lemma-normal-closure-galois"
+  ],
+  "lemma-characterize-normal": [
+    "lemma-normally-generated",
+    "lemma-lift-maps",
+    "lemma-normal-and-automorphisms",
+    "lemma-splitting-field",
+    "lemma-normal-closure-tensor-product"
+  ],
+  "lemma-normally-generated": [
+    "lemma-normal-closure-inside-normal"
+  ],
+  "lemma-lift-maps": [
+    "lemma-normal-embeddings-differ-by-aut",
+    "theorem-galois-theory",
+    "lemma-ses-galois",
+    "lemma-galois-infinite"
+  ],
+  "lemma-normal-and-automorphisms": [
+    "lemma-finite-Galois",
+    "lemma-galois-over-fixed-field"
+  ],
+  "lemma-normal-embeddings-differ-by-aut": [],
+  "lemma-splitting-field": [],
+  "lemma-normal-closure": [
+    "lemma-normal-closure-inside-normal"
+  ],
+  "lemma-normal-closure-inside-normal": [
+    "lemma-infinite-galois-limit",
+    "theorem-inifinite-galois-theory"
+  ],
+  "lemma-normal-closure-tensor-product": [],
+  "lemma-cyclic": [],
+  "lemma-primitive-element": [
+    "lemma-galois-over-fixed-field"
+  ],
+  "lemma-characteristic-vs-minimal-polynomial": [
+    "lemma-trace-and-norm-from-minimal-polynomial",
+    "lemma-separable-trace-pairing"
+  ],
+  "lemma-trace-and-norm-from-minimal-polynomial": [
+    "lemma-separable-trace-pairing"
+  ],
+  "lemma-trace-and-norm-linear": [
+    "lemma-trace-and-norm-tower"
+  ],
+  "lemma-trace-and-norm-tower": [
+    "lemma-separable-trace-pairing"
+  ],
+  "lemma-separable-trace-pairing": [],
+  "lemma-finite-Galois": [
+    "lemma-galois-over-fixed-field",
+    "theorem-galois-theory"
+  ],
+  "lemma-galois-goes-up": [
+    "theorem-galois-theory",
+    "theorem-inifinite-galois-theory"
+  ],
+  "lemma-normal-closure-galois": [],
+  "lemma-galois-over-fixed-field": [
+    "theorem-galois-theory"
+  ],
+  "theorem-galois-theory": [
+    "theorem-inifinite-galois-theory"
+  ],
+  "lemma-ses-galois": [
+    "lemma-infinite-galois-limit"
+  ],
+  "lemma-galois-profinite": [
+    "lemma-galois-infinite"
+  ],
+  "lemma-galois-infinite": [
+    "lemma-infinite-galois-limit",
+    "theorem-inifinite-galois-theory",
+    "lemma-ses-infinite-galois"
+  ],
+  "lemma-infinite-galois-limit": [],
+  "theorem-inifinite-galois-theory": [],
+  "lemma-ses-infinite-galois": [],
+  "lemma-C-algebraically-closed": [],
+  "lemma-Kummer": [],
+  "lemma-adjoint-pth-root-unity": [
+    "lemma-subfields-kummer"
+  ],
+  "lemma-subfields-kummer": [],
+  "lemma-Artin-Schreier": [],
+  "lemma-transcendence-degree": [],
+  "lemma-transcendence-degree-tower": [],
+  "lemma-purely-transcendental-degree": [
+    "lemma-algebraic-closure-in-finitely-generated"
+  ],
+  "lemma-algebraic-closure-in-finitely-generated": [],
+  "lemma-normal-case": [],
+  "lemma-pth-root": []
+}
