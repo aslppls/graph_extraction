@@ -1,1 +1,1 @@
-{"vertex_with_most_in_degree": ["mainthm"], "max_in_degree": 5, "vertex_with_most_out_degree": ["Holm"], "max_out_degree": 2, "mean_vertex_degree": 1.0, "median_vertex_degree": 1.0, "mean_vertex_degree_without_isolated": 1.1428571428571428, "median_vertex_degree_without_isolated": 1}
+{"vertex_with_most_in_degree": ["mainthm"], "max_in_degree": 14, "vertex_with_most_out_degree": ["Isc"], "max_out_degree": 3, "mean_vertex_degree": 1.1875, "median_vertex_degree": 1.0, "mean_vertex_degree_without_isolated": 1.4615384615384615, "median_vertex_degree_without_isolated": 1}

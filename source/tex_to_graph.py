@@ -24,9 +24,31 @@ class FileInfo:
         clean_file_path = ".".join(self.file_path.split(".")[:-1])
         clean_file_path = "/".join(clean_file_path.split("/")[1:])
         self.name_dir = extracted_info_directory + clean_file_path + "/"
+        self.single_file = True
 
         if self.name_dir != "":
             Path(self.name_dir).mkdir(parents=True, exist_ok=True)
+
+        self.has_numbering = False
+
+        self.groups = {
+            'chapter': 1,
+            'section': 2,
+            'subsection': 3,
+            'subsubsection': 4,
+        }
+
+        self.next_group = 5
+
+        self.dependencies_parents = {
+            'chapter': [2],
+            'section': [3],
+            'subsection': [4]
+        }
+
+        self.current_numeration = {
+
+        }
 
     def open_file(self):
         """
@@ -50,11 +72,131 @@ class FileInfo:
             self.line = next(self.lines)
             self.current_index += 1
 
+    def check_sections(self):
+        self.open_file()
+        sections1 = re.compile(r'\\begin{(chapter|section|subsection|subsubsection)}')
+        sections2 = re.compile(r'\\(chapter|section|subsection|subsubsection)')
+        found_sections = set()
+
+        while True:
+            try:
+                self.get_next_line()
+
+                if sections1.search(self.line):
+                    x = self.line.find('{')
+                    y = self.line.find('}')
+                    name = self.line[x + 1:y]
+                    found_sections.add(name)
+                elif sections2.search(self.line):
+                    x = self.line.find('\\')
+                    y = self.line.find('{')
+                    name = self.line[x + 1:y]
+                    found_sections.add(name)
+            except StopIteration:
+                break
+
+        numbering = ''
+        for element in ['chapter', 'section', 'subsection', 'subsubsection']:
+            if element in found_sections:
+                self.current_numeration[self.groups[element]] = numbering + '0'
+                numbering += '0.'
+            elif element in self.dependencies_parents:
+                self.dependencies_parents.pop(element)
+
+    def get_section_numberings(self):
+        self.check_sections()
+
+        self.open_file()
+        regex_newtheorem = re.compile(r'\\newtheorem{[^}]*}')
+
+        self.namings = {
+
+        }
+
+        while True:
+            try:
+                self.get_next_line()
+
+                if regex_newtheorem.search(self.line):
+                    self.has_numbering = True
+                    x = self.line.find('{')
+                    y = self.line.find('}')
+                    vr = self.line[x + 1:y]
+                    x = self.line.rfind('{')
+                    y = self.line.rfind('}')
+                    name = self.line[x + 1:y]
+                    if '\\' in name:
+                        name = ""
+                    self.namings[vr] = name
+
+                    # \newtheorem{}[]{} pattern
+                    if re.search(r'\\newtheorem{[^}]*}[ \t\n]*\[', self.line):
+                        x = self.line.find('[')
+                        y = self.line.find(']')
+                        parent = self.line[x + 1: y]
+                        if parent not in self.groups:
+                            self.groups[parent] = self.next_group
+                            self.current_numeration[self.groups[parent]] = '0'
+                            self.next_group += 1
+                        self.groups[vr] = self.groups[parent]
+                    # \newtheorem{}{}[] pattern
+                    elif '%[' in self.line:
+                        continue
+                    elif '[' in self.line:
+                        x = self.line.find('[')
+                        y = self.line.find(']')
+                        parent = self.line[x + 1: y]
+                        self.groups[vr] = self.next_group
+
+                        self.next_group += 1
+
+                        if parent in self.dependencies_parents:
+                            self.dependencies_parents[parent].append(self.groups[vr])
+                        else:
+                            self.dependencies_parents[parent] = [self.groups[vr]]
+
+                        if parent not in self.current_numeration:
+                            if parent not in self.groups:
+                                self.groups[parent] = self.next_group
+                                self.next_group += 1
+                            self.current_numeration[self.groups[parent]] = '0'
+                        self.current_numeration[self.groups[vr]] = str(
+                            self.current_numeration[self.groups[parent]]) + '.0'
+                    else:
+                        self.groups[vr] = self.next_group
+                        self.next_group += 1
+                        self.current_numeration[self.groups[vr]] = '0'
+            except StopIteration:
+                break
+
+    def update_numbering(self, argument: str) -> str:
+        if argument[-1] == '*':
+            return " "
+        cur = self.current_numeration[self.groups[argument]]
+        last_digit = int(cur.split('.')[-1])
+        if cur.find('.') == -1:
+            self.current_numeration[self.groups[argument]] = str(last_digit + 1)
+        else:
+            self.current_numeration[self.groups[argument]] = '.'.join(cur.split('.')[:-1]) + '.' + str(
+                last_digit + 1)
+
+        if argument in self.dependencies_parents:
+            to_update = deque([(child, self.groups[argument]) for child in self.dependencies_parents[argument]])
+            while len(to_update):
+                group, parent = to_update.popleft()
+                self.current_numeration[group] = self.current_numeration[parent] + '.0'
+                for key, value in self.groups.items():
+                    if value == group and key in self.dependencies_parents:
+                        for child in self.dependencies_parents[key]:
+                            to_update.append((child, group))
+        return self.current_numeration[self.groups[argument]]
+
     def save_graph(self) -> None:
         """
         Creates graph as Network and saves its visualization
         :return:
         """
+
         graph = get_adjacency_list_graph(self.elements)
         in_cycle = find_cycles(graph)
 
@@ -74,7 +216,7 @@ class FileInfo:
                     if self.elements[node]["is_cite"]:
                         node_style["color"] = "orange"
 
-                    nt.add_node(i, node, **node_style)
+                    nt.add_node(i, self.elements[node]["full_name"], **node_style)
                     all_lemmas[node] = i
 
                 for child_node in self.elements:
@@ -210,20 +352,11 @@ class TexToGraph:
 
         self.newtheorem = "\\newtheorem{"
 
-        if additional_begin_statement_commands:
-            self.statement_begin_regex = re.compile(
-                r"\\(begin{(" + '|'.join(self.structure_words) + "[^}]*)})|" + '|'.join(
-                    additional_begin_statement_commands))
-        else:
-            self.statement_begin_regex = re.compile(
-                r"\\(begin{(" + '|'.join(self.structure_words) + "[^}]*)})")
+        self.additional_begin_statement_commands = additional_begin_statement_commands
+        self.additional_end_statement_commands = additional_end_statement_commands
 
-        if additional_end_statement_commands:
-            self.statement_end_regex = re.compile(
-                r"\\end{(" + '|'.join(self.structure_words) + ")}|" + '|'.join(additional_end_statement_commands))
-        else:
-            self.statement_end_regex = re.compile(
-                r"\\end{(" + '|'.join(self.structure_words) + ")}")
+        self.statement_begin_regex = re.compile('')
+        self.statement_end_regex = re.compile('')
 
         if additional_begin_proof_commands:
             self.proof_begin_regex = re.compile(
@@ -249,6 +382,7 @@ class TexToGraph:
         for file_path in self.files:
             file = FileInfo(file_path, self.extracted_info_directory)
             self.__get_labels_from_newtheorem_commands(file)
+            file.get_section_numberings()
 
             self.__get_all_theorems(file)
             self.__delete_unlabeled_without_dependencies(file)
@@ -258,7 +392,7 @@ class TexToGraph:
     def __get_labels_from_newtheorem_commands(self, file: FileInfo) -> None:
         """
         Get all naming of elements from \newtheorem{}
-        :param file_path:
+        :param file:
         :return:
         """
 
@@ -277,6 +411,21 @@ class TexToGraph:
             except StopIteration:
                 break
 
+        if self.additional_begin_statement_commands:
+            self.statement_begin_regex = re.compile(
+                r"\\(begin{(" + '|'.join(self.structure_words) + "[^}]*)})|" + '|'.join(
+                    self.additional_begin_statement_commands))
+        else:
+            self.statement_begin_regex = re.compile(
+                r"\\(begin{(" + '|'.join(self.structure_words) + "[^}]*)})")
+
+        if self.additional_end_statement_commands:
+            self.statement_end_regex = re.compile(
+                r"\\end{(" + '|'.join(self.structure_words) + ")}|" + '|'.join(self.additional_end_statement_commands))
+        else:
+            self.statement_end_regex = re.compile(
+                r"\\end{(" + '|'.join(self.structure_words) + ")}")
+
     def __get_all_theorems(self, file: FileInfo) -> None:
         """
         Extract all information about elements and dependencies
@@ -285,21 +434,18 @@ class TexToGraph:
         """
 
         file.open_file()
-
+        all_sections = set(file.groups.keys())
+        reg_line1 = re.compile(r'\\begin{(' + '|'.join(all_sections) + ')}')
+        reg_line2 = re.compile(r'\\(chapter|section|subsection|subsubsection)')
         equations: tp.Dict[str, str] = {}
 
-        default_element_description = {
-            "start_position": 0,
-            "dependent_on": []
-        }
-
         file.get_next_line()
+        while file.line.find('\\begin{document}') == -1:
+            file.get_next_line()
 
         def process_proof(element_name: str) -> None:
             # iterating through lines of proof
             while not self.proof_end_regex.search(file.line):
-                file.get_next_line()
-
                 # trying to find \ref{}
                 for element in self.short_reference_regex.finditer(file.line):
                     dependency_name = file.line[element.start() + len('\\ref{'):element.end() - 1]
@@ -319,8 +465,10 @@ class TexToGraph:
                     dependency_name = file.line[element.start() + 7:element.end() - 1]
                     if dependency_name in equations and equations[dependency_name] != element_name:
                         file.elements[element_name]["dependent_on"].append(equations[dependency_name])
+                file.get_next_line()
 
         def get_one_theorem() -> None:
+
             # if statement found
             if self.statement_begin_regex.search(file.line):
                 element_name = ""
@@ -328,8 +476,16 @@ class TexToGraph:
                 element_description = {
                     "start_position": 0,
                     "dependent_on": [],
-                    "is_cite": False
+                    "is_cite": False,
+                    "full_name": ""
                 }
+
+                if file.has_numbering:
+                    argument = file.line[file.line.find('{') + 1:file.line.find('}')]
+
+                    current_number = file.update_numbering(argument)
+
+                    element_description["full_name"] = file.namings[argument] + ' ' + current_number
 
                 # trying to find label in current line
                 if file.line.find("\cite") != -1:
@@ -339,6 +495,7 @@ class TexToGraph:
                     pos = file.line.find("label{")
                     element_name = file.line[pos + 6:file.line[pos:].find("}") + pos]
                     element_description["start_position"] = file.current_index
+                    file.get_next_line()
 
                 # trying to find label in next line
                 else:
@@ -357,14 +514,16 @@ class TexToGraph:
                         element_name = 'unlabeled_' + str(file.current_index - 1)
                         element_description["start_position"] = file.current_index - 1
                 file.elements[element_name] = element_description
+                file.elements[element_name]["full_name"] += '(' + element_name + ')'
 
                 # trying to find proof
                 while not self.proof_begin_regex.search(file.line):
-                    file.get_next_line()
 
                     # if got not proof but new statement
-                    if self.statement_begin_regex.search(file.line):
+                    if self.statement_begin_regex.search(file.line) or reg_line1.search(file.line) or reg_line2.search(
+                            file.line):
                         return
+                    file.get_next_line()
 
                 # if proof was found that doesn't strictly follow the statement
                 if self.proof_begin_regex.search(file.line) and self.short_reference_regex.search(file.line):
@@ -380,6 +539,13 @@ class TexToGraph:
                     break
 
                 process_proof(element_name)
+            elif file.has_numbering and reg_line1.search(file.line):
+                argument = file.line[file.line.find('{') + 1:file.line.find('}')]
+                file.update_numbering(argument)
+            elif file.has_numbering and reg_line2.search(file.line):
+                argument = file.line[file.line.find('\\') + 1:file.line.find('{')]
+                file.update_numbering(argument)
+
             file.get_next_line()
 
         while True:

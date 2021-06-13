@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "orange", "id": 0, "label": "Theorem 1(growthsqfree)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 1, "label": "Corollary 1(explbonsqfree)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 2, "label": "Corollary 2(exindepset)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 3, "label": "Lemma 1(warmup)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 4, "label": "Lemma 2(mainlemmainject)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 5, "label": "Lemma 3(mainlemmainjectbis)", "shape": "dot"}, {"borderWidth": 4, "color": "orange", "id": 6, "label": "Theorem 3(sqfreesub)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "Lemma 4(observations)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "Lemma 5(hissqfreeandpfree)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "Theorem 4(expboundsqpfree)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "Lemma 6(shortsquareinpref)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "Lemma 7(sizengoodset)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "Lemma 8(lemmaConstruction)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "Lemma 9(lemmasubddoesnotincreasepi)", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "Theorem 5(mainth)", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 3, "to": 4}, {"arrows": "to", "from": 4, "to": 5}, {"arrows": "to", "from": 4, "to": 5}, {"arrows": "to", "from": 7, "to": 8}, {"arrows": "to", "from": 6, "to": 8}, {"arrows": "to", "from": 7, "to": 8}, {"arrows": "to", "from": 7, "to": 8}, {"arrows": "to", "from": 6, "to": 8}, {"arrows": "to", "from": 6, "to": 8}, {"arrows": "to", "from": 8, "to": 9}, {"arrows": "to", "from": 1, "to": 9}, {"arrows": "to", "from": 10, "to": 11}, {"arrows": "to", "from": 2, "to": 11}, {"arrows": "to", "from": 11, "to": 12}, {"arrows": "to", "from": 4, "to": 12}, {"arrows": "to", "from": 5, "to": 12}, {"arrows": "to", "from": 4, "to": 12}, {"arrows": "to", "from": 5, "to": 12}, {"arrows": "to", "from": 13, "to": 14}, {"arrows": "to", "from": 12, "to": 14}, {"arrows": "to", "from": 12, "to": 14}, {"arrows": "to", "from": 12, "to": 14}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
