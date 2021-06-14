@@ -6,6 +6,7 @@ from pyvis.network import Network
 from .algorithms import *
 from statistics import median
 from collections import deque
+from timeit import default_timer as timer
 
 
 class FileInfo:
@@ -17,6 +18,7 @@ class FileInfo:
         """
         self.line = ""
         self.current_index = 0
+        self.lines_amount = 0
 
         self.elements: tp.Dict[str, tp.Dict[str, tp.Any]] = {}
         self.file_path = file_path
@@ -65,6 +67,7 @@ class FileInfo:
         Gets next line
         :return:
         """
+
         self.line = next(self.lines)
         self.current_index += 1
 
@@ -167,10 +170,11 @@ class FileInfo:
                         self.next_group += 1
                         self.current_numeration[self.groups[vr]] = '0'
             except StopIteration:
+                self.lines_amount = self.current_index
                 break
 
     def update_numbering(self, argument: str) -> str:
-        if argument[-1] == '*':
+        if not argument or argument[-1] == '*' or argument not in self.groups:
             return " "
         cur = self.current_numeration[self.groups[argument]]
         last_digit = int(cur.split('.')[-1])
@@ -202,7 +206,6 @@ class FileInfo:
         nodes_description: tp.Dict[str, tp.Dict[str, str]] = {}
 
         try:
-
             if self.elements:
                 node_style = {"borderWidth": 4, "color": "blue"}
 
@@ -286,8 +289,12 @@ class FileInfo:
 
         degrees = [len(key) for _, key in graph.items()]
 
-        graph_properties["mean_vertex_degree"] = sum(degrees) / len(degrees)
-        graph_properties["median_vertex_degree"] = median(degrees)
+        try:
+            graph_properties["mean_vertex_degree"] = sum(degrees) / len(degrees)
+            graph_properties["median_vertex_degree"] = median(degrees)
+        except ZeroDivisionError:
+            graph_properties["mean_vertex_degree"] = 0
+            graph_properties["median_vertex_degree"] = 0
 
         degrees_non_zero = [degree for degree in degrees if degree != 0]
 
@@ -333,8 +340,8 @@ class TexToGraph:
                                 'proposition', 'prop', 'pro', 'propo', 'propris', 'myproposition',
                                 'criterion',
                                 }
-        self.unwanted_statement_words = {'definition', 'defn', 'defin', 'dfn'
-                                                                        'example', 'exam',
+        self.unwanted_statement_words = {'definition', 'defn', 'defin', 'dfn', 'dff',
+                                         'example', 'exam', 'xmp',
                                          'question', 'ques',
                                          'algorithm',
                                          'figure'}
@@ -385,9 +392,9 @@ class TexToGraph:
 
         self.file_path = tex_files_directory
         self.extracted_info_directory = extracted_info_directory
-        self.files = glob(self.file_path + '**/*.tex', recursive=True)
+        self.files = glob(self.file_path + '*/*.tex', recursive=True)
 
-    def create_graph(self):
+    def create_graph(self) -> None:
         for file_path in self.files:
             file = FileInfo(file_path, self.extracted_info_directory)
             self.__get_labels_from_newtheorem_commands(file)
@@ -397,6 +404,29 @@ class TexToGraph:
             self.__delete_unlabeled_without_dependencies(file)
             file.save_graph()
             file.get_basic_graph_properties()
+
+    def __create_graph_time_measure(self) -> tp.List[tp.Any]:
+        time_list = []
+        for file_path in self.files:
+            sum = 0
+            r = 100
+            file = FileInfo(file_path, self.extracted_info_directory)
+            try:
+                for _ in range(r):
+                    start = timer()
+                    self.__get_labels_from_newtheorem_commands(file)
+                    file.get_section_numberings()
+
+                    self.__get_all_theorems(file)
+                    self.__delete_unlabeled_without_dependencies(file)
+                    end = timer()
+                    sum += end - start
+            except:
+                print(file_path)
+                continue
+            time_list.append((file.lines_amount, sum / r))
+
+        return time_list
 
     def __get_labels_from_newtheorem_commands(self, file: FileInfo) -> None:
         """
@@ -413,7 +443,7 @@ class TexToGraph:
 
                 if file.line.find(self.newtheorem) != -1 and file.line.find('}'):
                     position = file.line.find(self.newtheorem)
-                    naming = file.line[position + len(self.newtheorem):file.line.find('}') + position]
+                    naming = file.line[position + len(self.newtheorem):file.line.find('}')]
 
                     if naming not in self.unwanted_statement_words:
                         self.structure_words.add(naming)
@@ -492,9 +522,11 @@ class TexToGraph:
                 if file.has_numbering:
                     argument = file.line[file.line.find('{') + 1:file.line.find('}')]
 
-                    current_number = file.update_numbering(argument)
-
-                    element_description["full_name"] = file.namings[argument] + ' ' + current_number
+                    if argument in file.groups:
+                        current_number = file.update_numbering(argument)
+                        element_description["full_name"] = file.namings[argument] + ' ' + current_number
+                    else:
+                        element_description["full_name"] = argument
 
                 # trying to find label in current line
                 if file.line.find("\cite") != -1:
@@ -523,7 +555,7 @@ class TexToGraph:
                         element_name = 'unlabeled_' + str(file.current_index - 1)
                         element_description["start_position"] = file.current_index - 1
                 file.elements[element_name] = element_description
-                file.elements[element_name]["full_name"] += '(' + element_name + ')'
+                # file.elements[element_name]["full_name"] += '(' + element_name + ')'
 
                 # trying to find proof
                 while not self.proof_begin_regex.search(file.line):

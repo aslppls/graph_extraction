@@ -7,6 +7,6 @@ if __name__ == "__main__":
     graph.get_parents('mainthm')
 
 
-    file_path = "extracted_information/fields/"
+    file_path = "extracted_information/2101_26/"
     graph = Graph(file_path)
-    graph.get_parents('lemma-separable-trace-pairing')
+    graph.get_parents('f-lem3.5')
