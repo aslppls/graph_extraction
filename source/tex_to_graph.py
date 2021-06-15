@@ -125,6 +125,8 @@ class FileInfo:
                     x = self.line.find('{')
                     y = self.line.find('}')
                     vr = self.line[x + 1:y]
+                    if vr == 'proof':
+                        continue
                     x = self.line.rfind('{')
                     y = self.line.rfind('}')
                     name = self.line[x + 1:y]
@@ -333,6 +335,10 @@ class TexToGraph:
                proof block
         """
 
+        self.file_path = tex_files_directory
+        self.extracted_info_directory = extracted_info_directory
+        self.files = glob(self.file_path + '*.tex', recursive=True)
+
         self.structure_words = {'theorem', 'thm', 'theo', 'mainthm', 'myTheo', 'teorema', 'theo', 'mytheorem',
                                 'lemma', 'lem', 'Lemma', 'lemm', 'sublemma', 'lm', 'lmm', 'lmma', 'mylemma',
                                 'claim', 'clm', 'myclaim',
@@ -374,6 +380,7 @@ class TexToGraph:
         self.statement_begin_regex = re.compile('')
         self.statement_end_regex = re.compile('')
 
+        # далее создаются регулярные выражения
         if additional_begin_proof_commands:
             self.proof_begin_regex = re.compile(
                 r"\\begin{(proof|pf|IEEEproof|Proof)}|" + '|'.join(additional_begin_proof_commands))
@@ -389,10 +396,6 @@ class TexToGraph:
         self.short_reference_regex = re.compile(r"\\ref{[^}]*}")
         self.equation_regex = re.compile(r"\\begin{(equation|eq)}")
         self.equation_reference_regex = re.compile(r"\\eqref{[^}]*}")
-
-        self.file_path = tex_files_directory
-        self.extracted_info_directory = extracted_info_directory
-        self.files = glob(self.file_path + '*/*.tex', recursive=True)
 
     def create_graph(self) -> None:
         for file_path in self.files:
@@ -474,8 +477,10 @@ class TexToGraph:
 
         file.open_file()
         all_sections = set(file.groups.keys())
-        reg_line1 = re.compile(r'\\begin{(' + '|'.join(all_sections) + ')}')
-        reg_line2 = re.compile(r'\\(chapter|section|subsection|subsubsection)')
+
+        self.reg_line1 = re.compile(r'\\begin{(' + '|'.join(all_sections) + ')}')
+        self.reg_line2 = re.compile(r'\\(chapter|section|subsection|subsubsection)')
+
         equations: tp.Dict[str, str] = {}
 
         file.get_next_line()
@@ -561,8 +566,9 @@ class TexToGraph:
                 while not self.proof_begin_regex.search(file.line):
 
                     # if got not proof but new statement
-                    if self.statement_begin_regex.search(file.line) or reg_line1.search(file.line) or reg_line2.search(
-                            file.line):
+                    if self.statement_begin_regex.search(file.line) or self.reg_line1.search(
+                            file.line) or self.reg_line2.search(
+                        file.line):
                         return
                     file.get_next_line()
 
@@ -580,10 +586,10 @@ class TexToGraph:
                     break
 
                 process_proof(element_name)
-            elif file.has_numbering and reg_line1.search(file.line):
+            elif file.has_numbering and self.reg_line1.search(file.line):
                 argument = file.line[file.line.find('{') + 1:file.line.find('}')]
                 file.update_numbering(argument)
-            elif file.has_numbering and reg_line2.search(file.line):
+            elif file.has_numbering and self.reg_line2.search(file.line):
                 argument = file.line[file.line.find('\\') + 1:file.line.find('{')]
                 file.update_numbering(argument)
 

@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 900px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"borderWidth": 4, "color": "orange", "id": 0, "label": "Theorem 1.1", "shape": "dot"}, {"borderWidth": 4, "color": "orange", "id": 1, "label": "Lemma 2.8", "shape": "dot"}, {"borderWidth": 4, "color": "orange", "id": 2, "label": "Theorem 2.9", "shape": "dot"}, {"borderWidth": 4, "color": "orange", "id": 3, "label": "Theorem 2.20", "shape": "dot"}, {"borderWidth": 4, "color": "orange", "id": 4, "label": "Theorem 2.25", "shape": "dot"}, {"borderWidth": 4, "color": "orange", "id": 5, "label": "Theorem 2.28", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 6, "label": "Lemma 4.1", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 7, "label": "Lemma 4.2", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 8, "label": "Lemma 4.3", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 9, "label": "Theorem 4.4", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 10, "label": "Theorem 5.5", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 11, "label": "Lemma 6.4", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 12, "label": "Remark 6.5", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 13, "label": "Lemma 6.6", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 14, "label": "Lemma 6.9", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 15, "label": "Lemma 6.10", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 16, "label": "Lemma 6.11", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 17, "label": "Proposition 6.13", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 18, "label": "Proposition 6.14", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 19, "label": "Remark 6.15", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 20, "label": "Theorem 6.16", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 21, "label": "Lemma 6.21", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 22, "label": "Theorem 6.23", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 23, "label": "Proposition 6.25", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 24, "label": "Proposition 6.27", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 25, "label": "Theorem 6.28", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 26, "label": "Theorem 7.1", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 27, "label": "Theorem 7.3", "shape": "dot"}, {"borderWidth": 4, "color": "blue", "id": 28, "label": "Lemma 8.1", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": 2, "to": 0}, {"arrows": "to", "from": 27, "to": 0}, {"arrows": "to", "from": 26, "to": 0}, {"arrows": "to", "from": 9, "to": 0}, {"arrows": "to", "from": 28, "to": 0}, {"arrows": "to", "from": 5, "to": 6}, {"arrows": "to", "from": 4, "to": 6}, {"arrows": "to", "from": 3, "to": 7}, {"arrows": "to", "from": 7, "to": 8}, {"arrows": "to", "from": 15, "to": 17}, {"arrows": "to", "from": 16, "to": 17}, {"arrows": "to", "from": 17, "to": 19}, {"arrows": "to", "from": 17, "to": 20}, {"arrows": "to", "from": 18, "to": 20}, {"arrows": "to", "from": 20, "to": 22}, {"arrows": "to", "from": 21, "to": 23}, {"arrows": "to", "from": 14, "to": 24}, {"arrows": "to", "from": 11, "to": 24}, {"arrows": "to", "from": 22, "to": 26}, {"arrows": "to", "from": 26, "to": 27}, {"arrows": "to", "from": 25, "to": 27}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
